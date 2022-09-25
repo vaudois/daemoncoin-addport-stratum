@@ -14,18 +14,13 @@ fi
 source ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf
 cd ${absolutepath}/${installtoserver}/daemon_builder
 
-# Create the temporary installation directory if it doesn't already exist.
-echo Creating the temporary build folder...
-if [ ! -d ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds ]; then
-sudo mkdir -p ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
-fi
-sudo setfacl -m u:$USER:rwx ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
-
 # Set what we need
 now=$(date +"%m_%d_%Y")
 set -e
 NPROC=$(nproc)
-if [[ ! -e '${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds' ]]; then
+# Create the temporary installation directory if it doesn't already exist.
+	echo Creating the temporary build folder...
+if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds" ]]; then
 	sudo mkdir -p ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 else
 	echo "temp_coin_builds already exists.... Skipping"
@@ -99,12 +94,12 @@ if [[ ("$berkeley" == "4.8") ]]; then
 echo "Building using Berkeley 4.8..."
 basedir=$(pwd)
 sh autogen.sh
-if [[ ! -e '${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh' ]]; then
+if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
   echo "genbuild.sh not found skipping"
 else
 sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
 fi
-if [[ ! -e '${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform' ]]; then
+if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
   echo "build_detect_platform not found skipping"
 else
 sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
@@ -116,12 +111,12 @@ if [[ ("$berkeley" == "5.1") ]]; then
 echo "Building using Berkeley 5.1..."
 basedir=$(pwd)
 sh autogen.sh
-if [[ ! -e '${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh' ]]; then
+if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
     echo "genbuild.sh not found skipping"
   else
   sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
   fi
-  if [[ ! -e '${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform' ]]; then
+  if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
     echo "build_detect_platform not found skipping"
   else
   sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
@@ -133,12 +128,12 @@ if [[ ("$berkeley" == "5.3") ]]; then
   echo "Building using Berkeley 5.3..."
   basedir=$(pwd)
   sh autogen.sh
-  if [[ ! -e '${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh' ]]; then
+  if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
     echo "genbuild.sh not found skipping"
   else
   sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
   fi
-  if [[ ! -e '${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform' ]]; then
+  if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
     echo "build_detect_platform not found skipping"
   else
   sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
@@ -155,7 +150,7 @@ if [[ ("$berkeley" == "6.2") ]]; then
   cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
   echo ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
   spiner_output bash build.sh -j$(nproc)
-  if [[ ! -e '${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}/fetch-params.sh' ]]; then
+  if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}/fetch-params.sh" ]]; then
     echo "fetch-params.sh not found skipping"
   else
     sh fetch-params.sh
@@ -314,13 +309,13 @@ fi
 	if [[ ("$unix" == "true") ]]; then
 		echo "Building using makefile.unix method..."
 		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src
-		if [[ ! -e '${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/obj' ]]; then
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/obj" ]]; then
 			mkdir -p ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/obj
 		else
 			echo "Hey the developer did his job and the src/obj dir is there!"
 		fi
 
-		if [[ ! -e '${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/obj/zerocoin' ]]; then
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/obj/zerocoin" ]]; then
 			mkdir -p ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/obj/zerocoin
 		else
 			echo  "Wow even the /src/obj/zerocoin is there! Good job developer!"
@@ -331,8 +326,8 @@ fi
 		sudo make clean
 		sudo make libleveldb.a libmemenv.a
 		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src
-		sed -i '/USE_UPNP:=0/i BDB_LIB_PATH = ${absolutepath}/${installtoserver}/berkeley/db4/lib\nBDB_INCLUDE_PATH = ${absolutepath}/${installtoserver}/berkeley/db4/include\nOPENSSL_LIB_PATH = ${absolutepath}/${installtoserver}/openssl/lib\nOPENSSL_INCLUDE_PATH = ${absolutepath}/${installtoserver}/openssl/include' makefile.unix
-		sed -i '/USE_UPNP:=1/i BDB_LIB_PATH = ${absolutepath}/${installtoserver}/berkeley/db4/lib\nBDB_INCLUDE_PATH = ${absolutepath}/${installtoserver}/berkeley/db4/include\nOPENSSL_LIB_PATH = ${absolutepath}/${installtoserver}/openssl/lib\nOPENSSL_INCLUDE_PATH = ${absolutepath}/${installtoserver}/openssl/include' makefile.unix
+		sed -i '/USE_UPNP:=0/i BDB_LIB_PATH = '${absolutepath}'/'${installtoserver}'/berkeley/db4/lib\nBDB_INCLUDE_PATH = '${absolutepath}'/'${installtoserver}'/berkeley/db4/include\nOPENSSL_LIB_PATH = '${absolutepath}'/'${installtoserver}'/openssl/lib\nOPENSSL_INCLUDE_PATH = '${absolutepath}'/'${installtoserver}'/openssl/include' makefile.unix
+		sed -i '/USE_UPNP:=1/i BDB_LIB_PATH = '${absolutepath}'/'${installtoserver}'/berkeley/db4/lib\nBDB_INCLUDE_PATH = '${absolutepath}'/'${installtoserver}'/berkeley/db4/include\nOPENSSL_LIB_PATH = '${absolutepath}'/'${installtoserver}'/openssl/lib\nOPENSSL_INCLUDE_PATH = '${absolutepath}'/'${installtoserver}'/openssl/include' makefile.unix
 		make -j$NPROC -f makefile.unix USE_UPNP=-
 	fi
 fi
@@ -484,7 +479,7 @@ else
 fi
 
 # Make the new wallet folder have user paste the coin.conf and finally start the daemon
-if [[ ! -e '${absolutepath}/wallets' ]]; then
+if [[ ! -e "${absolutepath}/wallets" ]]; then
   sudo mkdir -p ${absolutepath}/wallets
 fi
 
