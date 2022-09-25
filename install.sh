@@ -155,6 +155,8 @@ else
 		cd $absolutepath/${installdirname}
 		sudo mkdir -p ${absolutepath}/${installtoserver}/conf
 
+		source ${absolutepath}/${installdirname}/conf/functions.sh
+		
 		FUNC=/etc/functions.sh
 		if [[ ! -f "$FUNC" ]]; then
 			sudo cp -r ${absolutepath}/${installdirname}/conf/functions.sh /etc/
@@ -163,9 +165,6 @@ else
 			sudo cp -r ${absolutepath}/${installdirname}/conf/functions.sh /etc/functionscoin.sh
 			FUNCTIONFILE=functionscoin.sh
 		fi
-
-		#source /etc/${FUNCTIONFILE}
-		source ${absolutepath}/${installdirname}/conf/functions.sh
 
 		SCSCRYPT=/etc/screen-scrypt.sh
 		if [[ ! -f "$SCSCRYPT" ]]; then
@@ -182,11 +181,15 @@ else
 		hide_output sudo cp -r ${absolutepath}/${installdirname}/conf/getip.sh ${absolutepath}/${installtoserver}/conf
 
 	else
+		source ${absolutepath}/${installdirname}/conf/functions.sh
+
 		FUNC=/etc/functionscoin.sh
 		if [[ ! -f "$FUNC" ]]; then
-			source /etc/functions.sh
+			sudo cp -r ${absolutepath}/${installdirname}/conf/functions.sh /etc/
+			FUNCTIONFILE=functions.sh
 		else
-			source /etc/functionscoin.sh
+			sudo cp -r ${absolutepath}/${installdirname}/conf/functions.sh /etc/functionscoin.sh
+			FUNCTIONFILE=functionscoin.sh
 		fi
 	fi
 
