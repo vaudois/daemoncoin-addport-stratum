@@ -491,13 +491,13 @@ else
 		cd ${absolutepath}/${installdirname}
 		sudo mkdir -p ${absolutepath}/${installtoserver}/daemon_builder
 		
-		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/start.sh ${absolutepath}/${installtoserver}/daemon_builder
-		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/menu.sh ${absolutepath}/${installtoserver}/daemon_builder
-		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/menu1.sh ${absolutepath}/${installtoserver}/daemon_builder
-		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/menu2.sh ${absolutepath}/${installtoserver}/daemon_builder
-		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/menu3.sh ${absolutepath}/${installtoserver}/daemon_builder
-		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/menu4.sh ${absolutepath}/${installtoserver}/daemon_builder
-		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/source.sh ${absolutepath}/${installtoserver}/daemon_builder
+		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/start.sh ${absolutepath}/${installtoserver}/
+		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/menu.sh ${absolutepath}/${installtoserver}/
+		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/menu1.sh ${absolutepath}/${installtoserver}/
+		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/menu2.sh ${absolutepath}/${installtoserver}/
+		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/menu3.sh ${absolutepath}/${installtoserver}/
+		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/menu4.sh ${absolutepath}/${installtoserver}/
+		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/source.sh ${absolutepath}/${installtoserver}/
 		sleep 3
 
 		if [[ "${NEWVERSION}" == "$TAG" ]]; then
