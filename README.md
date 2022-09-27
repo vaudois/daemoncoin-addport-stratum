@@ -1,4 +1,4 @@
-# Install Daemon COIN and addport v0.2
+# Install Daemon COIN and addport v0.3
 ***********************************************
 <a href="https://discord.gg/xfSwnN7J"><img src="https://img.shields.io/discord/904564600354254898.svg?style=flat&label=Discord %3C3%20&color=7289DA%22" alt="Join Community Badge"/></a>
 
