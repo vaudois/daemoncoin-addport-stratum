@@ -489,7 +489,7 @@ else
 		fi
 
 		cd ${absolutepath}/${installdirname}
-		sudo mkdir -p ${absolutepath}/${installtoserver}/daemon_builder
+		sudo mkdir -p ${absolutepath}/${installtoserver}/daemon_builder/
 		
 		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/start.sh ${absolutepath}/${installtoserver}/
 		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/menu.sh ${absolutepath}/${installtoserver}/
