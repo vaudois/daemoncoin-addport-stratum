@@ -16,14 +16,21 @@ cd ${absolutepath}/${installtoserver}/daemon_builder
 
 # Set what we need
 now=$(date +"%m_%d_%Y")
-set -e
+#set -e
 NPROC=$(nproc)
 # Create the temporary installation directory if it doesn't already exist.
-	echo Creating the temporary build folder...
+	echo
+	echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+	echo -e "$YELLOW   Creating the temporary build folder... 									$COL_RESET"
+	echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds" ]]; then
 	sudo mkdir -p ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 else
-	echo "temp_coin_builds already exists.... Skipping"
+	sudo rm -rf ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/*
+	echo
+	echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+	echo -e "$GREEN   temp_coin_builds already exists.... Skipping 								$COL_RESET"
+	echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 fi
 
 # Just double checking folder permissions
@@ -32,23 +39,70 @@ sudo setfacl -m u:$USER:rwx ${absolutepath}/${installtoserver}/daemon_builder/te
 cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 
 # Get the github information
-read -r -e -p "Enter the name of the coin : " coin
-if [[ ("$precompiled" == "true") ]]; then
-	read -r -e -p "Paste the github link coin precompiled *.tar.gz OR *.zip: " coin_precompiled
-	echo
+	input_box " COIN NAME " \
+	"Enter the name of the coin.
+	\n\nExample: Bitcoin or btc...
+	\n\n*Paste press CTRL and right bottom Mouse.
+	\n\nCoin name:" \
+	"" \
+	coin
+
+if [[ ("${precompiled}" == "true") ]]; then
+	input_box " PRECOMPILED COIN " \
+	"Paste url coin precompiled file format compressed!
+	\n\nFormat *.tar.gz OR *.zip
+	\n\nCoin url link:" \
+	"" \
+	coin_precompiled
 else
-	read -r -e -p "Paste the github link for the coin : " git_hub
-	echo
-	read -r -e -p "Switch from main to develop ? [y/N] :" swithdevelop
-	if [[ ("$swithdevelop" == "N" || "$swithdevelop" == "n" || "$swithdevelop" == "not" || "$swithdevelop" == "NOT" || "$swithdevelop" == "no" || "$swithdevelop" == "NO" || "$swithdevelop" == "none" || "$swithdevelop" == "NONE") ]]; then
-		echo
-		read -r -e -p "Do you need to use a specific github branch of the coin (y/n) : " branch_git_hub
-		if [[ ("$branch_git_hub" == "y" || "$branch_git_hub" == "Y" || "$branch_git_hub" == "yes" || "$branch_git_hub" == "Yes" || "$branch_git_hub" == "YES") ]]; then
-			read -r -e -p "Please enter the branch name exactly as in github, i.e. v2.5.1  : " branch_git_hub_ver
+	input_box " GITHUB LINK " \
+	"Paste url coin link from github
+	\n\nhttps://github.com/example-repo-name/coin-wallet.git
+	\n\nCoin url link:" \
+	"" \
+	git_hub
+
+	dialog --title " Switch To develeppement " \
+	--yesno "Switch from main repo git in to develop ?
+	Selecting Yes use Git develeppements." 6 50
+	response=$?
+	case $response in
+	   0) swithdevelop=yes;;
+	   1) swithdevelop=no;;
+	   255) echo "[ESC] key pressed.";;
+	esac
+
+	if [[ ("${swithdevelop}" == "no") ]]; then
+	
+		dialog --title " Use a specific branch " \
+		--yesno "Do you need to use a specific github branch of the coin?
+		Selecting Yes use a selected version Git." 7 60
+		response=$?
+		case $response in
+		   0) branch_git_hub=yes;;
+		   1) branch_git_hub=no;;
+		   255) echo "[ESC] key pressed.";;
+		esac
+	
+		if [[ ("${branch_git_hub}" == "yes") ]]; then
+
+			input_box " Branch Version " \
+			"Please enter the branch name exactly as in github
+			\n\nExample v2.5.1
+			\n\nBranch version:" \
+			"" \
+			branch_git_hub_ver
 		fi
 	fi
 fi
 
+set -e
+clear
+echo
+echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+echo -e "$GREEN   Starting installation coin : ${coin^^}							$COL_RESET"
+echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+	
 coindir=$coin$now
 
 # save last coin information in case coin build fails
@@ -67,23 +121,26 @@ if [[ ! -e $coindir ]]; then
 		cd "${coindir}"
 	fi
 
-	if [[ ("$branch_git_hub" == "y" || "$branch_git_hub" == "Y" || "$branch_git_hub" == "yes" || "$branch_git_hub" == "Yes" || "$branch_git_hub" == "YES") ]]; then
+	if [[ ("${branch_git_hub}" == "yes") ]]; then
 	  git fetch
 	  git checkout "$branch_git_hub_ver"
 	fi
 
-	if [[ ("$swithdevelop" == "y" || "$swithdevelop" == "Y" || "$swithdevelop" == "yes" || "$swithdevelop" == "Yes" || "$swithdevelop" == "YES") ]]; then
+	if [[ ("${swithdevelop}" == "yes") ]]; then
 	  git checkout develop
 	fi
 	errorexist="false"
 else
-	echo "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir} already exists.... Skipping"
-	echo "If there was an error in the build use the build error options on the installer"
+echo
+	message_box " Coin already exist temp folder " \
+	"${coindir} already exists.... in temp folder Skipping Installation!
+	\n\nIf there was an error in the build use the build error options on the installer."
+
 	errorexist="true"
 	exit 0
 fi
 
-if [[("$errorexist" == "false")]]; then
+if [[("${errorexist}" == "false")]]; then
 sudo chmod -R 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
 fi
 
@@ -485,7 +542,6 @@ fi
 
 sudo setfacl -m u:$USER:rwx ${absolutepath}/wallets
 mkdir -p ${absolutepath}/wallets/."${coind::-1}"
-echo "I am now going to open nano, please copy and paste the config from yiimp in to this file."
 
 echo
 echo
@@ -499,32 +555,23 @@ echo
 sudo nano ${absolutepath}/wallets/."${coind::-1}"/${coind::-1}.conf
 clear
 cd ${absolutepath}/${installtoserver}/daemon_builder
-echo "Starting ${coind::-1}"
-"${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
-
-# If we made it this far everything built fine removing last coin.conf and build directory
-sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/.lastcoin.conf
-sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
-sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf
-
 
 clear
 echo
 echo
 figlet -f slant -w 100 "   Yeah!"
 
+echo -e "$CYAN --------------------------------------------------------------------------- 	"
+echo -e "$CYAN    Starting ${coind::-1} $COL_RESET"
+echo -e "   " "${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
+echo -e "$COL_RESET $GREEN   Installation of ${coind::-1} is completed and running. $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Installation of ${coind::-1} is completed and running. $COL_RESET"
-echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo
-echo
 echo
 if [[ "$coindmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo -e "$GREEN   Name of COIND : ${coind} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${coind} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo
 echo
 fi
 if [[ "$coinclimv" == "true" ]] ; then
@@ -533,14 +580,12 @@ echo -e "$GREEN   Name of COIN-CLI : ${coincli} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${coincli} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
-echo
 fi
 if [[ "$cointxmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo -e "$GREEN   Name of COIN-TX : ${cointx} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${cointx} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo
 echo
 fi
 if [[ "$coingtestmv" == "true" ]] ; then
@@ -549,7 +594,6 @@ echo -e "$GREEN   Name of COIN-TX : ${coingtest} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${coingtest} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
-echo
 fi
 if [[ "$cointoolsmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
@@ -557,9 +601,15 @@ echo -e "$GREEN   Name of COIN-TX : ${cointools} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${cointools} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
-echo
 fi
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo -e "$RED    Type ${daemonname} at anytime to install a new coin! 				$COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
+echo
+
+# If we made it this far everything built fine removing last coin.conf and build directory
+sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/.lastcoin.conf
+sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
+sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf
+
 exit
