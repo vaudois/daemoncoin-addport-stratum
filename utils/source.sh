@@ -12,7 +12,7 @@ else
 fi
 
 YIIMPOLL=/etc/yiimpool.conf
-if [[ ! -f "$YIIMPOLL" ]]; then
+if [[ -f "$YIIMPOLL" ]]; then
 	source /etc/yiimpool.conf
 	YIIMPCONF=true
 fi
@@ -610,7 +610,6 @@ else
 	echo -e "   " "${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
 fi
 
-echo -e "   " "${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
 echo -e "$COL_RESET $GREEN   Installation of ${coind::-1} is completed and running. $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
