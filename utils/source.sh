@@ -405,11 +405,26 @@ else
 
 		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb
 		sudo chmod +x build_detect_platform
+		echo
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting make clean...														$COL_RESET"
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		sleep 3
 		sudo make clean
+		echo
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting precompiling with make depends libs*									$COL_RESET"
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		sleep 3
 		sudo make libleveldb.a libmemenv.a
 		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src
 		sed -i '/USE_UPNP:=0/i BDB_LIB_PATH = '${absolutepath}'/'${installtoserver}'/berkeley/db4/lib\nBDB_INCLUDE_PATH = '${absolutepath}'/'${installtoserver}'/berkeley/db4/include\nOPENSSL_LIB_PATH = '${absolutepath}'/'${installtoserver}'/openssl/lib\nOPENSSL_INCLUDE_PATH = '${absolutepath}'/'${installtoserver}'/openssl/include' makefile.unix
 		sed -i '/USE_UPNP:=1/i BDB_LIB_PATH = '${absolutepath}'/'${installtoserver}'/berkeley/db4/lib\nBDB_INCLUDE_PATH = '${absolutepath}'/'${installtoserver}'/berkeley/db4/include\nOPENSSL_LIB_PATH = '${absolutepath}'/'${installtoserver}'/openssl/lib\nOPENSSL_INCLUDE_PATH = '${absolutepath}'/'${installtoserver}'/openssl/include' makefile.unix
+		echo
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting compiling with makefile.unix											$COL_RESET"
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		sleep 3
 		make -j$NPROC -f makefile.unix USE_UPNP=-
 	fi
 fi
