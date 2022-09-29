@@ -618,13 +618,6 @@ figlet -f slant -w 100 "   Yeah!"
 
 echo -e "$CYAN --------------------------------------------------------------------------- 	"
 echo -e "$CYAN    Starting ${coind::-1} $COL_RESET"
-
-if [[ "${YIIMPCONF}" == "true" ]]; then
-	echo -e "   " "${coind}" -datadir=$STORAGE_ROOT/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
-else
-	echo -e "   " "${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
-fi
-
 echo -e "$COL_RESET $GREEN   Installation of ${coind::-1} is completed and running. $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
@@ -672,5 +665,14 @@ echo
 sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/.lastcoin.conf
 sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
 sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf
+
+echo
+echo
+if [[ "${YIIMPCONF}" == "true" ]]; then
+	"${coind}" -datadir=$STORAGE_ROOT/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
+else
+	"${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
+fi
+echo
 
 exit
