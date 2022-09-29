@@ -11,18 +11,24 @@ else
 	source /etc/functionscoin.sh
 fi
 
-source ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf
-cd ${absolutepath}/${installtoserver}/daemon_builder
+YIIMPOLL=/etc/yiimpool.conf
+if [[ ! -f "$YIIMPOLL" ]]; then
+	source /etc/yiimpool.conf
+	YIIMPCONF=true
+fi
 
 # Set what we need
 now=$(date +"%m_%d_%Y")
 #set -e
 NPROC=$(nproc)
 # Create the temporary installation directory if it doesn't already exist.
-	echo
-	echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
-	echo -e "$YELLOW   Creating the temporary build folder... 									$COL_RESET"
-	echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+echo
+echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+echo -e "$YELLOW   Creating the temporary build folder... 									$COL_RESET"
+echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+
+source ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf
+
 if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds" ]]; then
 	sudo mkdir -p ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 else
@@ -32,10 +38,8 @@ else
 	echo -e "$GREEN   temp_coin_builds already exists.... Skipping 								$COL_RESET"
 	echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 fi
-
 # Just double checking folder permissions
 sudo setfacl -m u:$USER:rwx ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
-
 cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 
 # Get the github information
@@ -141,231 +145,252 @@ echo
 fi
 
 if [[("${errorexist}" == "false")]]; then
-sudo chmod -R 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
+	sudo chmod -R 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
 fi
 
 # Build the coin under the proper configuration
 if [[ ("$autogen" == "true") ]]; then
 
-if [[ ("$berkeley" == "4.8") ]]; then
-echo "Building using Berkeley 4.8..."
-basedir=$(pwd)
-sh autogen.sh
-if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
-  echo "genbuild.sh not found skipping"
-else
-sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
-fi
-if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
-  echo "build_detect_platform not found skipping"
-else
-sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
-fi
-./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db4/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db4/lib" --without-gui --disable-tests
-fi
-# Build the coin under berkeley 5.1
-if [[ ("$berkeley" == "5.1") ]]; then
-echo "Building using Berkeley 5.1..."
-basedir=$(pwd)
-sh autogen.sh
-if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
-    echo "genbuild.sh not found skipping"
-  else
-  sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
-  fi
-  if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
-    echo "build_detect_platform not found skipping"
-  else
-  sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
-  fi
-./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db5/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db5/lib" --without-gui --disable-tests
-fi
-# Build the coin under berkeley 5.1
-if [[ ("$berkeley" == "5.3") ]]; then
-  echo "Building using Berkeley 5.3..."
-  basedir=$(pwd)
-  sh autogen.sh
-  if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
-    echo "genbuild.sh not found skipping"
-  else
-  sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
-  fi
-  if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
-    echo "build_detect_platform not found skipping"
-  else
-  sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
-  fi
-./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db5.3/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db5.3/lib" --without-gui --disable-tests
-fi
-# Build the coin under berkeley 6.2
-if [[ ("$berkeley" == "6.2") ]]; then
-  echo "Building using Berkeley 6.2..."
-  basedir=$(pwd)
-  sh autogen.sh
-  find . -maxdepth 1 -type d \( -perm -1 -o \( -perm -10 -o -perm -100 \) \) -printf "%f\n"
-  read -r -e -p "where is the folder that contains the BUILD.SH installation file, example xxutil :" reputil
-  cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
-  echo ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
-  spiner_output bash build.sh -j$(nproc)
-  if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}/fetch-params.sh" ]]; then
-    echo "fetch-params.sh not found skipping"
-  else
-    sh fetch-params.sh
-  fi
-fi
-if [[ ("$berkeley" != "6.2") ]]; then
-# make install
-make -j$(nproc)
-fi
-else
-if [[ ("$cmake" == "true") ]]; then
-  clear
-  DEPENDS="${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/depends"
-	if [ -d "$DEPENDS" ]; then
-		echo
-		echo
-		echo -e "$CYAN => Building using cmake with DEPENDS directory... $COL_RESET"
-		echo
-		sleep 3
-		
-		echo
-		echo
-		read -r -e -p "Hide LOG from to Work Coin ? [y/N] :" ifhidework
-		echo
-		
-		# Executing make on depends directory
-		echo
-		echo -e "$YELLOW => executing make on depends directory... $COL_RESET"
-		echo
-		sleep 3
-		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/depends
-		if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-		hide_output make -j$NPROC
-		else
-		make -j$NPROC
-		fi
-		echo
-		echo
-		echo -e "$GREEN Done...$COL_RESET"
+	# Build the coin under berkeley 4.8
+	if [[ ("$berkeley" == "4.8") ]]; then
 
-		# Building autogen....
-		echo
-		echo -e "$YELLOW => Building autogen... $COL_RESET"
-		echo
-		sleep 3
-		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
-		if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-		hide_output sh autogen.sh
-		else
+		echo "Building using Berkeley 4.8..."
+		basedir=$(pwd)
 		sh autogen.sh
-		fi
-		echo
-		echo
-		echo -e "$GREEN Done...$COL_RESET"
 
-		# Configure with your platform....
-		if [ -d "$DEPENDS/i686-pc-linux-gnu" ]; then
-			echo
-			echo -e "$YELLOW => Configure with i686-pc-linux-gnu... $COL_RESET"
-			echo
-			sleep 3
-			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			hide_output ./configure --prefix=`pwd`/depends/i686-pc-linux-gnu
-			else
-			./configure --prefix=`pwd`/depends/i686-pc-linux-gnu
-			fi
-		elif [ -d "$DEPENDS/x86_64-pc-linux-gnu/" ]; then
-			echo
-			echo -e "$YELLOW => Configure with x86_64-pc-linux-gnu... $COL_RESET"
-			echo
-			sleep 3
-			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			hide_output ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu
-			else
-			./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu
-			fi
-		elif [ -d "$DEPENDS/i686-w64-mingw32/" ]; then
-			echo
-			echo -e "$YELLOW => Configure with i686-w64-mingw32... $COL_RESET"
-			echo
-			sleep 3
-			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			hide_output ./configure --prefix=`pwd`/depends/i686-w64-mingw32
-			else
-			./configure --prefix=`pwd`/depends/i686-w64-mingw32
-			fi
-		elif [ -d "$DEPENDS/x86_64-w64-mingw32/" ]; then
-			echo
-			echo -e "$YELLOW => Configure with x86_64-w64-mingw32... $COL_RESET"
-			echo
-			sleep 3
-			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			hide_output ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
-			else
-			./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
-			fi
-		elif [ -d "$DEPENDS/x86_64-apple-darwin14/" ]; then
-			echo
-			echo -e "$YELLOW => Configure with x86_64-apple-darwin14... $COL_RESET"
-			echo
-			sleep 3
-			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			hide_output ./configure --prefix=`pwd`/depends/x86_64-apple-darwin14
-			else
-			./configure --prefix=`pwd`/depends/x86_64-apple-darwin14
-			fi
-		elif [ -d "$DEPENDS/arm-linux-gnueabihf/" ]; then
-			echo
-			echo -e "$YELLOW => Configure with arm-linux-gnueabihf... $COL_RESET"
-			echo
-			sleep 3
-			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			hide_output ./configure --prefix=`pwd`/depends/arm-linux-gnueabihf
-			else
-			./configure --prefix=`pwd`/depends/arm-linux-gnueabihf
-			fi
-		elif [ -d "$DEPENDS/aarch64-linux-gnu/" ]; then
-			echo
-			echo -e "$YELLOW => Configure with aarch64-linux-gnu... $COL_RESET"
-			echo
-			sleep 3
-			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			hide_output ./configure --prefix=`pwd`/depends/aarch64-linux-gnu
-			else
-			./configure --prefix=`pwd`/depends/aarch64-linux-gnu
-			fi
-		fi
-		echo
-		echo
-		echo -e "$GREEN Done...$COL_RESET"
-		
-		# Executing make to finalize....
-		echo
-		echo -e "$YELLOW => Executing make to finalize... $COL_RESET"
-		echo
-		sleep 3
-		if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-		hide_output make -j$NPROC
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
+		  echo "genbuild.sh not found skipping"
 		else
-		make -j$NPROC
+			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
 		fi
-		echo
-		echo
-		echo -e "$GREEN Done...$COL_RESET"
-	else
-		echo
-		echo "Building using Cmake method..."
-		echo
-		echo
-		sleep 3
-		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir} && git submodule init && git submodule update
-		make -j$NPROC
-		sleep 3
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
+		  echo "build_detect_platform not found skipping"
+		else
+		sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
+		fi
+		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db4/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db4/lib" --without-gui --disable-tests
 	fi
-fi
+
+	# Build the coin under berkeley 5.1
+	if [[ ("$berkeley" == "5.1") ]]; then
+
+		echo "Building using Berkeley 5.1..."
+		basedir=$(pwd)
+		sh autogen.sh
+		
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
+			echo "genbuild.sh not found skipping"
+		else
+			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
+		fi
+		
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
+			echo "build_detect_platform not found skipping"
+		else
+			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
+		fi
+		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db5/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db5/lib" --without-gui --disable-tests
+	fi
+
+	# Build the coin under berkeley 5.3
+	if [[ ("$berkeley" == "5.3") ]]; then
+		echo "Building using Berkeley 5.3..."
+		basedir=$(pwd)
+		sh autogen.sh
+
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
+			echo "genbuild.sh not found skipping"
+		else
+			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
+		fi
+		
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
+			echo "build_detect_platform not found skipping"
+		else
+			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
+		fi
+		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db5.3/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db5.3/lib" --without-gui --disable-tests
+	fi
+
+	# Build the coin under berkeley 6.2
+	if [[ ("$berkeley" == "6.2") ]]; then
+		echo "Building using Berkeley 6.2..."
+		basedir=$(pwd)
+		sh autogen.sh
+
+		find . -maxdepth 1 -type d \( -perm -1 -o \( -perm -10 -o -perm -100 \) \) -printf "%f\n"
+		read -r -e -p "where is the folder that contains the BUILD.SH installation file, example xxutil :" reputil
+		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
+		echo ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
+		spiner_output bash build.sh -j$(nproc)
+		
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}/fetch-params.sh" ]]; then
+			echo "fetch-params.sh not found skipping"
+		else
+			sh fetch-params.sh
+		fi
+	fi
+
+	# make install
+	if [[ ("$berkeley" != "6.2") ]]; then
+		make -j$(nproc)
+	fi
+else
+
+	# Build the coin under cmake
+	if [[ ("$cmake" == "true") ]]; then
+		clear
+		DEPENDS="${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/depends"
+
+		# Build the coin under depends present
+		if [ -d "$DEPENDS" ]; then
+			echo
+			echo
+			echo -e "$CYAN => Building using cmake with DEPENDS directory... $COL_RESET"
+			echo
+			sleep 3
+			
+			echo
+			echo
+			read -r -e -p "Hide LOG from to Work Coin ? [y/N] :" ifhidework
+			echo
+			
+			# Executing make on depends directory
+			echo
+			echo -e "$YELLOW => executing make on depends directory... $COL_RESET"
+			echo
+			sleep 3
+			cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/depends
+			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
+			hide_output make -j$NPROC
+			else
+			make -j$NPROC
+			fi
+			echo
+			echo
+			echo -e "$GREEN Done...$COL_RESET"
+
+			# Building autogen....
+			echo
+			echo -e "$YELLOW => Building autogen... $COL_RESET"
+			echo
+			sleep 3
+			cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
+			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
+			hide_output sh autogen.sh
+			else
+			sh autogen.sh
+			fi
+			echo
+			echo
+			echo -e "$GREEN Done...$COL_RESET"
+
+			# Configure with your platform....
+			if [ -d "$DEPENDS/i686-pc-linux-gnu" ]; then
+				echo
+				echo -e "$YELLOW => Configure with i686-pc-linux-gnu... $COL_RESET"
+				echo
+				sleep 3
+				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
+				hide_output ./configure --prefix=`pwd`/depends/i686-pc-linux-gnu
+				else
+				./configure --prefix=`pwd`/depends/i686-pc-linux-gnu
+				fi
+			elif [ -d "$DEPENDS/x86_64-pc-linux-gnu/" ]; then
+				echo
+				echo -e "$YELLOW => Configure with x86_64-pc-linux-gnu... $COL_RESET"
+				echo
+				sleep 3
+				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
+				hide_output ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+				else
+				./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+				fi
+			elif [ -d "$DEPENDS/i686-w64-mingw32/" ]; then
+				echo
+				echo -e "$YELLOW => Configure with i686-w64-mingw32... $COL_RESET"
+				echo
+				sleep 3
+				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
+				hide_output ./configure --prefix=`pwd`/depends/i686-w64-mingw32
+				else
+				./configure --prefix=`pwd`/depends/i686-w64-mingw32
+				fi
+			elif [ -d "$DEPENDS/x86_64-w64-mingw32/" ]; then
+				echo
+				echo -e "$YELLOW => Configure with x86_64-w64-mingw32... $COL_RESET"
+				echo
+				sleep 3
+				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
+				hide_output ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
+				else
+				./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
+				fi
+			elif [ -d "$DEPENDS/x86_64-apple-darwin14/" ]; then
+				echo
+				echo -e "$YELLOW => Configure with x86_64-apple-darwin14... $COL_RESET"
+				echo
+				sleep 3
+				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
+				hide_output ./configure --prefix=`pwd`/depends/x86_64-apple-darwin14
+				else
+				./configure --prefix=`pwd`/depends/x86_64-apple-darwin14
+				fi
+			elif [ -d "$DEPENDS/arm-linux-gnueabihf/" ]; then
+				echo
+				echo -e "$YELLOW => Configure with arm-linux-gnueabihf... $COL_RESET"
+				echo
+				sleep 3
+				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
+				hide_output ./configure --prefix=`pwd`/depends/arm-linux-gnueabihf
+				else
+				./configure --prefix=`pwd`/depends/arm-linux-gnueabihf
+				fi
+			elif [ -d "$DEPENDS/aarch64-linux-gnu/" ]; then
+				echo
+				echo -e "$YELLOW => Configure with aarch64-linux-gnu... $COL_RESET"
+				echo
+				sleep 3
+				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
+				hide_output ./configure --prefix=`pwd`/depends/aarch64-linux-gnu
+				else
+				./configure --prefix=`pwd`/depends/aarch64-linux-gnu
+				fi
+			fi
+			echo
+			echo
+			echo -e "$GREEN Done...$COL_RESET"
+			
+			# Executing make to finalize....
+			echo
+			echo -e "$YELLOW => Executing make to finalize... $COL_RESET"
+			echo
+			sleep 3
+			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
+			hide_output make -j$NPROC
+			else
+			make -j$NPROC
+			fi
+			echo
+			echo
+			echo -e "$GREEN Done...$COL_RESET"
+		else
+			echo
+			echo "Building using Cmake method..."
+			echo
+			echo
+			sleep 3
+			cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir} && git submodule init && git submodule update
+			make -j$NPROC
+			sleep 3
+		fi
+	fi
+
+	# Build the coin under unix
 	if [[ ("$unix" == "true") ]]; then
 		echo "Building using makefile.unix method..."
 		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src
+
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/obj" ]]; then
 			mkdir -p ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/obj
 		else
@@ -535,13 +560,23 @@ else
 	fi
 fi
 
-# Make the new wallet folder have user paste the coin.conf and finally start the daemon
-if [[ ! -e "${absolutepath}/wallets" ]]; then
-  sudo mkdir -p ${absolutepath}/wallets
-fi
+if [[ "${YIIMPCONF}" == "true" ]]; then
+	# Make the new wallet folder have user paste the coin.conf and finally start the daemon
+	if [[ ! -e '$STORAGE_ROOT/wallets' ]]; then
+		sudo mkdir -p $STORAGE_ROOT/wallets
+	fi
 
-sudo setfacl -m u:$USER:rwx ${absolutepath}/wallets
-mkdir -p ${absolutepath}/wallets/."${coind::-1}"
+	sudo setfacl -m u:$USER:rwx $STORAGE_ROOT/wallets
+	mkdir -p $STORAGE_ROOT/wallets/."${coind::-1}"
+else
+	# Make the new wallet folder have user paste the coin.conf and finally start the daemon
+	if [[ ! -e "${absolutepath}/wallets" ]]; then
+		sudo mkdir -p ${absolutepath}/wallets
+	fi
+
+	sudo setfacl -m u:$USER:rwx ${absolutepath}/wallets
+	mkdir -p ${absolutepath}/wallets/."${coind::-1}"
+fi
 
 echo
 echo
@@ -552,7 +587,12 @@ echo
 read -n 1 -s -r -p "Press any key to continue"
 echo
 
-sudo nano ${absolutepath}/wallets/."${coind::-1}"/${coind::-1}.conf
+if [[ "${YIIMPCONF}" == "true" ]]; then
+	sudo nano $STORAGE_ROOT/wallets/."${coind::-1}"/${coind::-1}.conf
+else
+	sudo nano ${absolutepath}/wallets/."${coind::-1}"/${coind::-1}.conf
+fi
+
 clear
 cd ${absolutepath}/${installtoserver}/daemon_builder
 
@@ -563,6 +603,13 @@ figlet -f slant -w 100 "   Yeah!"
 
 echo -e "$CYAN --------------------------------------------------------------------------- 	"
 echo -e "$CYAN    Starting ${coind::-1} $COL_RESET"
+
+if [[ "${YIIMPCONF}" == "true" ]]; then
+	echo -e "   " "${coind}" -datadir=$STORAGE_ROOT/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
+else
+	echo -e "   " "${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
+fi
+
 echo -e "   " "${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
 echo -e "$COL_RESET $GREEN   Installation of ${coind::-1} is completed and running. $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
