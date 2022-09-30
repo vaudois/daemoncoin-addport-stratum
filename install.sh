@@ -30,17 +30,17 @@ clear
 
 	sudo sed -i 's#btcdons#'$BTCDEP'#' conf/functions.sh
 	sleep 1
-	sudo sed -i 's#btcdons#'$BCHDEP'#' utils/addport.sh
+	sudo sed -i 's#btcdons#'$BTCDEP'#' utils/addport.sh
 	sleep 1
 
 	sudo sed -i 's#ltcdons#'$LTCDEP'#' conf/functions.sh
 	sleep 1
-	sudo sed -i 's#ltcdons#'$BCHDEP'#' utils/addport.sh
+	sudo sed -i 's#ltcdons#'$LTCDEP'#' utils/addport.sh
 	sleep 1
 
 	sudo sed -i 's#ethdons#'$ETHDEP'#' conf/functions.sh
 	sleep 1
-	sudo sed -i 's#ethdons#'$BCHDEP'#' utils/addport.sh
+	sudo sed -i 's#ethdons#'$ETHDEP'#' utils/addport.sh
 	sleep 1
 
 	sudo sed -i 's#bchdons#'$BCHDEP'#' conf/functions.sh
