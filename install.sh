@@ -161,9 +161,11 @@ else
 		if [[ ! -f "$FUNC" ]]; then
 			sudo cp -r ${absolutepath}/${installdirname}/conf/functions.sh /etc/
 			FUNCTIONFILE=functions.sh
+			source /etc/functions.sh
 		else
 			sudo cp -r ${absolutepath}/${installdirname}/conf/functions.sh /etc/functionscoin.sh
 			FUNCTIONFILE=functionscoin.sh
+			source /etc/functionscoin.sh
 		fi
 
 		SCSCRYPT=/etc/screen-scrypt.sh
@@ -270,6 +272,12 @@ else
 			fi
 		fi
 	else
+		FUNC=/etc/functionscoin.sh
+		if [[ ! -f "$FUNC" ]]; then
+			source /etc/functions.sh
+		else
+			source /etc/functionscoin.sh
+		fi
 		echo
 		echo
 		echo -e "$RED Make sure you double check before hitting enter! Only one shot at these! $COL_RESET"
