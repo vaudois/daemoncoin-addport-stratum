@@ -185,8 +185,13 @@ else
 
 		FUNC=/etc/functionscoin.sh
 		if [[ ! -f "$FUNC" ]]; then
-			sudo cp -r ${absolutepath}/${installdirname}/conf/functions.sh /etc/
-			FUNCTIONFILE=functions.sh
+			if [ -z "${INSTALLMASTER}" ]; then
+				sudo cp -r ${absolutepath}/${installdirname}/conf/functions.sh /etc/
+				FUNCTIONFILE=functions.sh
+			elif [[ ("${INSTALLMASTER}" == "false" ]]; then
+				sudo cp -r ${absolutepath}/${installdirname}/conf/functions.sh /etc/
+				FUNCTIONFILE=functions.sh
+			fi
 		else
 			sudo cp -r ${absolutepath}/${installdirname}/conf/functions.sh /etc/functionscoin.sh
 			FUNCTIONFILE=functionscoin.sh
