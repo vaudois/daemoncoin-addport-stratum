@@ -106,7 +106,7 @@ else
 	}
 
 	#Add user group sudo + no password
-	whoami=`whoami`
+	whoami=$(whoami)
 	sudo usermod -aG sudo ${whoami}
 	echo '# yiimp
 	# It needs passwordless sudo functionality.
@@ -237,6 +237,7 @@ else
 				VERSION='"${TAG}"'
 				INSTALLMASTER=true' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
 				NEWVERSION=${TAG}
+				hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
 			else
 				echo
 				echo
@@ -247,8 +248,10 @@ else
 				VERSION='"${TAG}"'
 				INSTALLMASTER=false' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
 				NEWVERSION=${TAG}
+				hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
 			fi
 		else
+		
 			if [[ ! "$VERSION" == "$TAG" ]]; then
 				echo
 				echo
@@ -513,6 +516,14 @@ else
 		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/menu4.sh ${absolutepath}/${installtoserver}/daemon_builder/
 		hide_output sudo cp -r ${absolutepath}/${installdirname}/utils/source.sh ${absolutepath}/${installtoserver}/daemon_builder/
 		sleep 3
+		hide_output sudo chmod +x ${absolutepath}/${installtoserver}/daemon_builder/start.sh
+		hide_output sudo chmod +x ${absolutepath}/${installtoserver}/daemon_builder/menu.sh
+		hide_output sudo chmod +x ${absolutepath}/${installtoserver}/daemon_builder/menu1.sh
+		hide_output sudo chmod +x ${absolutepath}/${installtoserver}/daemon_builder/menu2.sh
+		hide_output sudo chmod +x ${absolutepath}/${installtoserver}/daemon_builder/menu3.sh
+		hide_output sudo chmod +x ${absolutepath}/${installtoserver}/daemon_builder/menu4.sh
+		hide_output sudo chmod +x ${absolutepath}/${installtoserver}/daemon_builder/source.sh
+		sleep 3
 
 		if [[ "${NEWVERSION}" == "$TAG" ]]; then
 			# Updating Addport
@@ -555,8 +566,6 @@ else
 		echo -e "$CYAN => Final Directory permissions $COL_RESET"
 		echo
 		sleep 3
-
-		whoami=`whoami`
 
 		#Add to contrab screen-scrypt
 		(crontab -l 2>/dev/null; echo "@reboot sleep 20 && /etc/screen-scrypt.sh") | crontab -
