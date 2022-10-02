@@ -115,7 +115,7 @@ else
 
 	if [[ -f "${absolutepath}/${installtoserver}/conf/info.sh" ]]; then
 		source ${absolutepath}/${installtoserver}/conf/info.sh
-		if [[ "$VERSION" == "$TAG" ]]; then
+		if [[ ("$VERSION" == "$TAG") ]]; then
 			
 			source ${absolutepath}/${installdirname}/conf/functions.sh
 
@@ -150,7 +150,7 @@ else
 		INSTVERSION=${TAG}
 	fi
 
-	if [[ "${INSTVERSION}" == "${TAG}" ]]; then
+	if [[ ("${INSTVERSION}" == "${TAG}") ]]; then
 		#Copy needed files
 		cd $absolutepath/${installdirname}
 		sudo mkdir -p ${absolutepath}/${installtoserver}/conf
