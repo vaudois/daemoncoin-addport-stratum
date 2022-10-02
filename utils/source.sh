@@ -584,7 +584,7 @@ if [[ ("${YIIMPCONF}" == "true") ]]; then
 	fi
 
 	sudo setfacl -m u:$USER:rwx $STORAGE_ROOT/wallets
-	mkdir -p $STORAGE_ROOT/wallets/."${coind::-1}"
+	sudo mkdir -p $STORAGE_ROOT/wallets/."${coind::-1}"
 elif [[ ("INSTALLMASTER" == "true") ]]; then
 	# Make the new wallet folder have user paste the coin.conf and finally start the daemon
 	if [[ ! -e "/home/wallets" ]]; then
@@ -592,7 +592,7 @@ elif [[ ("INSTALLMASTER" == "true") ]]; then
 	fi
 
 	sudo setfacl -m u:$USER:rwx /home/wallets
-	mkdir -p /home/wallets/."${coind::-1}"
+	sudo mkdir -p /home/wallets/."${coind::-1}"
 else
 	# Make the new wallet folder have user paste the coin.conf and finally start the daemon
 	if [[ ! -e "${absolutepath}/wallets" ]]; then
@@ -600,7 +600,7 @@ else
 	fi
 
 	sudo setfacl -m u:$USER:rwx ${absolutepath}/wallets
-	mkdir -p ${absolutepath}/wallets/."${coind::-1}"
+	sudo mkdir -p ${absolutepath}/wallets/."${coind::-1}"
 fi
 
 echo
