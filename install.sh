@@ -227,14 +227,27 @@ else
 
 	if [[ "${FILEINFO}" == "true" ]]; then
 		if [ -z "${VERSION}" ]; then
-			echo
-			echo
-			echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
-			echo '#!/bin/sh
-			PATH_STRATUM='"${PATH_STRATUM}"'
-			FUNCTION_FILE='"${FUNCTION_FILE}"'
-			VERSION='"${TAG}"'' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
-			NEWVERSION=${TAG}
+			if [[ ("${INSTALLMASTER}" == "true" ]]; then
+				echo
+				echo
+				echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
+				echo '#!/bin/sh
+				PATH_STRATUM='"${PATH_STRATUM}"'
+				FUNCTION_FILE='"${FUNCTION_FILE}"'
+				VERSION='"${TAG}"'
+				INSTALLMASTER=true' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
+				NEWVERSION=${TAG}
+			else
+				echo
+				echo
+				echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
+				echo '#!/bin/sh
+				PATH_STRATUM='"${PATH_STRATUM}"'
+				FUNCTION_FILE='"${FUNCTION_FILE}"'
+				VERSION='"${TAG}"'
+				INSTALLMASTER=false' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
+				NEWVERSION=${TAG}
+			fi
 		else
 			if [[ ! "$VERSION" == "$TAG" ]]; then
 				echo
@@ -243,7 +256,8 @@ else
 				echo '#!/bin/sh
 				PATH_STRATUM='"${PATH_STRATUM}"'
 				FUNCTION_FILE='"${FUNCTION_FILE}"'
-				VERSION='"${TAG}"'' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
+				VERSION='"${TAG}"'
+				INSTALLMASTER=false' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
 				NEWVERSION=${TAG}
 			fi
 		fi
