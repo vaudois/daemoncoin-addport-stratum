@@ -632,35 +632,35 @@ echo -e "$CYAN -----------------------------------------------------------------
 echo
 if [[ "$coindmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIND :$COL_RESET ${coind} $COL_RESET"
+echo -e "$GREEN   Name of COIND :$COL_RESET $MAGENTA ${coind} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${coind} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 fi
 if [[ "$coinclimv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-CLI :$COL_RESET ${coincli} $COL_RESET"
+echo -e "$GREEN   Name of COIN-CLI :$COL_RESET $MAGENTA ${coincli} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${coincli} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 fi
 if [[ "$cointxmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-TX :$COL_RESET ${cointx} $COL_RESET"
+echo -e "$GREEN   Name of COIN-TX :$COL_RESET $MAGENTA ${cointx} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${cointx} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 fi
 if [[ "$coingtestmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-TX :$COL_RESET ${coingtest} $COL_RESET"
+echo -e "$GREEN   Name of COIN-TX :$COL_RESET $MAGENTA ${coingtest} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${coingtest} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 fi
 if [[ "$cointoolsmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-TX :$COL_RESET ${cointools} $COL_RESET"
+echo -e "$GREEN   Name of COIN-TX :$COL_RESET $MAGENTA ${cointools} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${cointools} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
