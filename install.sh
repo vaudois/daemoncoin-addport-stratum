@@ -373,7 +373,8 @@ else
 	hide_output sudo apt-get install gcc-8 g++-8 -y
 	hide_output sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-8
 	sudo update-alternatives --config gcc
-
+	
+	echo
 	echo -e "$GREEN Updated GCC & G++ Completed...$COL_RESET"
 	sleep 3
 
