@@ -14,15 +14,16 @@ fi
 
 cd ${absolutepath}/${installtoserver}/daemon_builder
 
-RESULT=$(dialog --stdout --title "Daemon Builder Coin" --menu "Choose one" -1 60 8 \
+RESULT=$(dialog --stdout --title "Daemon Builder Coin" --menu "Choose one" -1 60 9 \
 1 "Install Berkeley 4.x Coin with autogen file" \
 2 "Install Berkeley 5.1 Coin with autogen file" \
 3 "Install Berkeley 5.3 Coin with autogen file" \
 4 "Install Berkeley 6.2 Coin with build.sh file" \
 5 "Install Coin with makefile.unix file" \
 6 "Install Coin with CMake file" \
-7 "Install Coin precompiled linux version" \
-8 Exit)
+7 "Install Coin with UTIL folder contains BULD.SH file" \
+8 "Install Coin precompiled linux version" \
+9 Exit)
 
 if [ $RESULT = ]
 then
@@ -93,12 +94,22 @@ if [ $RESULT = 7 ]
 then
 clear;
 echo '
-precompiled=true
+buildutil=true
+glibc=true
 ' | sudo -E tee ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf >/dev/null 2>&1;
 source source.sh;
 fi
 
 if [ $RESULT = 8 ]
+then
+clear;
+echo '
+precompiled=true
+' | sudo -E tee ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf >/dev/null 2>&1;
+source source.sh;
+fi
+
+if [ $RESULT = 9 ]
 then
 clear;
 exit;
