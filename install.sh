@@ -234,7 +234,7 @@ else
 
 	if [[ "${FILEINFO}" == "true" ]]; then
 		if [ -z "${VERSION}" ]; then
-			if [[ ("${INSTALLMASTER}" == "true" ]]; then
+			if [[ ("${INSTALLMASTER}" == "true") ]]; then
 				echo
 				echo
 				echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
