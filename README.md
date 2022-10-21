@@ -51,7 +51,7 @@ $> coinbuild
 
 Donations for continued support of this script are welcomed at:
 
-  BTC = bc1qt8g9l6agk7qrzlztzuz7quwhgr3zlu4gc5qcuk
-  LTC = MGyth7od68xVqYnRdHQYes22fZW2b6h3aj
+ 	BTC = bc1qt8g9l6agk7qrzlztzuz7quwhgr3zlu4gc5qcuk
+	LTC = MGyth7od68xVqYnRdHQYes22fZW2b6h3aj
 	ETH = 0xc4e42e92ef8a196eef7cc49456c786a41d7daa01
 	BCH = bitcoincash:qp9ltentq3rdcwlhxtn8cc2rr49ft5zwdv7k7e04df
