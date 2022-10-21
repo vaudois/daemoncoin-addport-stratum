@@ -186,10 +186,10 @@ echo -e "$YELLOW Make sure to add this to the Dedicated Port section in your Yii
 echo
 echo -e "$CYAN  --------------------------------------------------------------------------- 	$COL_RESET"
 echo -e "$GREEN	Donations are welcome at wallets below:					  	$COL_RESET"
-echo -e "$YELLOW  BTC: btcdons	$COL_RESET"
-echo -e "$YELLOW  LTC: ltcdons	$COL_RESET"
-echo -e "$YELLOW  ETH: ethdons	$COL_RESET"
-echo -e "$YELLOW  BCH: bchdons	$COL_RESET"
+echo -e "$YELLOW  BTC: $COL_RESET $MAGENTA btcdons	$COL_RESET"
+echo -e "$YELLOW  LTC: $COL_RESET $MAGENTA ltcdons	$COL_RESET"
+echo -e "$YELLOW  ETH: $COL_RESET $MAGENTA ethdons	$COL_RESET"
+echo -e "$YELLOW  BCH: $COL_RESET $MAGENTA bchdons	$COL_RESET"
 echo -e "$CYAN  --------------------------------------------------------------------------- 	$COL_RESET"
 cd ~
 exit 0
