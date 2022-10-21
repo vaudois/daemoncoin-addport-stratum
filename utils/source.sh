@@ -4,8 +4,6 @@
 # Source to compile wallets
 #####################################################
 
-source ${absolutepath}/${installtoserver}/conf/info.sh
-
 FUNC=/etc/functionscoin.sh
 if [[ ! -f "$FUNC" ]]; then
 	source /etc/functions.sh
@@ -15,6 +13,12 @@ fi
 
 YIIMPOLL=/etc/yiimpool.conf
 if [[ -f "$YIIMPOLL" ]]; then
+	source /etc/yiimpool.conf
+	YIIMPCONF=true
+fi
+
+YIIMSERVER=/etc/yimpserver.conf
+if [[ -f "$YIIMSERVER" ]]; then
 	source /etc/yiimpool.conf
 	YIIMPCONF=true
 fi
@@ -79,7 +83,7 @@ else
 	esac
 
 	if [[ ("${swithdevelop}" == "no") ]]; then
-	
+
 		dialog --title " Use a specific branch " \
 		--yesno "Do you need to use a specific github branch of the coin?
 		Selecting Yes use a selected version Git." 7 60
@@ -89,7 +93,7 @@ else
 		   1) branch_git_hub=no;;
 		   255) echo "[ESC] key pressed.";;
 		esac
-	
+
 		if [[ ("${branch_git_hub}" == "yes") ]]; then
 
 			input_box " Branch Version " \
@@ -108,7 +112,7 @@ echo
 echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 echo -e "$GREEN   Starting installation coin : ${coin^^}							$COL_RESET"
 echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
-	
+
 coindir=$coin$now
 
 # save last coin information in case coin build fails
@@ -179,13 +183,13 @@ if [[ ("$autogen" == "true") ]]; then
 		echo "Building using Berkeley 5.1..."
 		basedir=$(pwd)
 		sh autogen.sh
-		
+
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
 			echo "genbuild.sh not found skipping"
 		else
 			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
 		fi
-		
+
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
 			echo "build_detect_platform not found skipping"
 		else
@@ -205,7 +209,7 @@ if [[ ("$autogen" == "true") ]]; then
 		else
 			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
 		fi
-		
+
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
 			echo "build_detect_platform not found skipping"
 		else
@@ -225,7 +229,7 @@ if [[ ("$autogen" == "true") ]]; then
 		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
 		echo ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
 		spiner_output bash build.sh -j$(nproc)
-		
+
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}/fetch-params.sh" ]]; then
 			echo "fetch-params.sh not found skipping"
 		else
@@ -237,6 +241,7 @@ if [[ ("$autogen" == "true") ]]; then
 	if [[ ("$berkeley" != "6.2") ]]; then
 		make -j$(nproc)
 	fi
+
 else
 
 	# Build the coin under cmake
@@ -251,12 +256,12 @@ else
 			echo -e "$CYAN => Building using cmake with DEPENDS directory... $COL_RESET"
 			echo
 			sleep 3
-			
+
 			echo
 			echo
 			read -r -e -p "Hide LOG from to Work Coin ? [y/N] :" ifhidework
 			echo
-			
+
 			# Executing make on depends directory
 			echo
 			echo -e "$YELLOW => executing make on depends directory... $COL_RESET"
@@ -362,7 +367,7 @@ else
 			echo
 			echo
 			echo -e "$GREEN Done...$COL_RESET"
-			
+
 			# Executing make to finalize....
 			echo
 			echo -e "$YELLOW => Executing make to finalize... $COL_RESET"
@@ -453,7 +458,7 @@ clear
 if [[ ! ("$precompiled" == "true") ]]; then
 
 	cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/
-	
+
 	find . -maxdepth 1 -type f ! -name "*.*" \( -perm -1 -o \( -perm -10 -o -perm -100 \) \) -printf "%f\n"
 	read -r -e -p "Please enter the coind name from the directory above, example bitcoind :" coind
 	read -r -e -p "Is there a coin-cli, example bitcoin-cli [y/N] :" ifcoincli
@@ -489,11 +494,11 @@ clear
 # Strip and copy to /usr/bin
 if [[ ("$precompiled" == "true") ]]; then
 	cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${repzipcoin}/
-	
+
 	COINDFIND=$(find ~+ -type f -name "*d")
 	COINCLIFIND=$(find ~+ -type f -name "*-cli")
 	COINTXFIND=$(find ~+ -type f -name "*-tx")
-	
+
 	if [[ -f "$COINDFIND" ]]; then
 		coind=$(basename $COINDFIND)
 
@@ -521,14 +526,14 @@ if [[ ("$precompiled" == "true") ]]; then
 
 		exit;
 	fi
-	
+
 	if [[ -f "$COINCLIFIND" ]]; then
 		coincli=$(basename $COINCLIFIND)
 		sudo strip $COINCLIFIND
 		sudo cp $COINCLIFIND /usr/bin
 		sudo chmod +x /usr/bin/${coincli}
 		coinclimv=true
-		
+
 		echo
 		echo
 		echo -e "$GREEN Coin-cli moving to /usr/bin/$COL_RESET$YELLOW${coincli} $COL_RESET"
@@ -541,7 +546,7 @@ if [[ ("$precompiled" == "true") ]]; then
 		sudo cp $COINTXFIND /usr/bin
 		sudo chmod +x /usr/bin/${cointx}
 		cointxmv=true
-		
+
 		echo
 		echo
 		echo -e "$GREEN Coin-tx moving to /usr/bin/$COL_RESET$YELLOW${cointx} $COL_RESET"
@@ -577,29 +582,18 @@ else
 	fi
 fi
 
-if [[ ("${YIIMPCONF}" == "true") ]]; then
+if [[ "${YIIMPCONF}" == "true" ]]; then
 	# Make the new wallet folder have user paste the coin.conf and finally start the daemon
 	if [[ ! -e '$STORAGE_ROOT/wallets' ]]; then
-		mkdir -p $STORAGE_ROOT/wallets
-		sudo chgrp www-data $STORAGE_ROOT/wallets -R
+		sudo mkdir -p $STORAGE_ROOT/wallets
 	fi
 
 	sudo setfacl -m u:$USER:rwx $STORAGE_ROOT/wallets
 	mkdir -p $STORAGE_ROOT/wallets/."${coind::-1}"
-elif [[ ("INSTALLMASTER" == "true") ]]; then
-	# Make the new wallet folder have user paste the coin.conf and finally start the daemon
-	if [[ ! -e "/home/wallets" ]]; then
-		mkdir -p /home/wallets
-		sudo chgrp www-data /home/wallets -R
-	fi
-
-	sudo setfacl -m u:$USER:rwx /home/wallets
-	mkdir -p /home/wallets/."${coind::-1}"
 else
 	# Make the new wallet folder have user paste the coin.conf and finally start the daemon
 	if [[ ! -e "${absolutepath}/wallets" ]]; then
-		mkdir -p ${absolutepath}/wallets
-		sudo chgrp www-data ${absolutepath}/wallets -R
+		sudo mkdir -p ${absolutepath}/wallets
 	fi
 
 	sudo setfacl -m u:$USER:rwx ${absolutepath}/wallets
@@ -617,14 +611,14 @@ echo
 
 if [[ "${YIIMPCONF}" == "true" ]]; then
 	sudo nano $STORAGE_ROOT/wallets/."${coind::-1}"/${coind::-1}.conf
-elif [[ ("INSTALLMASTER" == "true") ]]; then
-	sudo nano home/wallets/."${coind::-1}"/${coind::-1}.conf
 else
 	sudo nano ${absolutepath}/wallets/."${coind::-1}"/${coind::-1}.conf
 fi
 
 clear
 cd ${absolutepath}/${installtoserver}/daemon_builder
+
+hide_output sudo pkill -9 -f ${coind}
 
 clear
 echo
@@ -638,35 +632,35 @@ echo -e "$CYAN -----------------------------------------------------------------
 echo
 if [[ "$coindmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIND : ${coind} $COL_RESET"
+echo -e "$GREEN   Name of COIND :$COL_RESET ${coind} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${coind} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 fi
 if [[ "$coinclimv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-CLI : ${coincli} $COL_RESET"
+echo -e "$GREEN   Name of COIN-CLI :$COL_RESET ${coincli} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${coincli} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 fi
 if [[ "$cointxmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-TX : ${cointx} $COL_RESET"
+echo -e "$GREEN   Name of COIN-TX :$COL_RESET ${cointx} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${cointx} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 fi
 if [[ "$coingtestmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-TX : ${coingtest} $COL_RESET"
+echo -e "$GREEN   Name of COIN-TX :$COL_RESET ${coingtest} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${coingtest} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 fi
 if [[ "$cointoolsmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-TX : ${cointools} $COL_RESET"
+echo -e "$GREEN   Name of COIN-TX :$COL_RESET ${cointools} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${cointools} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
@@ -683,10 +677,8 @@ sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf
 
 echo
 echo
-if [[ ("${YIIMPCONF}" == "true") ]]; then
+if [[ "${YIIMPCONF}" == "true" ]]; then
 	"${coind}" -datadir=$STORAGE_ROOT/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
-elif [[ ("INSTALLMASTER" == "true") ]]; then
-	"${coind}" -datadir=/home/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
 else
 	"${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
 fi
