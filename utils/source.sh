@@ -175,6 +175,13 @@ if [[ ("$autogen" == "true") ]]; then
 		sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
 		fi
 		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db4/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db4/lib" --without-gui --disable-tests
+		echo
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting make coin...															$COL_RESET"
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		sleep 3
+		# make install
+		make -j$(nproc)
 	fi
 
 	# Build the coin under berkeley 5.1
@@ -196,6 +203,13 @@ if [[ ("$autogen" == "true") ]]; then
 			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
 		fi
 		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db5/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db5/lib" --without-gui --disable-tests
+		echo
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting make coin...															$COL_RESET"
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		sleep 3
+		# make install
+		make -j$(nproc)
 	fi
 
 	# Build the coin under berkeley 5.3
@@ -216,11 +230,45 @@ if [[ ("$autogen" == "true") ]]; then
 			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
 		fi
 		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db5.3/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db5.3/lib" --without-gui --disable-tests
+		echo
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting make coin...															$COL_RESET"
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		sleep 3
+		# make install
+		make -j$(nproc)
 	fi
 
 	# Build the coin under berkeley 6.2
 	if [[ ("$berkeley" == "6.2") ]]; then
 		echo "Building using Berkeley 6.2..."
+		basedir=$(pwd)
+		sh autogen.sh
+
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
+			echo "genbuild.sh not found skipping"
+		else
+			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
+		fi
+
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
+			echo "build_detect_platform not found skipping"
+		else
+			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
+		fi
+		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db6.2/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db6.2/lib" --without-gui --disable-tests
+		echo
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting make coin...															$COL_RESET"
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		sleep 3
+		# make install
+		make -j$(nproc)
+	fi
+
+	# Build the coin under UTIL directory with BUILD.SH file
+	if [[ ("$buildutil" == "true") ]]; then
+		echo "Building using UTIL directory contains BUILD.SH..."
 		basedir=$(pwd)
 		sh autogen.sh
 
@@ -235,11 +283,6 @@ if [[ ("$autogen" == "true") ]]; then
 		else
 			sh fetch-params.sh
 		fi
-	fi
-
-	# make install
-	if [[ ("$berkeley" != "6.2") ]]; then
-		make -j$(nproc)
 	fi
 
 else
@@ -271,6 +314,11 @@ else
 			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
 			hide_output make -j$NPROC
 			else
+			echo
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo -e "$GREEN   Starting make coin...															$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			sleep 3
 			make -j$NPROC
 			fi
 			echo
@@ -376,6 +424,11 @@ else
 			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
 			hide_output make -j$NPROC
 			else
+			echo
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo -e "$GREEN   Starting make coin...															$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			sleep 3
 			make -j$NPROC
 			fi
 			echo
@@ -388,6 +441,12 @@ else
 			echo
 			sleep 3
 			cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir} && git submodule init && git submodule update
+
+			echo
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo -e "$GREEN   Starting make coin...															$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			sleep 3
 			make -j$NPROC
 			sleep 3
 		fi
@@ -473,11 +532,17 @@ if [[ ! ("$precompiled" == "true") ]]; then
 			read -r -e -p "Please enter the coin-tx name :" cointx
 		fi
 
-		if [[ ("$berkeley" == "6.2" || "$precompiled" == "true") ]]; then
+		if [[ ("$buildutil" == "true" || "$precompiled" == "true") ]]; then
 			read -r -e -p "Is there a coin-tools, example bitcoin-wallet-tools [y/N] :" ifcointools
 
 		if [[ ("$ifcointools" == "y" || "$ifcointools" == "Y") ]]; then
 			read -r -e -p "Please enter the coin-tools name :" cointools
+		fi
+
+		read -r -e -p "Is there a coin-gtest, example bitcoin-util [y/N] :" ifcoinutil
+
+		if [[ ("$ifcoinutil" == "y" || "$ifcoinutil" == "Y") ]]; then
+			read -r -e -p "Please enter the coin-gtest name :" coinutil
 		fi
 
 		read -r -e -p "Is there a coin-gtest, example bitcoin-gtest [y/N] :" ifcoingtest
@@ -569,6 +634,12 @@ else
 		cointxmv=true
 	fi
 
+	if [[ ("$ifcoinutil" == "y" || "$ifcoinutil" == "Y") ]]; then
+		sudo strip ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coinutil}
+		sudo cp ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coinutil} /usr/bin
+		coingtestmv=true
+	fi
+
 	if [[ ("$ifcoingtest" == "y" || "$ifcoingtest" == "Y") ]]; then
 		sudo strip ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coingtest}
 		sudo cp ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coingtest} /usr/bin
@@ -632,35 +703,35 @@ echo -e "$CYAN -----------------------------------------------------------------
 echo
 if [[ "$coindmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIND :$COL_RESET $MAGENTA ${coind} $COL_RESET"
+echo -e "$GREEN   Name of COIND : ${coind} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${coind} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 fi
 if [[ "$coinclimv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-CLI :$COL_RESET $MAGENTA ${coincli} $COL_RESET"
+echo -e "$GREEN   Name of COIN-CLI : ${coincli} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${coincli} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 fi
 if [[ "$cointxmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-TX :$COL_RESET $MAGENTA ${cointx} $COL_RESET"
+echo -e "$GREEN   Name of COIN-TX : ${cointx} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${cointx} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 fi
 if [[ "$coingtestmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-TX :$COL_RESET $MAGENTA ${coingtest} $COL_RESET"
+echo -e "$GREEN   Name of COIN-TX : ${coingtest} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${coingtest} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 fi
 if [[ "$cointoolsmv" == "true" ]] ; then
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-TX :$COL_RESET $MAGENTA ${cointools} $COL_RESET"
+echo -e "$GREEN   Name of COIN-TX : ${cointools} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${cointools} $COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
@@ -677,13 +748,11 @@ sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf
 
 echo
 echo
-
 if [[ ("${YIIMPCONF}" == "true") ]]; then
 	${coind} -datadir=$STORAGE_ROOT/wallets/.${coind::-1} -conf=${coind::-1}.conf -daemon -shrinkdebugfile
 else
 	${coind} -datadir=${absolutepath}/wallets/.${coind::-1} -conf=${coind::-1}.conf -daemon -shrinkdebugfile
 fi
-
 echo
 
 exit
