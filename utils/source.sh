@@ -677,11 +677,13 @@ sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf
 
 echo
 echo
-if [[ "${YIIMPCONF}" == "true" ]]; then
-	"${coind}" -datadir=$STORAGE_ROOT/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
+
+if [[ ("${YIIMPCONF}" == "true") ]]; then
+	${coind} -datadir=$STORAGE_ROOT/wallets/.${coind::-1} -conf=${coind::-1}.conf -daemon -shrinkdebugfile
 else
-	"${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}.conf" -daemon -shrinkdebugfile
+	${coind} -datadir=${absolutepath}/wallets/.${coind::-1} -conf=${coind::-1}.conf -daemon -shrinkdebugfile
 fi
+
 echo
 
 exit
