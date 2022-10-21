@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 16.04/18.04
-#   v0.5 (2022-09-29)
+#   v0.6 (2022-10-21)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.5
+	TAG=v0.6
 fi
 
 clear
@@ -345,7 +345,6 @@ else
 	echo
 	sleep 3
 
-	echo -e "$YELLOW Installing additional system files required for daemons...$COL_RESET"
 	hide_output sudo apt-get -y update
 	hide_output sudo apt -y install build-essential libtool autotools-dev \
 	automake pkg-config libssl-dev libevent-dev bsdmain${installtoserver} git libboost-all-dev libminiupnpc-dev \
@@ -357,6 +356,26 @@ else
 	python3 ccache doxygen graphviz default-libmysqlclient-dev libnghttp2-dev librtmp-dev libssh2-1 libssh2-1-dev libldap2-dev libidn11-dev libpsl-dev
 
 	echo -e "$GREEN Additional System Files Completed...$COL_RESET"
+	
+	# Updating gcc & g++ to version 8
+	echo
+	echo
+	echo -e "$CYAN => Updating GCC & G++ ... $COL_RESET"
+	echo
+	sleep 3
+	
+	hide_output sudo apt-get update -y
+	hide_output sudo apt-get upgrade -y
+	hide_output sudo apt-get dist-upgrade -y
+	hide_output sudo apt-get install build-essential software-properties-common -y
+	hide_output sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+	hide_output sudo apt-get update -y
+	hide_output sudo apt-get install gcc-8 g++-8 -y
+	hide_output sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-8
+	sudo update-alternatives --config gcc
+
+	echo -e "$GREEN Updated GCC & G++ Completed...$COL_RESET"
+	sleep 3
 
 		cd ~
 		sudo mkdir -p ${absolutepath}/daemon_setup/tmp
@@ -434,6 +453,25 @@ else
 		cd ${absolutepath}/daemon_setup/tmp
 		sudo rm -r db-6.2.23.tar.gz db-6.2.23
 		echo -e "$GREEN Berkeley 6.2 Completed...$COL_RESET"
+		DONEINST=true
+	fi
+	
+	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db18" ]]; then
+		echo
+		echo -e "$YELLOW Building Berkeley 18.xx, this may take several minutes...$COL_RESET"
+		echo
+		sleep 3
+
+		sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db18/
+		cd ${absolutepath}/daemon_setup/tmp
+		hide_output sudo wget 'https://download.oracle.com/berkeley-db/db-18.1.40.tar.gz'
+		hide_output sudo tar -xzvf db-18.1.40.tar.gz
+		cd db-18.1.40/build_unix/
+		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db18/
+		hide_output sudo make install
+		cd ${absolutepath}/daemon_setup/tmp
+		sudo rm -r db-18.1.40.tar.gz db-18.1.40
+		echo -e "$GREEN Berkeley 18.xx Completed...$COL_RESET"
 		DONEINST=true
 	fi
 
