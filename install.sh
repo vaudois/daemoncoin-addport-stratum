@@ -190,7 +190,7 @@ else
 			if [ -z "${INSTALLMASTER}" ]; then
 				sudo cp -r ${absolutepath}/${installdirname}/conf/functions.sh /etc/
 				FUNCTIONFILE=functions.sh
-			elif [[ "${INSTALLMASTER}" == "false" ]]; then
+			elif [[ ("${INSTALLMASTER}" == "false") ]]; then
 				sudo cp -r ${absolutepath}/${installdirname}/conf/functions.sh /etc/
 				FUNCTIONFILE=functions.sh
 			fi
