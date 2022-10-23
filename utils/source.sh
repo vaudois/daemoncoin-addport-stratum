@@ -159,8 +159,11 @@ if [[ ("$autogen" == "true") ]]; then
 
 	# Build the coin under berkeley 4.8
 	if [[ ("$berkeley" == "4.8") ]]; then
-
-		echo "Building using Berkeley 4.8..."
+		echo
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting Building coin $MAGENTA ${coin^^} $COL_RESET using Berkeley 4.8	$COL_RESET"
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo
 		basedir=$(pwd)
 		sh autogen.sh
 
@@ -186,8 +189,11 @@ if [[ ("$autogen" == "true") ]]; then
 
 	# Build the coin under berkeley 5.1
 	if [[ ("$berkeley" == "5.1") ]]; then
-
-		echo "Building using Berkeley 5.1..."
+		echo
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting Building coin $MAGENTA ${coin^^} $COL_RESET using Berkeley 5.1	$COL_RESET"
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo
 		basedir=$(pwd)
 		sh autogen.sh
 
@@ -214,7 +220,11 @@ if [[ ("$autogen" == "true") ]]; then
 
 	# Build the coin under berkeley 5.3
 	if [[ ("$berkeley" == "5.3") ]]; then
-		echo "Building using Berkeley 5.3..."
+		echo
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting Building coin $MAGENTA ${coin^^} $COL_RESET using Berkeley 5.3	$COL_RESET"
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo
 		basedir=$(pwd)
 		sh autogen.sh
 
@@ -241,7 +251,11 @@ if [[ ("$autogen" == "true") ]]; then
 
 	# Build the coin under berkeley 6.2
 	if [[ ("$berkeley" == "6.2") ]]; then
-		echo "Building using Berkeley 6.2..."
+		echo
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting Building coin $MAGENTA ${coin^^} $COL_RESET using Berkeley 6.2	$COL_RESET"
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo
 		basedir=$(pwd)
 		sh autogen.sh
 
@@ -265,10 +279,45 @@ if [[ ("$autogen" == "true") ]]; then
 		# make install
 		make -j$(nproc)
 	fi
+	
+	# Build the coin under berkeley 6.2
+	if [[ ("$berkeley" == "zero") ]]; then
+		echo
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting Building coin $MAGENTA $coin $COL_RESET								$COL_RESET"
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		echo
+		basedir=$(pwd)
+		sh autogen.sh
+
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
+			echo "genbuild.sh not found skipping"
+		else
+			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh
+		fi
+
+		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform" ]]; then
+			echo "build_detect_platform not found skipping"
+		else
+			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
+		fi
+		./configure
+		echo
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting make coin...															$COL_RESET"
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		sleep 3
+		# make install
+		make -j$(nproc)
+	fi
 
 	# Build the coin under UTIL directory with BUILD.SH file
 	if [[ ("$buildutil" == "true") ]]; then
-		echo "Building using UTIL directory contains BUILD.SH..."
+		echo
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting Building coin $MAGENTA $coin $COL_RESET	using UTIL directory contains BUILD.SH	$COL_RESET"
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo
 		basedir=$(pwd)
 		sh autogen.sh
 
@@ -327,7 +376,9 @@ else
 
 			# Building autogen....
 			echo
-			echo -e "$YELLOW => Building autogen... $COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo -e "$GREEN   Starting Building coin $MAGENTA $coin $COL_RESET using autogen...				$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 			echo
 			sleep 3
 			cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
@@ -436,8 +487,9 @@ else
 			echo -e "$GREEN Done...$COL_RESET"
 		else
 			echo
-			echo "Building using Cmake method..."
-			echo
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo -e "$GREEN   Starting Building coin $MAGENTA $coin $COL_RESET using Cmake method			$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 			echo
 			sleep 3
 			cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir} && git submodule init && git submodule update
@@ -454,7 +506,11 @@ else
 
 	# Build the coin under unix
 	if [[ ("$unix" == "true") ]]; then
-		echo "Building using makefile.unix method..."
+		echo
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Starting Building coin $MAGENTA $coin $COL_RESET	using makefile.unix method	$COL_RESET"
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo
 		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src
 
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/obj" ]]; then
@@ -542,13 +598,19 @@ if [[ ! ("$precompiled" == "true") ]]; then
 		read -r -e -p "Is there a coin-gtest, example bitcoin-util [y/N] :" ifcoinutil
 
 		if [[ ("$ifcoinutil" == "y" || "$ifcoinutil" == "Y") ]]; then
-			read -r -e -p "Please enter the coin-gtest name :" coinutil
+			read -r -e -p "Please enter the coin-util name :" coinutil
 		fi
 
 		read -r -e -p "Is there a coin-gtest, example bitcoin-gtest [y/N] :" ifcoingtest
 
 		if [[ ("$ifcoingtest" == "y" || "$ifcoingtest" == "Y") ]]; then
 			read -r -e -p "Please enter the coin-gtest name :" coingtest
+		fi
+
+		read -r -e -p "Is there a coin-wallet, example bitcoin-wallet [y/N] :" ifcoinwallet
+
+		if [[ ("$ifcoinwallet" == "y" || "$ifcoinwallet" == "Y") ]]; then
+			read -r -e -p "Please enter the coin-wallet name :" coinwallet
 		fi
 	fi
 
@@ -563,6 +625,8 @@ if [[ ("$precompiled" == "true") ]]; then
 	COINDFIND=$(find ~+ -type f -name "*d")
 	COINCLIFIND=$(find ~+ -type f -name "*-cli")
 	COINTXFIND=$(find ~+ -type f -name "*-tx")
+	COINUTILFIND=$(find ~+ -type f -name "*-util")
+	COINWALLETFIND=$(find ~+ -type f -name "*-wallet")
 
 	if [[ -f "$COINDFIND" ]]; then
 		coind=$(basename $COINDFIND)
@@ -574,7 +638,7 @@ if [[ ("$precompiled" == "true") ]]; then
 
 		echo
 		echo
-		echo -e "$GREEN Coind moving to /usr/bin/$COL_RESET$YELLOW${coind} $COL_RESET"
+		echo -e "$GREEN Coind moving to => /usr/bin/$COL_RESET$YELLOW${coind} $COL_RESET"
 		sleep 3
 	else
 		clear
@@ -601,7 +665,7 @@ if [[ ("$precompiled" == "true") ]]; then
 
 		echo
 		echo
-		echo -e "$GREEN Coin-cli moving to /usr/bin/$COL_RESET$YELLOW${coincli} $COL_RESET"
+		echo -e "$GREEN Coin-cli moving to => /usr/bin/$COL_RESET$YELLOW${coincli} $COL_RESET"
 		sleep 3
 	fi
 
@@ -614,7 +678,33 @@ if [[ ("$precompiled" == "true") ]]; then
 
 		echo
 		echo
-		echo -e "$GREEN Coin-tx moving to /usr/bin/$COL_RESET$YELLOW${cointx} $COL_RESET"
+		echo -e "$GREEN Coin-tx moving to => /usr/bin/$COL_RESET$YELLOW${cointx} $COL_RESET"
+		sleep 3
+	fi
+
+	if [[ -f "$COINUTILFIND" ]]; then
+		coinutil=$(basename $COINUTILFIND)
+		sudo strip $COINUTILFIND
+		sudo cp $COINUTILFIND /usr/bin
+		sudo chmod +x /usr/bin/${coinutil}
+		coinutilmv=true
+
+		echo
+		echo
+		echo -e "$GREEN Coin-tx moving to => /usr/bin/$COL_RESET$YELLOW${coinutil} $COL_RESET"
+		sleep 3
+	fi
+	
+	if [[ -f "$COINWALLETFIND" ]]; then
+		coinwallet=$(basename $COINWALLETFIND)
+		sudo strip $COINWALLETFIND
+		sudo cp $COINWALLETFIND /usr/bin
+		sudo chmod +x /usr/bin/${coinwallet}
+		coinwalletmv=true
+
+		echo
+		echo
+		echo -e "$GREEN Coin-tx moving to => /usr/bin/$COL_RESET$YELLOW${coinwallet} $COL_RESET"
 		sleep 3
 	fi
 else
@@ -637,7 +727,7 @@ else
 	if [[ ("$ifcoinutil" == "y" || "$ifcoinutil" == "Y") ]]; then
 		sudo strip ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coinutil}
 		sudo cp ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coinutil} /usr/bin
-		coingtestmv=true
+		coinutilmv=true
 	fi
 
 	if [[ ("$ifcoingtest" == "y" || "$ifcoingtest" == "Y") ]]; then
@@ -651,6 +741,12 @@ else
 		sudo cp ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${cointools} /usr/bin
 		cointoolsmv=true
 	fi
+
+	if [[ ("$ifcoinwallet" == "y" || "$ifcoinwallet" == "Y") ]]; then
+		sudo strip ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coinwallet}
+		sudo cp ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coinwallet} /usr/bin
+		coinwalletmv=true
+	fi
 fi
 
 if [[ "${YIIMPCONF}" == "true" ]]; then
@@ -661,6 +757,17 @@ if [[ "${YIIMPCONF}" == "true" ]]; then
 
 	sudo setfacl -m u:$USER:rwx $STORAGE_ROOT/wallets
 	mkdir -p $STORAGE_ROOT/wallets/."${coind::-1}"
+	sleep 3
+	if [[ "$coinwalletmv" == "true" ]] ; then
+		echo
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Creating WALLET.DAT to => $STORAGE_ROOT/wallets/.${coind::-1}/wallet.dat $COL_RESET"
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo
+		"${coinwallet}" -datadir=$STORAGE_ROOT/wallets/."${coind::-1}" -legacy -wallet=. create
+		sleep 3
+	fi
+	sleep 3
 else
 	# Make the new wallet folder have user paste the coin.conf and finally start the daemon
 	if [[ ! -e "${absolutepath}/wallets" ]]; then
@@ -669,6 +776,16 @@ else
 
 	sudo setfacl -m u:$USER:rwx ${absolutepath}/wallets
 	mkdir -p ${absolutepath}/wallets/."${coind::-1}"
+	sleep 3
+	if [[ "$coinwalletmv" == "true" ]] ; then
+		echo
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Creating WALLET.DAT to => ${absolutepath}/wallets/.${coind::-1}/wallet.dat $COL_RESET"
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo
+		"${coinwallet}" -datadir=${absolutepath}/wallets/."${coind::-1}" -legacy -wallet=. create
+		sleep 3
+	fi
 fi
 
 echo
@@ -699,43 +816,56 @@ figlet -f slant -w 100 "   Yeah!"
 echo -e "$CYAN --------------------------------------------------------------------------- 	"
 echo -e "$CYAN    Starting ${coind::-1} $COL_RESET"
 echo -e "$COL_RESET $GREEN   Installation of ${coind::-1} is completed and running. $COL_RESET"
-echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo
 if [[ "$coindmv" == "true" ]] ; then
-echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIND : ${coind} $COL_RESET"
-echo -e "$GREEN   path in : /usr/bin/${coind} $COL_RESET"
-echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
+echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
+echo -e "$GREEN   Name of COIND :$COL_RESET $MAGENTA ${coind} $COL_RESET"
+echo -e "$GREEN   path in : /usr/bin/${coind} $COL_RESET"
 fi
 if [[ "$coinclimv" == "true" ]] ; then
-echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-CLI : ${coincli} $COL_RESET"
-echo -e "$GREEN   path in : /usr/bin/${coincli} $COL_RESET"
-echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
+echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
+echo -e "$GREEN   Name of COIN-CLI :$COL_RESET $MAGENTA ${coincli} $COL_RESET"
+echo -e "$GREEN   path in : /usr/bin/${coincli} $COL_RESET"
 fi
 if [[ "$cointxmv" == "true" ]] ; then
-echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-TX : ${cointx} $COL_RESET"
-echo -e "$GREEN   path in : /usr/bin/${cointx} $COL_RESET"
-echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
+echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
+echo -e "$GREEN   Name of COIN-TX :$COL_RESET $MAGENTA ${cointx} $COL_RESET"
+echo -e "$GREEN   path in : /usr/bin/${cointx} $COL_RESET"
 fi
 if [[ "$coingtestmv" == "true" ]] ; then
-echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-TX : ${coingtest} $COL_RESET"
-echo -e "$GREEN   path in : /usr/bin/${coingtest} $COL_RESET"
-echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
+echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
+echo -e "$GREEN   Name of COIN-TX :$COL_RESET $MAGENTA ${coingtest} $COL_RESET"
+echo -e "$GREEN   path in : /usr/bin/${coingtest} $COL_RESET"
+fi
+if [[ "$coingtestmv" == "true" ]] ; then
+echo
+echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
+echo -e "$GREEN   Name of COIN-TX :$COL_RESET $MAGENTA ${coingtest} $COL_RESET"
+echo -e "$GREEN   path in : /usr/bin/${coingtest} $COL_RESET"
+fi
+if [[ "$coinutilmv" == "true" ]] ; then
+echo
+echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
+echo -e "$GREEN   Name of COIN-TX :$COL_RESET $MAGENTA ${coinutil} $COL_RESET"
+echo -e "$GREEN   path in : /usr/bin/${coinutil} $COL_RESET"
 fi
 if [[ "$cointoolsmv" == "true" ]] ; then
+echo
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN   Name of COIN-TX : ${cointools} $COL_RESET"
+echo -e "$GREEN   Name of COIN-TX :$COL_RESET $MAGENTA ${cointools} $COL_RESET"
 echo -e "$GREEN   path in : /usr/bin/${cointools} $COL_RESET"
+fi
+if [[ "$coinwalletmv" == "true" ]] ; then
+echo
+echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
+echo -e "$GREEN   Name of COIN-TX :$COL_RESET $MAGENTA ${coinwallet} $COL_RESET"
+echo -e "$GREEN   path in : /usr/bin/${coinwallet} $COL_RESET"
+fi
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
-fi
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo -e "$RED    Type ${daemonname} at anytime to install a new coin! 				$COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
@@ -749,9 +879,9 @@ sudo rm -r ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf
 echo
 echo
 if [[ ("${YIIMPCONF}" == "true") ]]; then
-	${coind} -datadir=$STORAGE_ROOT/wallets/.${coind::-1} -conf=${coind::-1}.conf -daemon -shrinkdebugfile
+	"${coind}" -datadir=$STORAGE_ROOT/wallets/."${coind::-1}" -conf="${coind::-1}".conf -daemon -shrinkdebugfile
 else
-	${coind} -datadir=${absolutepath}/wallets/.${coind::-1} -conf=${coind::-1}.conf -daemon -shrinkdebugfile
+	"${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}".conf -daemon -shrinkdebugfile
 fi
 echo
 
