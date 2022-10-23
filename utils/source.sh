@@ -284,7 +284,7 @@ if [[ ("$autogen" == "true") ]]; then
 	if [[ ("$berkeley" == "zero") ]]; then
 		echo
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
-		echo -e "$GREEN   Starting Building coin $MAGENTA $coin $COL_RESET								$COL_RESET"
+		echo -e "$GREEN   Starting Building coin $MAGENTA ${coin^^} $COL_RESET								$COL_RESET"
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
 		basedir=$(pwd)
@@ -315,7 +315,7 @@ if [[ ("$autogen" == "true") ]]; then
 	if [[ ("$buildutil" == "true") ]]; then
 		echo
 		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
-		echo -e "$GREEN   Starting Building coin $MAGENTA $coin $COL_RESET	using UTIL directory contains BUILD.SH	$COL_RESET"
+		echo -e "$GREEN   Starting Building coin $MAGENTA ${coin^^} $COL_RESET	using UTIL directory contains BUILD.SH	$COL_RESET"
 		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
 		basedir=$(pwd)
@@ -377,7 +377,7 @@ else
 			# Building autogen....
 			echo
 			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
-			echo -e "$GREEN   Starting Building coin $MAGENTA $coin $COL_RESET using autogen...				$COL_RESET"
+			echo -e "$GREEN   Starting Building coin $MAGENTA ${coin^^} $COL_RESET using autogen...				$COL_RESET"
 			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 			echo
 			sleep 3
@@ -488,7 +488,7 @@ else
 		else
 			echo
 			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
-			echo -e "$GREEN   Starting Building coin $MAGENTA $coin $COL_RESET using Cmake method			$COL_RESET"
+			echo -e "$GREEN   Starting Building coin $MAGENTA ${coin^^} $COL_RESET using Cmake method			$COL_RESET"
 			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 			echo
 			sleep 3
@@ -508,7 +508,7 @@ else
 	if [[ ("$unix" == "true") ]]; then
 		echo
 		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
-		echo -e "$GREEN   Starting Building coin $MAGENTA $coin $COL_RESET	using makefile.unix method	$COL_RESET"
+		echo -e "$GREEN   Starting Building coin $MAGENTA ${coin^^} $COL_RESET	using makefile.unix method	$COL_RESET"
 		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
 		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src
@@ -878,7 +878,7 @@ fi
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$RED    Type ${daemonname} at anytime to install a new coin! 				$COL_RESET"
+echo -e "$RED    Type $COL_RESET $MAGENTA ${daemonname} $COL_RESET $RED at anytime to install a new coin! 				$COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 
