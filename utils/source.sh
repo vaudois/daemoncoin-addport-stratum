@@ -301,7 +301,7 @@ if [[ ("$autogen" == "true") ]]; then
 		else
 			sudo chmod 777 ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/leveldb/build_detect_platform
 		fi
-		./configure
+		./configure --without-gui --disable-tests
 		echo
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo -e "$GREEN   Starting make coin...															$COL_RESET"
@@ -578,42 +578,41 @@ if [[ ! ("$precompiled" == "true") ]]; then
 	read -r -e -p "Please enter the coind name from the directory above, example bitcoind :" coind
 	read -r -e -p "Is there a coin-cli, example bitcoin-cli [y/N] :" ifcoincli
 
-		if [[ ("$ifcoincli" == "y" || "$ifcoincli" == "Y") ]]; then
-			read -r -e -p "Please enter the coin-cli name :" coincli
-		fi
+	if [[ ("$ifcoincli" == "y" || "$ifcoincli" == "Y") ]]; then
+		read -r -e -p "Please enter the coin-cli name :" coincli
+	fi
 
-		read -r -e -p "Is there a coin-tx, example bitcoin-tx [y/N] :" ifcointx
+	read -r -e -p "Is there a coin-tx, example bitcoin-tx [y/N] :" ifcointx
 
-		if [[ ("$ifcointx" == "y" || "$ifcointx" == "Y") ]]; then
-			read -r -e -p "Please enter the coin-tx name :" cointx
-		fi
+	if [[ ("$ifcointx" == "y" || "$ifcointx" == "Y") ]]; then
+		read -r -e -p "Please enter the coin-tx name :" cointx
+	fi
 
-		if [[ ("$buildutil" == "true" || "$precompiled" == "true") ]]; then
-			read -r -e -p "Is there a coin-tools, example bitcoin-wallet-tools [y/N] :" ifcointools
+	read -r -e -p "Is there a coin-util, example bitcoin-util [y/N] :" ifcoinutil
+
+	if [[ ("$ifcoinutil" == "y" || "$ifcoinutil" == "Y") ]]; then
+		read -r -e -p "Please enter the coin-util name :" coinutil
+	fi
+
+	read -r -e -p "Is there a coin-gtest, example bitcoin-gtest [y/N] :" ifcoingtest
+
+	read -r -e -p "Is there a coin-wallet, example bitcoin-wallet [y/N] :" ifcoinwallet
+
+	if [[ ("$ifcoinwallet" == "y" || "$ifcoinwallet" == "Y") ]]; then
+		read -r -e -p "Please enter the coin-wallet name :" coinwallet
+	fi
+
+	if [[ ("$buildutil" == "true" || "$precompiled" == "true") ]]; then
+		read -r -e -p "Is there a coin-tools, example bitcoin-wallet-tools [y/N] :" ifcointools
 
 		if [[ ("$ifcointools" == "y" || "$ifcointools" == "Y") ]]; then
 			read -r -e -p "Please enter the coin-tools name :" cointools
 		fi
 
-		read -r -e -p "Is there a coin-gtest, example bitcoin-util [y/N] :" ifcoinutil
-
-		if [[ ("$ifcoinutil" == "y" || "$ifcoinutil" == "Y") ]]; then
-			read -r -e -p "Please enter the coin-util name :" coinutil
-		fi
-
-		read -r -e -p "Is there a coin-gtest, example bitcoin-gtest [y/N] :" ifcoingtest
-
 		if [[ ("$ifcoingtest" == "y" || "$ifcoingtest" == "Y") ]]; then
 			read -r -e -p "Please enter the coin-gtest name :" coingtest
 		fi
-
-		read -r -e -p "Is there a coin-wallet, example bitcoin-wallet [y/N] :" ifcoinwallet
-
-		if [[ ("$ifcoinwallet" == "y" || "$ifcoinwallet" == "Y") ]]; then
-			read -r -e -p "Please enter the coin-wallet name :" coinwallet
-		fi
 	fi
-
 fi
 
 clear
@@ -632,6 +631,7 @@ if [[ ("$precompiled" == "true") ]]; then
 		coind=$(basename $COINDFIND)
 
 		sudo strip $COINDFIND
+		sleep 4
 		sudo cp $COINDFIND /usr/bin
 		sudo chmod +x /usr/bin/${coind}
 		coindmv=true
@@ -659,6 +659,7 @@ if [[ ("$precompiled" == "true") ]]; then
 	if [[ -f "$COINCLIFIND" ]]; then
 		coincli=$(basename $COINCLIFIND)
 		sudo strip $COINCLIFIND
+		sleep 4
 		sudo cp $COINCLIFIND /usr/bin
 		sudo chmod +x /usr/bin/${coincli}
 		coinclimv=true
@@ -672,6 +673,7 @@ if [[ ("$precompiled" == "true") ]]; then
 	if [[ -f "$COINTXFIND" ]]; then
 		cointx=$(basename $COINTXFIND)
 		sudo strip $COINTXFIND
+		sleep 4
 		sudo cp $COINTXFIND /usr/bin
 		sudo chmod +x /usr/bin/${cointx}
 		cointxmv=true
@@ -685,6 +687,7 @@ if [[ ("$precompiled" == "true") ]]; then
 	if [[ -f "$COINUTILFIND" ]]; then
 		coinutil=$(basename $COINUTILFIND)
 		sudo strip $COINUTILFIND
+		sleep 4
 		sudo cp $COINUTILFIND /usr/bin
 		sudo chmod +x /usr/bin/${coinutil}
 		coinutilmv=true
@@ -698,6 +701,7 @@ if [[ ("$precompiled" == "true") ]]; then
 	if [[ -f "$COINWALLETFIND" ]]; then
 		coinwallet=$(basename $COINWALLETFIND)
 		sudo strip $COINWALLETFIND
+		sleep 4
 		sudo cp $COINWALLETFIND /usr/bin
 		sudo chmod +x /usr/bin/${coinwallet}
 		coinwalletmv=true
@@ -709,41 +713,48 @@ if [[ ("$precompiled" == "true") ]]; then
 	fi
 else
 	sudo strip ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coind}
+	sleep 4
 	sudo cp ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coind} /usr/bin
 	coindmv=true
 
 	if [[ ("$ifcoincli" == "y" || "$ifcoincli" == "Y") ]]; then
 	  sudo strip ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coincli}
+	  sleep 4
 	  sudo cp ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coincli} /usr/bin
 	  coinclimv=true
 	fi
 
 	if [[ ("$ifcointx" == "y" || "$ifcointx" == "Y") ]]; then
 		sudo strip ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${cointx}
+		sleep 4
 		sudo cp ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${cointx} /usr/bin
 		cointxmv=true
 	fi
 
 	if [[ ("$ifcoinutil" == "y" || "$ifcoinutil" == "Y") ]]; then
 		sudo strip ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coinutil}
+		sleep 4
 		sudo cp ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coinutil} /usr/bin
 		coinutilmv=true
 	fi
 
 	if [[ ("$ifcoingtest" == "y" || "$ifcoingtest" == "Y") ]]; then
 		sudo strip ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coingtest}
+		sleep 4
 		sudo cp ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coingtest} /usr/bin
 		coingtestmv=true
 	fi
 
 	if [[ ("$ifcointools" == "y" || "$ifcointools" == "Y") ]]; then
 		sudo strip ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${cointools}
+		sleep 4
 		sudo cp ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${cointools} /usr/bin
 		cointoolsmv=true
 	fi
 
 	if [[ ("$ifcoinwallet" == "y" || "$ifcoinwallet" == "Y") ]]; then
 		sudo strip ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coinwallet}
+		sleep 4
 		sudo cp ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src/${coinwallet} /usr/bin
 		coinwalletmv=true
 	fi
