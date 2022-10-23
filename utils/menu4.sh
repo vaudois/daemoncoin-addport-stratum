@@ -24,8 +24,6 @@ clear
 
 sudo curl https://raw.githubusercontent.com/vaudois/install_DmcAddpStrm/master/bootstrap.sh | bash
 
-clear
-
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo -e "$RED    Thank you using this scrpt Updating is Finish!				 				$COL_RESET"
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
