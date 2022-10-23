@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 16.04/18.04
-#   v0.6 (2022-10-21)
+#   v0.7 (2022-10-23)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.6
+	TAG=v0.7
 fi
 
 clear
@@ -353,7 +353,8 @@ else
 	cmake libunbound-dev libsodium-dev libunwind8-dev liblzma-dev libreadline6-dev libldns-dev libexpat1-dev \
 	libpgm-dev libhidapi-dev libusb-1.0-0-dev libudev-dev libboost-chrono-dev libboost-date-time-dev libboost-filesystem-dev \
 	libboost-locale-dev libboost-program-options-dev libboost-regex-dev libboost-serialization-dev libboost-system-dev libboost-thread-dev \
-	python3 ccache doxygen graphviz default-libmysqlclient-dev libnghttp2-dev librtmp-dev libssh2-1 libssh2-1-dev libldap2-dev libidn11-dev libpsl-dev
+	python3 ccache doxygen graphviz default-libmysqlclient-dev libnghttp2-dev librtmp-dev libssh2-1 libssh2-1-dev libldap2-dev libidn11-dev libpsl-dev \
+	ibsqlite3-dev libminiupnpc-dev libnatpmp-dev systemtap-sdt-dev qtwayland5
 
 	echo -e "$GREEN Additional System Files Completed...$COL_RESET"
 	
