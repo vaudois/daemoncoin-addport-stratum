@@ -14,17 +14,16 @@ fi
 
 cd ${absolutepath}/${installtoserver}/daemon_builder
 
-RESULT=$(dialog --stdout --title "Daemon Builder Coin" --menu "Choose one" -1 60 10 \
-1 "Install coin Based on new Bitcoin core v23" \
-2 "Install Berkeley 4.x Coin with autogen file" \
-3 "Install Berkeley 5.1 Coin with autogen file" \
-4 "Install Berkeley 5.3 Coin with autogen file" \
-5 "Install Berkeley 6.2 Coin with build.sh file" \
-6 "Install Coin with makefile.unix file" \
-7 "Install Coin with CMake file" \
-8 "Install Coin with UTIL folder contains BULD.SH file" \
-9 "Install Coin precompiled linux version" \
-10 Exit)
+RESULT=$(dialog --stdout --title "Daemon Builder Coin" --menu "Choose one" -1 60 9 \
+1 "Install Berkeley 4.8 Coin with autogen file" \
+2 "Install Berkeley 5.1 Coin with autogen file" \
+3 "Install Berkeley 5.3 Coin with autogen file" \
+4 "Install Berkeley 6.2 Coin with build.sh file" \
+5 "Install Coin with makefile.unix file" \
+6 "Install Coin with CMake file & DEPENDS folder" \
+7 "Install Coin with UTIL folder contains BULD.SH" \
+8 "Install Coin precompiled linux version" \
+9 Exit)
 
 if [ $RESULT = ]
 then
@@ -36,7 +35,7 @@ then
 clear;
 echo '
 autogen=true
-berkeley="zero"
+berkeley="4.8"
 ' | sudo -E tee ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf >/dev/null 2>&1;
 source source.sh;
 fi
@@ -46,7 +45,7 @@ then
 clear;
 echo '
 autogen=true
-berkeley="4.8"
+berkeley="5.1"
 ' | sudo -E tee ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf >/dev/null 2>&1;
 source source.sh;
 fi
@@ -56,7 +55,7 @@ then
 clear;
 echo '
 autogen=true
-berkeley="5.1"
+berkeley="5.3"
 ' | sudo -E tee ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf >/dev/null 2>&1;
 source source.sh;
 fi
@@ -66,22 +65,12 @@ then
 clear;
 echo '
 autogen=true
-berkeley="5.3"
-' | sudo -E tee ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf >/dev/null 2>&1;
-source source.sh;
-fi
-
-if [ $RESULT = 5 ]
-then
-clear;
-echo '
-autogen=true
 berkeley="6.2"
 ' | sudo -E tee ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf >/dev/null 2>&1;
 source source.sh;
 fi
 
-if [ $RESULT = 6 ]
+if [ $RESULT = 5 ]
 then
 clear;
 echo '
@@ -91,7 +80,7 @@ unix=true
 source source.sh;
 fi
 
-if [ $RESULT = 7 ]
+if [ $RESULT = 6 ]
 then
 clear;
 echo '
@@ -101,7 +90,7 @@ cmake=true
 source source.sh;
 fi
 
-if [ $RESULT = 8 ]
+if [ $RESULT = 7 ]
 then
 clear;
 echo '
@@ -111,7 +100,7 @@ glibc=true
 source source.sh;
 fi
 
-if [ $RESULT = 9 ]
+if [ $RESULT = 8 ]
 then
 clear;
 echo '
@@ -120,7 +109,7 @@ precompiled=true
 source source.sh;
 fi
 
-if [ $RESULT = 10 ]
+if [ $RESULT = 9 ]
 then
 clear;
 exit;
