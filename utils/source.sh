@@ -19,7 +19,7 @@ fi
 
 YIIMSERVER=/etc/yimpserver.conf
 if [[ -f "$YIIMSERVER" ]]; then
-	source /etc/yiimpool.conf
+	source /etc/yimpserver.conf
 	YIIMPCONF=true
 fi
 
