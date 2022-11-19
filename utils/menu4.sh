@@ -15,9 +15,15 @@ fi
 
 source ${absolutepath}/${installtoserver}/conf/info.sh
 
-message_box " Updating This script " \
-"Check if this scrypt needs update.
-\n\nYou are currently using version ${VERSION}"
+if [[ ("${LATESTVER}" != "${VERSION}" && "${LATESTVER}" != "null") ]]; then
+	message_box " Updating This script to ${LATESTVER}" \
+	"You are currently using version ${VERSION}
+	\n\nAre you going to update it to the version ${LATESTVER}"
+else
+	message_box " Updating This script " \
+	"Check if this scrypt needs update.
+	\n\nYou are currently using version ${VERSION}"
+fi
 
 cd ~
 clear
