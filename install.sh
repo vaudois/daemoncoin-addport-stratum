@@ -213,7 +213,7 @@ else
 	hide_output sudo apt -y upgrade
 	hide_output sudo apt -y autoremove
 	hide_output sudo apt-get install -y software-properties-common
-	hide_output sudo apt install -y dialog python3 python3-pip acl nano apt-transport-https figlet
+	hide_output sudo apt install -y dialog python3 python3-pip acl nano apt-transport-https figlet jq
 	echo -e "$GREEN Done...$COL_RESET"
 
 	source ${absolutepath}/${installdirname}/conf/prerequisite.sh
