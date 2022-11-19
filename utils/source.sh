@@ -17,9 +17,9 @@ if [[ -f "$YIIMPOLL" ]]; then
 	YIIMPCONF=true
 fi
 
-YIIMSERVER=/etc/yimpserver.conf
-if [[ -f "$YIIMSERVER" ]]; then
-	source /etc/yimpserver.conf
+YIIMPSERVER=/etc/yiimpserver.conf
+if [[ -f "$YIIMPSERVER" ]]; then
+	source /etc/yiimpserver.conf
 	YIIMPCONF=true
 fi
 
