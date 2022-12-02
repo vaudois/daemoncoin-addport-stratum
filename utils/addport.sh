@@ -9,7 +9,6 @@ fi
 
 source ${absolutepath}/${installtoserver}/conf/info.sh
 
-
 #####################################################
 # Dedicated Port config generator
 # Created by afiniel for yiimpool
@@ -36,17 +35,35 @@ function EPHYMERAL_PORT(){
 
 coinport=$(EPHYMERAL_PORT)
 
+GETPORT="$1"
+
+if [[("$GETPORT" == "CREATECOIN")]]; then
+	echo -e "$YELLOW Add port to coin:$COL_RESET $GREEN $2 $COL_RESET"
+	echo
+	CREATECOIN="true"
+fi
+
 cd ${PATH_STRATUM}/config
-echo -e "$YELLOW Thanks for using the addport script by Vaudois. $COL_RESET"
-echo
+if [[("$CREATECOIN" != "true")]]; then
+	echo -e "$YELLOW Thanks for using the addport script by Vaudois. $COL_RESET"
+	echo
+fi
+
 echo -e "$YELLOW addport will randomly selects an open port for the coin between ports 2768 and 6999 and open the port in UFW. $COL_RESET"
-echo -e "$YELLOW It will also create a new symbol.algo.conf in $RED $PATH_STRATUM/config $COL_RESET"
-echo -e "$YELLOW and will create a new stratum.symbol run file in $RED /usr/bin. $COL_RESET"
+
+if [[("$CREATECOIN" != "true")]]; then
+	echo -e "$YELLOW It will also create a new symbol.algo.conf in $RED $PATH_STRATUM/config $COL_RESET"
+	echo -e "$YELLOW and will create a new stratum.symbol run file in $RED /usr/bin. $COL_RESET"
+fi
 echo
 
-echo
-echo -e "$RED Make sure coin symbol is all UPPER case.$COL_RESET"
-read -e -p "Please enter the coin SYMBOL : " coinsymbol
+if [[("$CREATECOIN" == "true")]]; then
+coinsymbol="$2"
+else
+	echo
+	echo -e "$RED Make sure coin symbol is all UPPER case.$COL_RESET"
+	read -e -p "Please enter the coin SYMBOL : " coinsymbol
+fi
 echo ""
 echo -e "$RED Make sure algo is in all lower case and a valid algo in yiimp.$COL_RESET"
 read -e -p "Please enter the coin algo : " coinalgo
@@ -59,7 +76,7 @@ fi
 # Make the coin symbol lower case
 coinsymbollower=${coinsymbol,,}
 # make sure algo is lower as well since we are Here
-coinalgo=${coinalgo,,}
+coinalgo=${coinalgo}
 # and might as well make sure the symbol is upper case
 coinsymbol=${coinsymbol^^}
 
@@ -96,20 +113,25 @@ exclude = '${coinsymbol}'' "$r"
 fi
 done
 fi
+sleep 2
 # Copy the default algo.conf to the new symbol.algo.conf
   cp -r $coinalgo.conf $coinsymbollower.$coinalgo.conf
+  sleep 1
 # Insert the port in to the new symbol.algo.conf
   sed -i '/port/c\port = '${coinport}'' $coinsymbollower.$coinalgo.conf
+  sleep 1
 # If setting a nicehash value
 if [[ ("$nicehash" == "y" || "$nicehash" == "Y" || "$nicehash" == "yes" || "$nicehash" == "YES") ]]; then
   sed -i -e '/difficulty =/a\
 nicehash = '${nicevalue}'' $coinsymbollower.$coinalgo.conf
 fi
+sleep 1
 # Insert the include in to the new symbol.algo.conf
   sed -i -e '$a\
 [WALLETS]\
 include = '${coinsymbol}'' $coinsymbollower.$coinalgo.conf
 fi
+sleep 2
 
 #Again preventing asshat duplications...
 if ! grep -Fxq "exclude = ${coinsymbol}" "$coinalgo.conf"; then
@@ -120,6 +142,7 @@ exclude = '${coinsymbol}'' $coinalgo.conf
 else
   echo -e "$YELLOW ${coinsymbol} is already in $coinalgo.conf, skipping... Which means you are trying to run this multiple times for the same coin. $COL_RESET"
 fi
+sleep 1
 
 # New coin stratum start file
 echo '#####################################################
@@ -165,31 +188,48 @@ for name; do
     esac
 done ' | sudo -E tee ${PATH_STRATUM}/config/stratum.${coinsymbollower} >/dev/null 2>&1
 sudo chmod +x ${PATH_STRATUM}/config/stratum.${coinsymbollower}
+sleep 1
 
 sudo cp -r ${PATH_STRATUM}/config/stratum.${coinsymbollower} /usr/bin
 sudo ufw allow $coinport
+sleep 1
+
 echo
 echo "Adding stratum.${coinsymbollower} to crontab for autostart at system boot."
 (crontab -l 2>/dev/null; echo "@reboot sleep 10 && bash stratum.${coinsymbollower} start ${coinsymbollower}") | crontab -
 echo
 echo -e "$YELLOW Starting your new stratum...$COL_RESET"
 bash stratum.${coinsymbollower} start ${coinsymbollower}
-echo -e "$YELLOW Your new stratum is$GREEN started...$YELLOW Do NOT run the start command manually...$COL_RESET"
-echo
-echo -e "$YELLOW To use your new stratum type,$BLUE stratum.${coinsymbollower} start|stop|restart ${coinsymbollower} $COL_RESET"
-echo
-echo -e "$YELLOW To see the stratum screen type,$MAGENTA screen -r ${coinsymbollower} $COL_RESET"
-echo
-echo -e "$YELLOW The assigned dedicated port for this coins stratum is :$YELLOW $coinport $COL_RESET"
-echo
-echo -e "$YELLOW Make sure to add this to the Dedicated Port section in your YiiMP admin panel! $COL_RESET"
-echo
-echo -e "$CYAN  --------------------------------------------------------------------------- 	$COL_RESET"
-echo -e "$GREEN	Donations are welcome at wallets below:					  	$COL_RESET"
-echo -e "$YELLOW  BTC: $COL_RESET $MAGENTA btcdons	$COL_RESET"
-echo -e "$YELLOW  LTC: $COL_RESET $MAGENTA ltcdons	$COL_RESET"
-echo -e "$YELLOW  ETH: $COL_RESET $MAGENTA ethdons	$COL_RESET"
-echo -e "$YELLOW  BCH: $COL_RESET $MAGENTA bchdons	$COL_RESET"
-echo -e "$CYAN  --------------------------------------------------------------------------- 	$COL_RESET"
-cd ~
-exit 0
+sleep 1
+
+if [[("$CREATECOIN" == 'true')]]; then
+	echo '
+	COINPORT='""''"${coinport}"''""'
+	COINALGO='""''"${coinalgo}"''""'
+	' | sudo -E tee ${absolutepath}/${installtoserver}/daemon_builder/.addport.cnf >/dev/null 2>&1;
+	echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
+	echo -e "$GREEN    The assigned dedicated port for this coins stratum is :$YELLOW $coinport $COL_RESET"
+	echo -e "$GREEN    Addport finish return to config...										$COL_RESET"
+	echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
+	sleep 4
+else
+	echo -e "$YELLOW Your new stratum is$GREEN started...$YELLOW Do NOT run the start command manually...$COL_RESET"
+	echo
+	echo -e "$YELLOW To use your new stratum type,$BLUE stratum.${coinsymbollower} start|stop|restart ${coinsymbollower} $COL_RESET"
+	echo
+	echo -e "$YELLOW To see the stratum screen type,$MAGENTA screen -r ${coinsymbollower} $COL_RESET"
+	echo
+	echo -e "$YELLOW The assigned dedicated port for this coins stratum is :$GREEN $coinport $COL_RESET"
+	echo
+	echo -e "$YELLOW Make sure to add this to the Dedicated Port section in your YiiMP admin panel! $COL_RESET"
+	echo
+	echo -e "$CYAN  --------------------------------------------------------------------------- 	$COL_RESET"
+	echo -e "$GREEN	Donations are welcome at wallets below:					  	$COL_RESET"
+	echo -e "$YELLOW  BTC: $COL_RESET $MAGENTA bc1qt8g9l6agk7qrzlztzuz7quwhgr3zlu4gc5qcuk	$COL_RESET"
+	echo -e "$YELLOW  LTC: $COL_RESET $MAGENTA MGyth7od68xVqYnRdHQYes22fZW2b6h3aj	$COL_RESET"
+	echo -e "$YELLOW  ETH: $COL_RESET $MAGENTA 0xc4e42e92ef8a196eef7cc49456c786a41d7daa01	$COL_RESET"
+	echo -e "$YELLOW  BCH: $COL_RESET $MAGENTA bitcoincash:qp9ltentq3rdcwlhxtn8cc2rr49ft5zwdv7k7e04df	$COL_RESET"
+	echo -e "$CYAN  --------------------------------------------------------------------------- 	$COL_RESET"
+	cd ~
+	exit 0
+fi
