@@ -242,6 +242,10 @@ else
 				PATH_STRATUM='"${PATH_STRATUM}"'
 				FUNCTION_FILE='"${FUNCTION_FILE}"'
 				VERSION='"${TAG}"'
+				BTCDEP='"${BTCDEP}"'
+				LTCDEP='"${LTCDEP}"'
+				ETHDEP='"${ETHDEP}"'
+				BCHDEP='"${BCHDEP}"'
 				INSTALLMASTER=true' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
 				NEWVERSION=${TAG}
 				hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
@@ -253,6 +257,10 @@ else
 				PATH_STRATUM='"${PATH_STRATUM}"'
 				FUNCTION_FILE='"${FUNCTION_FILE}"'
 				VERSION='"${TAG}"'
+				BTCDEP='"${BTCDEP}"'
+				LTCDEP='"${LTCDEP}"'
+				ETHDEP='"${ETHDEP}"'
+				BCHDEP='"${BCHDEP}"'
 				INSTALLMASTER=false' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
 				NEWVERSION=${TAG}
 				hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
@@ -267,6 +275,10 @@ else
 				PATH_STRATUM='"${PATH_STRATUM}"'
 				FUNCTION_FILE='"${FUNCTION_FILE}"'
 				VERSION='"${TAG}"'
+				BTCDEP='"${BTCDEP}"'
+				LTCDEP='"${LTCDEP}"'
+				ETHDEP='"${ETHDEP}"'
+				BCHDEP='"${BCHDEP}"'
 				INSTALLMASTER=false' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
 				NEWVERSION=${TAG}
 			fi
@@ -303,7 +315,11 @@ else
 		echo '#!/bin/sh
 		PATH_STRATUM='"${path_stratum}"'
 		FUNCTION_FILE='"${FUNCTIONFILE}"'
-		VERSION='"${TAG}"'' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
+		VERSION='"${TAG}"'' 
+		BTCDEP='"${BTCDEP}"'
+		LTCDEP='"${LTCDEP}"'
+		ETHDEP='"${ETHDEP}"'
+		BCHDEP='"${BCHDEP}"' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
 
 		clear
 	fi
