@@ -44,30 +44,67 @@ if [[("$GETPORT" == "CREATECOIN")]]; then
 fi
 
 cd ${PATH_STRATUM}/config
-if [[("$CREATECOIN" != "true")]]; then
-	echo -e "$YELLOW Thanks for using the addport script by Vaudois. $COL_RESET"
-	echo
-fi
 
 echo -e "$YELLOW addport will randomly selects an open port for the coin between ports 2768 and 6999 and open the port in UFW. $COL_RESET"
 
-if [[("$CREATECOIN" != "true")]]; then
+if [[("$CREATECOIN" == "true")]]; then
+	coinsymbol="$2"
+	coinalgo="$3"
+else
+	echo -e "$YELLOW Thanks for using the addport script by Vaudois. $COL_RESET"
+	echo
 	echo -e "$YELLOW It will also create a new symbol.algo.conf in $RED $PATH_STRATUM/config $COL_RESET"
 	echo -e "$YELLOW and will create a new stratum.symbol run file in $RED /usr/bin. $COL_RESET"
-fi
-echo
-
-if [[("$CREATECOIN" == "true")]]; then
-coinsymbol="$2"
-else
 	echo
+	
 	echo -e "$RED Make sure coin symbol is all UPPER case.$COL_RESET"
+	echo
 	read -e -p "Please enter the coin SYMBOL : " coinsymbol
+	echo
+	
+	if ! locale -a | grep en_US.utf8 > /dev/null; then
+		sudo locale-gen en_US.UTF-8
+	fi
+
+	export LANGUAGE=en_US.UTF-8
+	export LC_ALL=en_US.UTF-8
+	export LANG=en_US.UTF-8
+	export LC_TYPE=en_US.UTF-8
+	export NCURSES_NO_UTF8_ACS=1
+	
+	convertlistalgos=$(find ${PATH_STRATUM}/config/ -mindepth 1 -maxdepth 1 -type f -not -name '.*' -not -name '*.sh' -not -name '*.log' -not -name 'stratum.*' -not -name '*.*.*' -iname '*.conf' -execdir basename -s '.conf' {} +);
+	optionslistalgos=$(echo -e "${convertlistalgos}" | awk '{ printf "%s on\n", $1}' | sort | uniq | grep [[:alnum:]])
+
+	DIALOGFORLISTALGOS=${DIALOGFORLISTALGOS=dialog}
+	tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+	trap "rm -f $tempfile" 0 1 2 5 15
+
+	$DIALOGFORLISTALGOS --colors --title "\Zb\Zr\Z7| Select the algorithm for coin: \Zn\ZR\ZB\Z0${coinsymbol^^}\Zn\Zb\Zr\Z7 |" --clear --colors --no-items --nocancel --shadow \
+			--radiolist "\n\
+	\ZB\Z1Hello, choose the algorithm for your coin\n\
+	the list scrolls so you can use the \n\
+	UP/DOWN arrow keys, the first letter of the choice as \n\
+	hotkey or number keys 1-9 to choose an option. \n\
+	Press SPACE to select an option.\Zn\n\n\
+		What is your algorithm? choose from the following..." \
+		55 60 47 $optionslistalgos 2> $tempfile
+	retvalalgoselected=$?
+	ALGOSELECTED=`cat $tempfile`
+	case $retvalalgoselected in
+	  0)
+		coinalgo="${ALGOSELECTED}";;
+	  1)
+		echo "Cancel pressed."
+		exit;;
+	  255)
+		echo "ESC pressed."
+		exit;;
+	esac
+	clear
 fi
+
 echo ""
-echo -e "$RED Make sure algo is in all lower case and a valid algo in yiimp.$COL_RESET"
-read -e -p "Please enter the coin algo : " coinalgo
-echo ""
+
 read -e -p "Would you like to set a minimum nicehash value for this stratum? (y/n) : " nicehash
 if [[ ("$nicehash" == "y" || "$nicehash" == "Y" || "$nicehash" == "yes" || "$nicehash" == "YES") ]]; then
 read -e -p "Please enter a whole value, example: 750000 : " nicevalue
@@ -82,11 +119,15 @@ coinsymbol=${coinsymbol^^}
 
 # Make sure the stratum.symbol config doesnt exist and that the algo file does.
 if [ -f ${PATH_STRATUM}/config/stratum.${coinsymbollower} ]; then
-  read -r -e -p "A file for ${coinsymbol} already exists. Are you sure you want to overwrite? A new port will be generated and you will need to update your coind.conf blocknotify line (y/n) : " overwrite
-  if [[ ("$overwrite" == "n" || "$overwrite" == "N" || "$overwrite" == "no" || "$overwrite" == "NO") ]]; then
-    echo -e "$RED Exiting... $COL_RESET"
-    exit 0
-  fi
+	echo
+	echo -e "$RED A file for ${coinsymbol} already exists. Are you sure you want to overwrite?"
+	read -r -e -p " A new port will be generated and you will need to update your coind.conf blocknotify line (y/n) :" overwrite
+	echo -e "$COL_RESET"
+	if [[ ("$overwrite" == "n" || "$overwrite" == "N" || "$overwrite" == "no" || "$overwrite" == "NO") ]]; then
+		echo -e "$RED Exiting... $COL_RESET"
+		echo
+		exit 0
+	fi
 if [ ! -f $PATH_STRATUM/config/$coinalgo.conf ]; then
   echo -e "$YELLOW Sorry that algo config file doesn't exist in $RED ${PATH_STRATUM}/config/ $YELLOW please double check and try again. $COL_RESET"
   exit 0
@@ -141,6 +182,7 @@ if ! grep -Fxq "exclude = ${coinsymbol}" "$coinalgo.conf"; then
 exclude = '${coinsymbol}'' $coinalgo.conf
 else
   echo -e "$YELLOW ${coinsymbol} is already in $coinalgo.conf, skipping... Which means you are trying to run this multiple times for the same coin. $COL_RESET"
+  echo
 fi
 sleep 1
 
@@ -221,15 +263,18 @@ else
 	echo
 	echo -e "$YELLOW The assigned dedicated port for this coins stratum is :$GREEN $coinport $COL_RESET"
 	echo
+	echo -e "$YELLOW The assigned algo for this coin stratum is :$GREEN $coinalgo $COL_RESET"
+	echo	
 	echo -e "$YELLOW Make sure to add this to the Dedicated Port section in your YiiMP admin panel! $COL_RESET"
 	echo
 	echo -e "$CYAN  --------------------------------------------------------------------------- 	$COL_RESET"
 	echo -e "$GREEN	Donations are welcome at wallets below:					  	$COL_RESET"
-	echo -e "$YELLOW  BTC: $COL_RESET $MAGENTA bc1qt8g9l6agk7qrzlztzuz7quwhgr3zlu4gc5qcuk	$COL_RESET"
-	echo -e "$YELLOW  LTC: $COL_RESET $MAGENTA MGyth7od68xVqYnRdHQYes22fZW2b6h3aj	$COL_RESET"
-	echo -e "$YELLOW  ETH: $COL_RESET $MAGENTA 0xc4e42e92ef8a196eef7cc49456c786a41d7daa01	$COL_RESET"
-	echo -e "$YELLOW  BCH: $COL_RESET $MAGENTA bitcoincash:qp9ltentq3rdcwlhxtn8cc2rr49ft5zwdv7k7e04df	$COL_RESET"
+	echo -e "$YELLOW  BTC: $COL_RESET $MAGENTA ${BTCDEP}	$COL_RESET"
+	echo -e "$YELLOW  LTC: $COL_RESET $MAGENTA ${LTCDEP}	$COL_RESET"
+	echo -e "$YELLOW  ETH: $COL_RESET $MAGENTA ${ETHDEP}	$COL_RESET"
+	echo -e "$YELLOW  BCH: $COL_RESET $MAGENTA ${BCHDEP}	$COL_RESET"
 	echo -e "$CYAN  --------------------------------------------------------------------------- 	$COL_RESET"
+	echo
 	cd ~
 	exit 0
 fi
