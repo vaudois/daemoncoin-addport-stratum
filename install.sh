@@ -5,7 +5,7 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 16.04/18.04
-#   v0.7.6 (2022-12-04)
+#   v0.7.7 (2022-12-04)
 #
 ################################################################################
 
@@ -30,22 +30,14 @@ clear
 
 	sudo sed -i 's#btcdons#'$BTCDEP'#' conf/functions.sh
 	sleep 1
-	sudo sed -i 's#btcdons#'$BTCDEP'#' utils/addport.sh
-	sleep 1
 
 	sudo sed -i 's#ltcdons#'$LTCDEP'#' conf/functions.sh
-	sleep 1
-	sudo sed -i 's#ltcdons#'$LTCDEP'#' utils/addport.sh
 	sleep 1
 
 	sudo sed -i 's#ethdons#'$ETHDEP'#' conf/functions.sh
 	sleep 1
-	sudo sed -i 's#ethdons#'$ETHDEP'#' utils/addport.sh
-	sleep 1
 
 	sudo sed -i 's#bchdons#'$BCHDEP'#' conf/functions.sh
-	sleep 1
-	sudo sed -i 's#bchdons#'$BCHDEP'#' utils/addport.sh
 	sleep 1
 
 	sudo sed -i 's#daemonnameserver#'$daemonname'#' conf/functions.sh
