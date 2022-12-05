@@ -5,7 +5,6 @@
 # Updrade this scrypt
 #####################################################
 
-
 FUNC=/etc/functionscoin.sh
 if [[ ! -f "$FUNC" ]]; then
 	source /etc/functions.sh
