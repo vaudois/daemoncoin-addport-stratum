@@ -14,7 +14,13 @@ if [ -z "${TAG}" ]; then
 fi
 
 clear
-	
+	TEMPINSTALL="$1"
+	if -z [ -z "${TEMPINSTALL}"]; then
+		installdirname=daemoncoin-addport-stratum
+	else
+		installdirname="${TEMPINSTALL}"
+	fi
+
 	echo "Starting installer..."
 	
 	BTCDEP="bc1qt8g9l6agk7qrzlztzuz7quwhgr3zlu4gc5qcuk"
@@ -24,7 +30,6 @@ clear
 	
 	daemonname=coinbuild
 	namescryptinstall="DaemonBuilder % Addport & StratumBuilder"
-	installdirname=daemoncoin-addport-stratum
 	installtoserver=coin-setup
 	absolutepath=$HOME
 
