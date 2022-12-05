@@ -49,7 +49,7 @@ Finish! Remember to
 
 how to use 
 ```
-$> daemonbuilder
+$> coinbuild
 ```
 ```
 $> addport
