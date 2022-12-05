@@ -26,7 +26,7 @@ If you have an existing <b>account</b> then make sure that the account have <b>s
 To start the installation paste the following in your terminal and follow the instructions.
 
 ```
-git clone https://github.com/vaudois/daemoncoin-addport-stratum.git
+sudo git clone -q git@github.com:vaudois/daemoncoin-addport-stratum.git
 
 cd daemoncoin-addport-stratum/
 
