@@ -43,11 +43,19 @@ bash install.sh
 
 ***********************************
 
-Finish!
-
-<b><u>How to use</u></b>
+Finish! Remember to 
 ```
-$> coinbuild
+how to use 
+
+$ daemonbuilder
+$ addport
+$ *stratumbuilder
+
+*this scrypt ahre integrated in  furure release
+
+READ THIS!
+daemonbuilder to build a new coin in Yiimp & addport if to use from open dedicated port and create coin to algo Ex: vkax.gr.conf
+and run stratum with coin and create to log stratum with screen Ex: screen -r vkax
 
 *****************************************************************************
 
