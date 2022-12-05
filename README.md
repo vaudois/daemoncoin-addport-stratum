@@ -31,7 +31,6 @@ git clone https://github.com/vaudois/daemoncoin-addport-stratum.git
 cd daemoncoin-addport-stratum/
 
 bash install.sh
-
 ```
 
 - > It will take some time for the installation to be finnished and it will do for you.
