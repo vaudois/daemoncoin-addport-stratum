@@ -27,9 +27,11 @@ To start the installation paste the following in your terminal and follow the in
 
 ```
 sudo git clone -q git@github.com:vaudois/daemoncoin-addport-stratum.git
-
+```
+```
 cd daemoncoin-addport-stratum/
-
+```
+```
 bash install.sh
 ```
 
@@ -47,11 +49,12 @@ Finish! Remember to
 
 how to use 
 ```
-$ daemonbuilder
+$> daemonbuilder
 ```
-$ addport
 ```
-$ *stratumbuilder
+$> addport
+```
+$> *stratumbuilder
 ```
 
 *this scrypt ahre integrated in  furure release
