@@ -649,6 +649,5 @@ else
 	echo
 	install_end_message
 	echo
-	echo
 	cd ~
 fi
