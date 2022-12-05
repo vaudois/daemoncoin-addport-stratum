@@ -44,12 +44,15 @@ bash install.sh
 ***********************************
 
 Finish! Remember to 
-```
-how to use 
 
+how to use 
+```
 $ daemonbuilder
+```
 $ addport
+```
 $ *stratumbuilder
+```
 
 *this scrypt ahre integrated in  furure release
 
