@@ -26,7 +26,12 @@ If you have an existing <b>account</b> then make sure that the account have <b>s
 To start the installation paste the following in your terminal and follow the instructions.
 
 ```
-sudo curl https://raw.githubusercontent.com/vaudois/install_DmcAddpStrm/master/bootstrap.sh | bash
+git clone https://github.com/vaudois/daemoncoin-addport-stratum.git
+
+cd daemoncoin-addport-stratum/
+
+bash install.sh
+
 ```
 
 - > It will take some time for the installation to be finnished and it will do for you.
