@@ -15,7 +15,7 @@ fi
 
 clear
 	TEMPINSTALL="$1"
-	if -z [ -z "${TEMPINSTALL}"]; then
+	if [ -z "${TEMPINSTALL}" ]; then
 		installdirname=daemoncoin-addport-stratum
 	else
 		installdirname="${TEMPINSTALL}"
