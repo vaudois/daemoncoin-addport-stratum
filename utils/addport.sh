@@ -37,7 +37,7 @@ coinport=$(EPHYMERAL_PORT)
 
 GETPORT="$1"
 
-if [[("$GETPORT" == "CREATECOIN")]]; then
+if [[ ("$GETPORT" == "CREATECOIN") ]]; then
 	echo -e "$YELLOW Add port to coin:$COL_RESET $GREEN $2 $COL_RESET"
 	echo
 	CREATECOIN="true"
@@ -47,7 +47,7 @@ cd ${PATH_STRATUM}/config
 
 echo -e "$YELLOW addport will randomly selects an open port for the coin between ports 2768 and 6999 and open the port in UFW. $COL_RESET"
 
-if [[("$CREATECOIN" == "true")]]; then
+if [[ ("$CREATECOIN" == "true") ]]; then
 	coinsymbol="$2"
 	coinalgo="$3"
 else
