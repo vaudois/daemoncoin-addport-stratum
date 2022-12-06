@@ -23,7 +23,6 @@ if [[ ("${LATESTVER}" > "${VERSION}" && "${LATESTVER}" != "null") ]]; then
 	cd ~
 	clear
 
-	hide_output sudo ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 	hide_output sudo git config --global url."https://github.com/".insteadOf git@github.com:
 	hide_output sudo git config --global url."https://".insteadOf git://
 	sleep 1
@@ -41,22 +40,20 @@ if [[ ("${LATESTVER}" > "${VERSION}" && "${LATESTVER}" != "null") ]]; then
 			echo -e "$RED Error cloning repository. $COL_RESET";
 			echo
 			sudo rm -f $temp_dir
-			hide_output sudo git config --global url."git@github.com:".insteadOf https://github.com/
-			hide_output sudo git config --global url."git://".insteadOf https://
 			exit 1;
 		}
 	
-	hide_output sudo chown -R $USER ${temp_dir}
-	sleep 1
-	cd ${temp_dir}
-	sudo find . -type f -name "*.sh" -exec chmod -R +x {} \;
-	sleep 1
-	./install.sh "${temp_dir}"
+	FILEINSTALLEXIST="${temp_dir}/install.sh"
+	if [ -f "$FILEINSTALLEXIST" ]; then
+		hide_output sudo chown -R $USER ${temp_dir}
+		sleep 1
+		cd ${temp_dir}
+		sudo find . -type f -name "*.sh" -exec chmod -R +x {} \;
+		sleep 1
+		./install.sh "${temp_dir}"
+	fi
 
-	hide_output sudo git config --global url."git@github.com:".insteadOf https://github.com/
-	hide_output sudo git config --global url."git://".insteadOf https://
-
-	sudo rm -f $temp_dir
+	sudo rm -rf $temp_dir
 
 	echo -e "$CYAN  -------------------------------------------------------------------------- 	$COL_RESET"
 	echo -e "$RED    Thank you using this scrpt Updating is Finish!				 				$COL_RESET"
