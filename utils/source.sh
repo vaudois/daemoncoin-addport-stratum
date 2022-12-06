@@ -82,17 +82,15 @@ cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 	  0)
 		coinalgo="${ALGOSELECTED}";;
 	  1)
-	  	clear
 		echo
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
-		echo -e "$GREEN   Cancel pressed STOP of installation! use coinbuild to build new coin!		$COL_RESET"
+		echo -e "$GREEN   Cancel pressed STOP of installation! use coinbuild to new start!				$COL_RESET"
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		exit;;
 	  255)
-	  	clear
 		echo
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
-		echo -e "$GREEN   ESC pressed STOP of installation! use coinbuild to build new coin!		$COL_RESET"
+		echo -e "$GREEN   ESC pressed STOP of installation! use coinbuild to new start!				$COL_RESET"
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		exit;;
 	esac
@@ -678,33 +676,32 @@ if [[ ! ("$precompiled" == "true") ]]; then
 	if [[ -f "$FILECOIN" ]]; then
 		DAEMOND="true"
 		SERVICE="${coind}"
-		if pgrep -x "$SERVICE" >/dev/null
-		then
-			echo -e "$CYAN ------------------------------------------------------------------------------- $COL_RESET"
-			echo -e "$GREEN  STOP DAEMON => ${coind}... $COL_RESET"
-			echo -e "$CYAN ------------------------------------------------------------------------------- $COL_RESET"
-			echo
-		fi
-		if [[ ("${YIIMPCONF}" == "true") ]]; then
-			if [[ ("$SERVICERUN" == "true") ]]; then
+		if pgrep -x "$SERVICE" >/dev/null; then
+			if [[ ("${YIIMPCONF}" == "true") ]]; then
 				if [[ ("$ifcoincli" == "y" || "$ifcoincli" == "Y") ]]; then
 					"${coincli}" -datadir=$STORAGE_ROOT/wallets/."${coind::-1}" -conf="${coind::-1}".conf stop
 				else
 					"${coind}" -datadir=$STORAGE_ROOT/wallets/."${coind::-1}" -conf="${coind::-1}".conf stop
 				fi
-				sleep 5
-			fi
-		else
-			if [[ ("$SERVICERUN" == "true") ]]; then
+			else
 				if [[ ("$ifcoincli" == "y" || "$ifcoincli" == "Y") ]]; then
 					"${coincli}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}".conf stop
 				else
 					"${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}".conf stop
 				fi
-				sleep 5
 			fi
+			echo -e "$CYAN --------------------------------------------------------------------------- $COL_RESET"
+			secstosleep=$((1 * 20))
+			while [ $secstosleep -gt 0 ]; do
+			   echo -ne "$GREEN	STOP THE DAEMON => $YELLOW${coind}$GREEN Sleep $CYAN$secstosleep$GREEN ...$COL_RESET\033[0K\r"
+			   sleep 1
+			   : $((secstosleep--))
+			done
+			echo -e "$CYAN --------------------------------------------------------------------------- $COL_RESET $GREEN"
+			echo -e "$GREEN Done... $COL_RESET$"
+			echo -e "$COL_RESET$CYAN --------------------------------------------------------------------------- $COL_RESET"
+			echo
 		fi
-		sleep 5
 	fi
 fi
 
@@ -730,40 +727,40 @@ if [[ ("$precompiled" == "true") ]]; then
 	if [[ -f "$COINDFIND" ]]; then
 		coind=$(basename $COINDFIND)
 
+		if [[ -f "$COINCLIFIND" ]]; then
+			coincli=$(basename $COINCLIFIND)
+		fi
+
 		FILECOIN=/usr/bin/${coind}
 		if [[ -f "$FILECOIN" ]]; then
 			DAEMOND="true"
 			SERVICE="${coind}"
-			if pgrep -x "$SERVICE" >/dev/null
-			then
-				echo -e "$CYAN --------------------------------------------------------------------------- $COL_RESET"
-				echo -e "$GREEN  STOP DAEMON => ${coind}... $COL_RESET"
-				echo -e "$CYAN --------------------------------------------------------------------------- $COL_RESET"
-				echo
-				SERVICERUN="true"
-			fi
-			if [[ ("${YIIMPCONF}" == "true") ]]; then
-				if [[ ("$SERVICERUN" == "true") ]]; then
+			if pgrep -x "$SERVICE" >/dev/null; then
+				if [[ ("${YIIMPCONF}" == "true") ]]; then
 					if [[ -f "$COINCLIFIND" ]]; then
-						coin_cli=$(basename $COINCLIFIND)
-						"${coin_cli}" -datadir=$STORAGE_ROOT/wallets/."${coind::-1}" -conf="${coind::-1}".conf stop
+						"${coincli}" -datadir=$STORAGE_ROOT/wallets/."${coind::-1}" -conf="${coind::-1}".conf stop
 					else
 						"${coind}" -datadir=$STORAGE_ROOT/wallets/."${coind::-1}" -conf="${coind::-1}".conf stop
 					fi
-					sleep 5
-				fi
-			else
-				if [[ ("$SERVICERUN" == "true") ]]; then
-					if [[ -f "$COINCLIFIND"  ]]; then
-						coin_cli=$(basename $COINCLIFIND)
-						"${coin_cli}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}".conf stop
+				else
+					if [[ -f "${COINCLIFIND}" ]]; then
+						"${coincli}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}".conf stop
 					else
 						"${coind}" -datadir=${absolutepath}/wallets/."${coind::-1}" -conf="${coind::-1}".conf stop
 					fi
-					sleep 5
 				fi
+				echo -e "$CYAN --------------------------------------------------------------------------- $COL_RESET"
+				secstosleep=$((1 * 20))
+				while [ $secstosleep -gt 0 ]; do
+				   echo -ne "$GREEN	STOP THE DAEMON => $YELLOW${coind}$GREEN Sleep $CYAN$secstosleep$GREEN ...$COL_RESET\033[0K\r"
+				   sleep 1
+				   : $((secstosleep--))
+				done
+				echo -e "$CYAN --------------------------------------------------------------------------- $COL_RESET $GREEN"
+				echo -e "$GREEN Done... $COL_RESET$"
+				echo -e "$COL_RESET$CYAN --------------------------------------------------------------------------- $COL_RESET"
+				echo
 			fi
-			sleep 5
 		fi
 
 		sudo strip $COINDFIND
@@ -794,7 +791,6 @@ if [[ ("$precompiled" == "true") ]]; then
 	fi
 
 	if [[ -f "$COINCLIFIND" ]]; then
-		coincli=$(basename $COINCLIFIND)
 		sudo strip $COINCLIFIND
 		sleep 3
 		sudo cp $COINCLIFIND /usr/bin
