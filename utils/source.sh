@@ -82,13 +82,18 @@ cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 	  0)
 		coinalgo="${ALGOSELECTED}";;
 	  1)
-		echo "Cancel pressed."
+		echo
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   Cancel pressed STOP of installation! use coinbuild to new start!				$COL_RESET"
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		exit;;
 	  255)
-		echo "ESC pressed."
+		echo
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$GREEN   ESC pressed STOP of installation! use coinbuild to new start!				$COL_RESET"
+		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		exit;;
 	esac
-	clear
 
 if [[ ("${precompiled}" == "true") ]]; then
 	input_box " PRECOMPILED COIN " \
