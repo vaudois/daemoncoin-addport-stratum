@@ -59,6 +59,36 @@ cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 	\n\nCoin name:" \
 	"" \
 	coin
+	
+	convertlistalgos=$(find ${PATH_STRATUM}/config/ -mindepth 1 -maxdepth 1 -type f -not -name '.*' -not -name '*.sh' -not -name '*.log' -not -name 'stratum.*' -not -name '*.*.*' -iname '*.conf' -execdir basename -s '.conf' {} +);
+	optionslistalgos=$(echo -e "${convertlistalgos}" | awk '{ printf "%s on\n", $1}' | sort | uniq | grep [[:alnum:]])
+
+	DIALOGFORLISTALGOS=${DIALOGFORLISTALGOS=dialog}
+	tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+	trap "rm -f $tempfile" 0 1 2 5 15
+
+	$DIALOGFORLISTALGOS --colors --title "\Zb\Zr\Z7| Select the algorithm for coin: \Zn\ZR\ZB\Z0${coin^^}\Zn\Zb\Zr\Z7 |" --clear --colors --no-items --nocancel --shadow \
+			--radiolist "\n\
+	\ZB\Z1Hello, choose the algorithm for your coin\n\
+	the list scrolls so you can use the \n\
+	UP/DOWN arrow keys, the first letter of the choice as \n\
+	hotkey or number keys 1-9 to choose an option. \n\
+	Press SPACE to select an option.\Zn\n\n\
+		What is your algorithm? choose from the following..." \
+		55 60 47 $optionslistalgos 2> $tempfile
+	retvalalgoselected=$?
+	ALGOSELECTED=`cat $tempfile`
+	case $retvalalgoselected in
+	  0)
+		coinalgo="${ALGOSELECTED}";;
+	  1)
+		echo "Cancel pressed."
+		exit;;
+	  255)
+		echo "ESC pressed."
+		exit;;
+	esac
+	clear
 
 if [[ ("${precompiled}" == "true") ]]; then
 	input_box " PRECOMPILED COIN " \
@@ -935,7 +965,7 @@ if [[("$DAEMOND" != 'true')]]; then
 	echo
 	sleep 3
 
-	addport CREATECOIN ${coin^^} ${algoselected}
+	addport "CREATECOIN" "${coin^^}" "${coinalgo}"
 	
 	source ${absolutepath}/${installtoserver}/daemon_builder/.addport.cnf
 	
@@ -945,7 +975,7 @@ if [[("$DAEMOND" != 'true')]]; then
 		if [[ "${YIIMPCONF}" == "true" ]]; then
 			echo '
 			# Your coin name is = '""''"${coin^^}"''""'
-			# Your coin name is = '""''"${COINALGO}"''""'
+			# Your coin algo is = '""''"${COINALGO}"''""'
 			# Your dedicated port is = '""''"${COINPORT}"''""'
 			# Please adding dedicated port in line blocknotify= replace :XXXX to '""''"${COINPORT}"''""'
 
@@ -953,7 +983,7 @@ if [[("$DAEMOND" != 'true')]]; then
 		else
 			echo '
 			# Your coin name is = '""''"${coin^^}"''""'
-			# Your coin name is = '""''"${COINALGO}"''""'
+			# Your coin algo is = '""''"${COINALGO}"''""'
 			# Your dedicated port is = '""''"${COINPORT}"''""'
 			# Please adding dedicated port in line blocknotify= replace :XXXX to '""''"${COINPORT}"''""'
 
