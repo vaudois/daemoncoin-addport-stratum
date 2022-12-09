@@ -8,7 +8,6 @@
 echo
 echo
 echo -e "$CYAN => Check prerequisite : $COL_RESET"
-echo
 
 if [ "`lsb_release -d | sed 's/.*:\s*//' | sed 's/18\.04\.[0-9]/18.04/' `" == "Ubuntu 18.04 LTS" ]; then
   DISTRO=18
