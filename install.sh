@@ -22,7 +22,9 @@ clear
 	LTCDEP="MGyth7od68xVqYnRdHQYes22fZW2b6h3aj"
 	ETHDEP="0xc4e42e92ef8a196eef7cc49456c786a41d7daa01"
 	BCHDEP="bitcoincash:qp9ltentq3rdcwlhxtn8cc2rr49ft5zwdv7k7e04df"
-	
+
+	source ${installdirname}/conf/prerequisite.sh
+
 	daemonname=coinbuild
 	namescryptinstall="DaemonBuilder % Addport & StratumBuilder"
 	installtoserver=coin-setup
@@ -56,6 +58,9 @@ clear
 	sleep 1
 
 	sudo sed -i 's#versiontag#'$TAG'#' conf/functions.sh
+	sleep 1
+	
+	sudo sed -i 's#distroserver#'$DISTRO'#' conf/functions.sh
 	sleep 1
 
 	# Are we running as root?
@@ -214,7 +219,6 @@ else
 	hide_output sudo apt install -y dialog python3 python3-pip acl nano apt-transport-https figlet jq
 	echo -e "$GREEN Done...$COL_RESET"
 
-	source ${installdirname}/conf/prerequisite.sh
 	sleep 3
 
 	if ! locale -a | grep en_US.utf8 > /dev/null; then
