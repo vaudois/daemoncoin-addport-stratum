@@ -93,6 +93,11 @@ function term_art {
 }
 
 function hide_output {
+		if [[ "${DISTRO}" == '22' ]]; then
+			OUTPUT=$(mktemp)
+		else
+			OUTPUT=$(tempfile)
+		fi
 		OUTPUT=$(tempfile)
 		$@ &> $OUTPUT & spinner
 		E=$?
