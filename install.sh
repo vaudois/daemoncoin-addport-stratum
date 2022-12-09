@@ -35,6 +35,8 @@ clear
 	fi
 	
 	source ${installdirname}/conf/prerequisite.sh
+	
+	source ${installdirname}/conf/getip.sh
 
 	sudo sed -i 's#btcdons#'$BTCDEP'#' conf/functions.sh
 	sleep 1
