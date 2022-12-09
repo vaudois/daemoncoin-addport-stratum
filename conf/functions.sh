@@ -9,6 +9,7 @@
 absolutepath=absolutepathserver
 installtoserver=installpath
 daemonname=daemonnameserver
+DISTRO=distroserver
 
 ESC_SEQ="\x1b["
 COL_RESET=$ESC_SEQ"39;49;00m"
