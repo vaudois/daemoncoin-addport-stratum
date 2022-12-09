@@ -288,17 +288,23 @@ else
 		else
 			source /etc/functionscoin.sh
 		fi
-		echo
-		echo
-		echo -e "$RED Make sure you double check before hitting enter! Only one shot at these! $COL_RESET"
-		echo
-		DEFAULT_path_stratum=/var/stratum
-		input_box " Path Stratum " \
-		"Enter path to stratum directory.
-		\n\n Example: /var/stratum
-		\n\nPath Stratum:" \
-		${DEFAULT_path_stratum} \
-		path_stratum
+		
+
+		if [ -z "${STRATUMFILE}" ]; then
+			echo
+			echo
+			echo -e "$RED Make sure you double check before hitting enter! Only one shot at these! $COL_RESET"
+			echo
+			DEFAULT_path_stratum=/var/stratum
+			input_box " Path Stratum " \
+			"Enter path to stratum directory.
+			\n\n Example: /var/stratum
+			\n\nPath Stratum:" \
+			${DEFAULT_path_stratum} \
+			path_stratum
+		else
+			path_stratum=${STRATUMFILE}
+		fi
 
 		if [ -z "${path_stratum}" ]; then
 			# user hit ESC/cancel
