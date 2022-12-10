@@ -1,10 +1,7 @@
 #!/bin/bash
-#####################################################
-# Source https://mailinabox.email/ https://github.com/mail-in-a-box/mailinabox
-# Updated by cryptopool.builders for crypto use...
-# Modified by Xavatar
-# Current Modified by Vaudois for Daemon coin & addport & stratum (2022-09-25)
-#####################################################
+##################################################################
+# Current Modified by Vaudois for Daemon coin & addport & stratum
+##################################################################
 
 absolutepath=absolutepathserver
 installtoserver=installpath
