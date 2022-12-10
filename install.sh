@@ -16,8 +16,10 @@ fi
 clear
 	TEMPINSTALL="$1"
 	STRATUMFILE="$2"
-
-	echo "Starting installer..."
+	
+	if [ ! -z "${TEMPINSTALL}" ]; then
+		echo "Starting installer..."
+	fi
 	
 	BTCDEP="bc1qt8g9l6agk7qrzlztzuz7quwhgr3zlu4gc5qcuk"
 	LTCDEP="MGyth7od68xVqYnRdHQYes22fZW2b6h3aj"
@@ -28,15 +30,15 @@ clear
 	namescryptinstall="DaemonBuilder % Addport & StratumBuilder"
 	installtoserver=coin-setup
 	absolutepath=$HOME
-	
+
 	if [ -z "${TEMPINSTALL}" ]; then
 		installdirname="${absolutepath}/daemoncoin-addport-stratum"
 	else
 		installdirname="${TEMPINSTALL}"
 	fi
-	
+
 	source ${installdirname}/conf/prerequisite.sh
-	
+
 	source ${installdirname}/conf/getip.sh
 
 	sudo sed -i 's#btcdons#'$BTCDEP'#' conf/functions.sh
