@@ -428,6 +428,9 @@ else
 		cd ${absolutepath}/daemon_setup/tmp
 		hide_output sudo wget 'https://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'
 		hide_output sudo tar -xzvf db-4.8.30.NC.tar.gz
+		if [[ ("${DISTRO}" == "20") ]]
+			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' db-4.8.30.NC/dbinc/atomic.h
+		fi
 		cd db-4.8.30.NC/build_unix/
 		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db4/
 		hide_output sudo make install
@@ -667,6 +670,7 @@ else
 		echo -e "$GREEN Done...$COL_RESET"
 		sleep 5
 	fi
+
 	#Misc
 	sudo rm -rf ${installdirname}
 	sudo rm -rf ${absolutepath}/daemon_setup
