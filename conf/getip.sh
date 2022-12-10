@@ -1,13 +1,15 @@
 #####################################################
-# Source https://mailinabox.email/ https://github.com/mail-in-a-box/mailinabox
-# Updated by cryptopool.builders for crypto use...
+# Updated by vaudois for crypto use...
 #####################################################
 
 FUNC=/etc/functionscoin.sh
-if [[ ! -f "$FUNC" ]]; then
-	source /etc/functions.sh
-else
+MULTISERVER=/etc/multiserver.sh
+if [[ -f "$MULTISERVER" ]]; then
+	source /etc/multiserver.sh
+elif [[ -f "$FUNC" ]]; then
 	source /etc/functionscoin.sh
+else
+	source /etc/functions.sh
 fi
 
 echo -e "$CYAN => Setting our global variables : $COL_RESET"
@@ -103,5 +105,3 @@ if [ "$PUBLIC_IPV6" = "auto" ]; then
 # Use a public API to get our public IPv6 address, or fall back to local network configuration.
 PUBLIC_IPV6=$(get_publicip_from_web_service 6 || get_default_privateip 6)
 fi
-
-echo -e "$GREEN Done...$COL_RESET"
