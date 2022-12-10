@@ -494,13 +494,12 @@ else
 	if [[ "${NEWVERSION}" == "$TAG" ]] || [[ "${INSTVERSION}" == "$TAG" ]]; then
 		if [[ "${NEWVERSION}" == "$TAG" ]]; then
 			# Updating Daemonbuilder
-			echo
-			echo -e "$YELLOW Updating DaemonBuilder Coin! $COL_RESET"
+			echo -e "$YELLOW Updating Coinbuild Coin! $COL_RESET"
 			sleep 3
 		else
 			# Install Daemonbuilder
 			echo
-			echo -e "$CYAN => Installing DaemonBuilder $COL_RESET"
+			echo -e "$CYAN => Installing Coinbuild $COL_RESET"
 			sleep 3
 		fi
 
@@ -572,7 +571,6 @@ else
 	fi
 
 	if [[ "${FILEINFO}" == "true" ]]; then
-		echo
 		echo -e "$YELLOW FINISH! Updating info file to $TAG! $COL_RESET"
 		sleep 3
 		if [ -z "${VERSION}" ]; then
@@ -601,7 +599,6 @@ else
 			sleep 5
 		fi
 	else
-		echo
 		echo -e "$YELLOW FINISH! Creating info file to Version $TAG! $COL_RESET"
 		sleep 3
 		echo '#!/bin/sh
