@@ -18,7 +18,7 @@ cd ${absolutepath}/${installtoserver}/daemon_builder
 LATESTVER=$(curl -sL 'https://api.github.com/repos/vaudois/daemoncoin-addport-stratum/releases/latest' | jq -r ".tag_name")
 
 if [[ ("${LATESTVER}" > "${VERSION}" && "${LATESTVER}" != "null") ]]; then
-	RESULT=$(dialog --backtitle " New version ${LATESTVER} available!! Please update to latest..." --stdout --nocancel --default-item 1 --title " Coin Setup ${VERSION} " --menu "Choose one" -1 60 8 \
+	RESULT=$(dialog --backtitle " New version ${LATESTVER} available!! Please update to latest..." --stdout --nocancel --default-item 1 --title " Coin Setup ${VERSION} " --menu "Choose one" 13 60 8 \
 	1 "Build New Coin Daemon from Source Code" \
 	2 "Add Coin to Dedicated Port and run stratum" \
 	3 "Update new Stratum" \
@@ -26,7 +26,7 @@ if [[ ("${LATESTVER}" > "${VERSION}" && "${LATESTVER}" != "null") ]]; then
 	4 "Upgrade this scrypt" \
 	5 Exit)
 else
-	RESULT=$(dialog --stdout --nocancel --default-item 1 --title " Coin Setup ${VERSION} " --menu "Choose one" -1 60 8 \
+	RESULT=$(dialog --stdout --nocancel --default-item 1 --title " Coin Setup ${VERSION} " --menu "Choose one" 13 60 8 \
 	1 "Build New Coin Daemon from Source Code" \
 	2 "Add Coin to Dedicated Port and run stratum" \
 	3 "Update new Stratum" \
