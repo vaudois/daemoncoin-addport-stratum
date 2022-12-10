@@ -28,7 +28,6 @@ CREATECOIN=true
 # Set what we need
 now=$(date +"%m_%d_%Y")
 #set -e
-# old numbers of all cpu = NPROC=$(nproc) // use all if problem to compile new command use all -1
 NPROCPU=$(nproc)
 
 if [[ ("${NPROCPU}" -le "3") ]]; then
