@@ -19,6 +19,8 @@ clear
 
 	if [ -z "${STRATUMFILE}" ]; then
 		echo "Starting installer..."
+	else
+		DISTRO="$3"
 	fi
 	
 	BTCDEP="bc1qt8g9l6agk7qrzlztzuz7quwhgr3zlu4gc5qcuk"
