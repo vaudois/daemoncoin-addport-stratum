@@ -17,7 +17,7 @@ clear
 	TEMPINSTALL="$1"
 	STRATUMFILE="$2"
 
-	if [ ! -z "${STRATUMFILE}" ]; then
+	if [ -z "${STRATUMFILE}" ]; then
 		echo "Starting installer..."
 	fi
 	
@@ -37,7 +37,7 @@ clear
 		installdirname="${TEMPINSTALL}"
 	fi
 	
-	if [ ! -z "${STRATUMFILE}" ]; then
+	if [ -z "${STRATUMFILE}" ]; then
 		source ${installdirname}/conf/prerequisite.sh
 		source ${installdirname}/conf/getip.sh
 	fi
@@ -416,7 +416,7 @@ else
 	sleep 3
 
 		cd ~
-		sudo mkdir -p ${absolutepath}/daemon_setup/tmp
+		sudo mkdir -p ${absolutepath}/daemon_setup/tmp/
 
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db4" ]]; then
 		echo
