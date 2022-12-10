@@ -4,7 +4,7 @@
 
 ###
 
-## Install script for Daemon Coin and addport on Ubuntu Server 18.04 /20.04
+## Install script for Daemon Coin and addport on Ubuntu Server 18.04 / 20.04
 
 Use this script on fresh install ubuntu Server 18.04 / 20.04. ``` No other version is currently supported. ``` There are a few things you need to do after the main install is finished.
 
