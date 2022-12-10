@@ -216,7 +216,6 @@ else
 	# Update package and Upgrade Ubuntu
 	echo
 	echo -e "$CYAN => Updating system and installing required packages :$COL_RESET"
-	echo 
 	sleep 3
 
 	hide_output sudo apt -y update 
@@ -335,7 +334,6 @@ else
 	# Installing other needed files
 	echo
 	echo -e "$CYAN => Installing other needed files : $COL_RESET"
-	echo
 	sleep 3
 
 	hide_output sudo apt-get -y install dialog acl libgmp3-dev libmysqlclient-dev libcurl4-gnutls-dev libkrb5-dev libldap2-dev libidn11-dev gnutls-dev \
@@ -347,7 +345,6 @@ else
 	# Installing Package to compile crypto currency
 	echo
 	echo -e "$CYAN => Installing Package to compile crypto currency $COL_RESET"
-	echo
 	sleep 3
 
 	hide_output sudo apt-get -y install build-essential libzmq5 \
@@ -367,7 +364,6 @@ else
 	# Installing Package to compile crypto currency
 	echo
 	echo -e "$CYAN => Installing additional system files required for daemons $COL_RESET"
-	echo
 	sleep 3
 
 	hide_output sudo apt-get -y update
@@ -377,7 +373,7 @@ else
 	libusb-1.0-0-dev libudev-dev libboost-chrono-dev libboost-date-time-dev libboost-filesystem-dev libboost-locale-dev libboost-program-options-dev \
 	libboost-regex-dev libboost-serialization-dev libboost-system-dev libboost-thread-dev python3 ccache doxygen graphviz default-libmysqlclient-dev \
 	libnghttp2-dev librtmp-dev libssh2-1 libssh2-1-dev libldap2-dev libidn11-dev libpsl-dev libnatpmp-dev systemtap-sdt-dev qtwayland5
-	
+	if [[ ("${DISTRO}" == "18") ]]; then
 		hide_output sudo apt -y install ibsqlite3-dev
 	fi
 
@@ -386,7 +382,6 @@ else
 	# Updating gcc & g++ to version 8
 	echo
 	echo -e "$CYAN => Updating GCC & G++ ... $COL_RESET"
-	echo
 	sleep 3
 	
 	hide_output sudo apt-get update -y
@@ -400,8 +395,7 @@ else
 	hide_output sudo apt-get install gcc-8 g++-8 -y
 	hide_output sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-8
 	hide_output sudo update-alternatives --config gcc
-	
-	echo
+
 	echo -e "$GREEN Updated GCC & G++ Completed...$COL_RESET"
 	sleep 3
 
@@ -411,14 +405,13 @@ else
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db4" ]]; then
 		echo
 		echo -e "$YELLOW Building Berkeley 4.8, this may take several minutes...$COL_RESET"
-		echo
 		sleep 3
 
 		sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db4/
 		cd ${absolutepath}/daemon_setup/tmp
 		hide_output sudo wget 'https://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'
 		hide_output sudo tar -xzvf db-4.8.30.NC.tar.gz
-		if [[ ("${DISTRO}" == "20") ]]
+		if [[ ("${DISTRO}" == "20") ]]; then
 			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' db-4.8.30.NC/dbinc/atomic.h
 		fi
 		cd db-4.8.30.NC/build_unix/
@@ -433,14 +426,13 @@ else
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db5" ]]; then
 		echo
 		echo -e "$YELLOW Building Berkeley 5.1, this may take several minutes...$COL_RESET"
-		echo
 		sleep 3
 
 		sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db5/
 		cd ${absolutepath}/daemon_setup/tmp
 		hide_output sudo wget 'https://download.oracle.com/berkeley-db/db-5.1.29.tar.gz'
 		hide_output sudo tar -xzvf db-5.1.29.tar.gz
-		if [[ ("${DISTRO}" == "20") ]]
+		if [[ ("${DISTRO}" == "20") ]]; then
 			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' db-5.1.29/src/dbinc/atomic.h
 		fi
 		cd db-5.1.29/build_unix/
@@ -455,14 +447,13 @@ else
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db5.3" ]]; then
 		echo
 		echo -e "$YELLOW Building Berkeley 5.3, this may take several minutes...$COL_RESET"
-		echo
 		sleep 3
 		
 		sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db5.3/
 		cd ${absolutepath}/daemon_setup/tmp
 		hide_output sudo wget 'https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz'
 		hide_output sudo tar -xzvf db-5.3.28.tar.gz
-		if [[ ("${DISTRO}" == "20") ]]
+		if [[ ("${DISTRO}" == "20") ]]; then
 			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' db-5.3.28/src/dbinc/atomic.h
 		fi
 		cd db-5.3.28/build_unix/
@@ -477,7 +468,6 @@ else
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db6.2" ]]; then
 		echo
 		echo -e "$YELLOW Building Berkeley 6.2, this may take several minutes...$COL_RESET"
-		echo
 		sleep 3
 
 		sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db6.2/
@@ -496,7 +486,6 @@ else
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db18" ]]; then
 		echo
 		echo -e "$YELLOW Building Berkeley 18.xx, this may take several minutes...$COL_RESET"
-		echo
 		sleep 3
 
 		sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db18/
@@ -515,7 +504,6 @@ else
 	if [[ ! -d "${absolutepath}/${installtoserver}/openssl" ]]; then
 		echo
 		echo -e "$YELLOW Building OpenSSL 1.0.2g, this may take several minutes...$COL_RESET"
-		echo
 		sleep 3
 
 		cd ${absolutepath}/daemon_setup/tmp
@@ -534,7 +522,6 @@ else
 	if [[ "${INSTVERSION}" == "$TAG" ]]; then
 		echo
 		echo -e "$YELLOW Building bls-signatures, this may take several minutes...$COL_RESET"
-		echo
 		sleep 3
 
 		cd ${absolutepath}/daemon_setup/tmp
@@ -550,7 +537,6 @@ else
 	fi
 
 	if [[ "$DONEINST" == "true" ]]; then
-		echo
 		echo -e "$GREEN Done...$COL_RESET"
 		sleep 3
 	fi
@@ -569,7 +555,6 @@ else
 		sudo systemctl restart rsyslog
 		fi
 		sudo systemctl status rsyslog | sed -n "1,3p"
-		echo
 		echo -e "$GREEN Done...$COL_RESET"
 		sleep 3
 	fi
@@ -582,8 +567,6 @@ else
 			sleep 3
 		else
 			# Install Daemonbuilder
-			echo
-			echo -e "$CYAN => Install DaemonBuilder Coin. $COL_RESET"
 			echo
 			echo -e "$CYAN => Installing DaemonBuilder $COL_RESET"
 			sleep 3
@@ -617,8 +600,6 @@ else
 		else
 			# Install Addport
 			echo
-			echo -e "$CYAN => Install Addport Coin. $COL_RESET"
-			echo
 			echo -e "$CYAN => Installing Addport $COL_RESET"
 			sleep 3
 		fi
@@ -636,7 +617,6 @@ else
 			hide_output sudo chmod +x /usr/bin/${daemonname}
 		fi
 
-		echo
 		echo -e "$GREEN Done...$COL_RESET"
 		sleep 5
 	fi
@@ -645,7 +625,6 @@ else
 		# Final Directory permissions
 		echo
 		echo -e "$CYAN => Final Directory permissions $COL_RESET"
-		echo
 		sleep 3
 
 		#Add to contrab screen-scrypt
@@ -655,7 +634,6 @@ else
 		#Restart service
 		hide_output sudo systemctl restart cron.service
 
-		echo
 		echo -e "$GREEN Done...$COL_RESET"
 		sleep 5
 	fi
