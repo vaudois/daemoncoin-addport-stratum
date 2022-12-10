@@ -620,9 +620,11 @@ else
 	#Misc
 	sudo rm -rf ${installdirname}
 	sudo rm -rf ${absolutepath}/daemon_setup
-
-	echo
-	install_end_message
-	echo
-	cd ~
+	
+	if [ -z "${STRATUMFILE}" ]; then
+		echo
+		install_end_message
+		echo
+		cd ~
+	fi
 fi
