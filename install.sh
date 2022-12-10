@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 18.04/20.04
-#   v0.7.8.3 (2022-12-10)
+#   v0.7.8.2 (2022-12-10)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.7.8.3
+	TAG=v0.7.8.2
 fi
 
 clear
@@ -330,7 +330,7 @@ else
 		BTCDEP='"${BTCDEP}"'
 		LTCDEP='"${LTCDEP}"'
 		ETHDEP='"${ETHDEP}"'
-		BCHDEP='"${BCHDEP}"' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
+		BCHDEP='"${BCHDEP}"'' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
 
 		clear
 	fi
