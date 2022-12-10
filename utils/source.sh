@@ -28,7 +28,7 @@ CREATECOIN=true
 # Set what we need
 now=$(date +"%m_%d_%Y")
 #set -e
-NPROCPU=$(nproc)
+NPROCPU=${NPROC}
 
 if [[ ("${NPROCPU}" -le "3") ]]; then
         NPROC="1"
@@ -235,7 +235,7 @@ if [[ ("$autogen" == "true") ]]; then
 		echo
 		sleep 3
 		# make install
-		make -j$(nproc)
+		make -j${NPROC}
 	fi
 
 	# Build the coin under berkeley 5.1
@@ -273,7 +273,7 @@ if [[ ("$autogen" == "true") ]]; then
 		echo
 		sleep 3
 		# make install
-		make -j$(nproc)
+		make -j${NPROC}
 	fi
 
 	# Build the coin under berkeley 5.3
@@ -311,7 +311,7 @@ if [[ ("$autogen" == "true") ]]; then
 		echo
 		sleep 3
 		# make install
-		make -j$(nproc)
+		make -j${NPROC}
 	fi
 
 	# Build the coin under berkeley 6.2
@@ -349,7 +349,7 @@ if [[ ("$autogen" == "true") ]]; then
 		echo
 		sleep 3
 		# make install
-		make -j$(nproc)
+		make -j${NPROC}
 	fi
 
 	# Build the coin under UTIL directory with BUILD.SH file
@@ -366,7 +366,7 @@ if [[ ("$autogen" == "true") ]]; then
 		read -r -e -p "where is the folder that contains the BUILD.SH installation file, example xxutil :" reputil
 		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
 		echo ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
-		spiner_output bash build.sh -j$(nproc)
+		spiner_output bash build.sh -j${NPROC}
 
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}/fetch-params.sh" ]]; then
 			echo "fetch-params.sh not found skipping"
@@ -402,7 +402,7 @@ else
 			sleep 3
 			cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/depends
 			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			hide_output make -j$NPROC
+			hide_output make -j${NPROC}
 			else
 			echo
 			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
@@ -410,7 +410,7 @@ else
 			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 			echo
 			sleep 3
-			make -j$NPROC
+			make -j${NPROC}
 			fi
 			echo
 			echo
@@ -515,7 +515,7 @@ else
 			echo
 			sleep 3
 			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			hide_output make -j$NPROC
+			hide_output make -j${NPROC}
 			else
 			echo
 			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
@@ -523,7 +523,7 @@ else
 			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 			echo
 			sleep 3
-			make -j$NPROC
+			make -j${NPROC}
 			fi
 			echo
 			echo
@@ -543,7 +543,7 @@ else
 			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 			echo
 			sleep 3
-			make -j$NPROC
+			make -j${NPROC}
 			sleep 3
 		fi
 	fi
@@ -592,7 +592,7 @@ else
 		echo -e "$GREEN   Starting compiling with makefile.unix											$COL_RESET"
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		sleep 3
-		make -j$NPROC -f makefile.unix USE_UPNP=-
+		make -j${NPROC} -f makefile.unix USE_UPNP=-
 	fi
 fi
 
