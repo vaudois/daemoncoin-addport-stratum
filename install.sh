@@ -607,7 +607,7 @@ else
 		echo '#!/bin/sh
 		PATH_STRATUM='"${path_stratum}"'
 		FUNCTION_FILE='"${FUNCTIONFILE}"'
-		VERSION='"${TAG}"' 
+		VERSION='"${TAG}"'
 		BTCDEP='"${BTCDEP}"'
 		LTCDEP='"${LTCDEP}"'
 		ETHDEP='"${ETHDEP}"'
