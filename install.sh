@@ -244,7 +244,7 @@ else
 				echo
 				echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
 				echo '#!/bin/sh
-				PATH_STRATUM='"${PATH_STRATUM}"'
+				PATH_STRATUM='"${path_stratum}"'
 				FUNCTION_FILE='"${FUNCTION_FILE}"'
 				VERSION='"${TAG}"'
 				BTCDEP='"${BTCDEP}"'
@@ -259,7 +259,7 @@ else
 				echo
 				echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
 				echo '#!/bin/sh
-				PATH_STRATUM='"${PATH_STRATUM}"'
+				PATH_STRATUM='"${path_stratum}"'
 				FUNCTION_FILE='"${FUNCTION_FILE}"'
 				VERSION='"${TAG}"'
 				BTCDEP='"${BTCDEP}"'
@@ -277,7 +277,7 @@ else
 				echo
 				echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
 				echo '#!/bin/sh
-				PATH_STRATUM='"${PATH_STRATUM}"'
+				PATH_STRATUM='"${path_stratum}"'
 				FUNCTION_FILE='"${FUNCTION_FILE}"'
 				VERSION='"${TAG}"'
 				BTCDEP='"${BTCDEP}"'
@@ -326,7 +326,7 @@ else
 		echo '#!/bin/sh
 		PATH_STRATUM='"${path_stratum}"'
 		FUNCTION_FILE='"${FUNCTIONFILE}"'
-		VERSION='"${TAG}"'' 
+		VERSION='"${TAG}"' 
 		BTCDEP='"${BTCDEP}"'
 		LTCDEP='"${LTCDEP}"'
 		ETHDEP='"${ETHDEP}"'
