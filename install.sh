@@ -16,7 +16,7 @@ fi
 clear
 	TEMPINSTALL="$1"
 	STRATUMFILE="$2"
-	
+
 	if [ ! -z "${TEMPINSTALL}" ]; then
 		echo "Starting installer..."
 	fi
@@ -74,8 +74,8 @@ if (( $EUID == 0 )); then
 	source conf/functions.sh
 
 	if ! locale -a | grep en_US.utf8 > /dev/null; then
-	# Generate locale if not exists
-	sudo locale-gen en_US.UTF-8
+		# Generate locale if not exists
+		sudo locale-gen en_US.UTF-8
 	fi
 
 	export LANGUAGE=en_US.UTF-8
@@ -128,8 +128,8 @@ else
 			source ${installdirname}/conf/functions.sh
 
 			if ! locale -a | grep en_US.utf8 > /dev/null; then
-			# Generate locale if not exists
-			sudo locale-gen en_US.UTF-8
+				# Generate locale if not exists
+				sudo locale-gen en_US.UTF-8
 			fi
 
 			export LANGUAGE=en_US.UTF-8
