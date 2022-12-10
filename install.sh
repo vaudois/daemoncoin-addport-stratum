@@ -198,9 +198,8 @@ else
 
 		FUNC=/etc/functionscoin.sh
 		if [[ ! -f "$FUNC" ]]; then
-				sudo cp -r ${installdirname}/conf/functions.sh /etc/
-				FUNCTIONFILE=functions.sh
-			fi
+			sudo cp -r ${installdirname}/conf/functions.sh /etc/
+			FUNCTIONFILE=functions.sh
 		else
 			sudo cp -r ${installdirname}/conf/functions.sh /etc/functionscoin.sh
 			FUNCTIONFILE=functionscoin.sh
