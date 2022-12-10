@@ -359,12 +359,16 @@ else
 	sleep 3
 
 	hide_output sudo apt-get -y install build-essential libzmq5 \
-	libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils cmake libboost-all-dev zlib1g-dev libz-dev \
-	libseccomp-dev libcap-dev libminiupnpc-dev gettext libminiupnpc10 libcanberra-gtk-module libqrencode-dev libzmq3-dev \
+	libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils cmake libboost-all-dev zlib1g-dev \
+	libseccomp-dev libcap-dev libminiupnpc-dev gettext libcanberra-gtk-module libqrencode-dev libzmq3-dev \
 	libqt5gui5 libqt5core5a libqt5webkit5-dev libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
-	hide_output sudo add-apt-repository -y ppa:bitcoin/bitcoin
-	hide_output sudo apt -y update && sudo apt -y upgrade
-	hide_output sudo apt -y install libdb4.8-dev libdb4.8++-dev libdb5.3 libdb5.3++
+	if [[ ("${DISTRO}" == "18") ]]; then
+		hide_output sudo apt-get -y install libz-dev libminiupnpc10
+		hide_output sudo add-apt-repository -y ppa:bitcoin/bitcoin
+		hide_output sudo apt -y update && sudo apt -y upgrade
+		hide_output sudo apt -y install libdb4.8-dev libdb4.8++-dev libdb5.3 libdb5.3++
+	fi
+	hide_output sudo apt -y install libdb5.3 libdb5.3++
 
 	echo -e "$GREEN Done...$COL_RESET"
 
@@ -381,7 +385,10 @@ else
 	libgmp-dev cmake libunbound-dev libsodium-dev libunwind8-dev liblzma-dev libreadline6-dev libldns-dev libexpat1-dev libpgm-dev libhidapi-dev \
 	libusb-1.0-0-dev libudev-dev libboost-chrono-dev libboost-date-time-dev libboost-filesystem-dev libboost-locale-dev libboost-program-options-dev \
 	libboost-regex-dev libboost-serialization-dev libboost-system-dev libboost-thread-dev python3 ccache doxygen graphviz default-libmysqlclient-dev \
-	libnghttp2-dev librtmp-dev libssh2-1 libssh2-1-dev libldap2-dev libidn11-dev libpsl-dev ibsqlite3-dev libnatpmp-dev systemtap-sdt-dev qtwayland5
+	libnghttp2-dev librtmp-dev libssh2-1 libssh2-1-dev libldap2-dev libidn11-dev libpsl-dev libnatpmp-dev systemtap-sdt-dev qtwayland5
+	
+		hide_output sudo apt -y install ibsqlite3-dev
+	fi
 
 	echo -e "$GREEN Additional System Files Completed...$COL_RESET"
 	
@@ -396,11 +403,13 @@ else
 	hide_output sudo apt-get upgrade -y
 	hide_output sudo apt-get dist-upgrade -y
 	hide_output sudo apt-get install build-essential software-properties-common -y
-	hide_output sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+	if [[ ("${DISTRO}" == "18") ]]; then
+		hide_output sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+	fi
 	hide_output sudo apt-get update -y
 	hide_output sudo apt-get install gcc-8 g++-8 -y
 	hide_output sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-8
-	sudo update-alternatives --config gcc
+	hide_output sudo update-alternatives --config gcc
 	
 	echo
 	echo -e "$GREEN Updated GCC & G++ Completed...$COL_RESET"
