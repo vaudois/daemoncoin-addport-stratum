@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 18.04/20.04
-#   v0.7.8.8 (2022-12-10)
+#   v0.7.8.7 (2022-12-10)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.7.8.8
+	TAG=v0.7.8.7
 fi
 
 clear
@@ -479,25 +479,17 @@ else
 		DONEINST=true
 	fi
 
-	if [[ "$DONEINST" == "true" ]]; then
-		echo -e "$GREEN Done...$COL_RESET"
-		sleep 3
-	fi
-
 	if [[ "${INSTVERSION}" == "$TAG" ]]; then
 		# Update Timezone
 		echo
 		echo -e "$CYAN => Update default timezone. $COL_RESET"
-		echo
 		sleep 3
 
-		echo -e " Setting TimeZone to UTC...$COL_RESET"
 		if [ ! -f /etc/timezone ]; then
-		echo "Setting timezone to UTC."
-		echo "Etc/UTC" > sudo /etc/timezone
-		sudo systemctl restart rsyslog
+			echo "Etc/UTC" > sudo /etc/timezone
+			sudo systemctl restart rsyslog >/dev/null 2>&1
 		fi
-		sudo systemctl status rsyslog | sed -n "1,3p"
+		sudo systemctl status rsyslog | sed -n "1,3p" >/dev/null 2>&1
 		echo -e "$GREEN Done...$COL_RESET"
 		sleep 3
 	fi
@@ -534,6 +526,7 @@ else
 		hide_output sudo chmod +x ${absolutepath}/${installtoserver}/daemon_builder/menu4.sh
 		hide_output sudo chmod +x ${absolutepath}/${installtoserver}/daemon_builder/source.sh
 		sleep 3
+		echo -e "$GREEN Done...$COL_RESET"
 
 		if [[ "${NEWVERSION}" == "$TAG" ]]; then
 			# Updating Addport
@@ -608,8 +601,12 @@ else
 				hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
 			fi
 			echo -e "$GREEN Done...$COL_RESET"
+			sleep 5
 		fi
 	else
+		echo
+		echo -e "$YELLOW FINISH! Creating info file to Version $TAG! $COL_RESET"
+		sleep 3
 		echo '#!/bin/sh
 		PATH_STRATUM='"${path_stratum}"'
 		FUNCTION_FILE='"${FUNCTIONFILE}"'
@@ -619,6 +616,8 @@ else
 		ETHDEP='"${ETHDEP}"'
 		BCHDEP='"${BCHDEP}"'' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
 		hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
+		echo -e "$GREEN Done...$COL_RESET"
+		sleep 5
 	fi
 
 	#Misc
