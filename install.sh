@@ -450,6 +450,9 @@ else
 		cd ${absolutepath}/daemon_setup/tmp
 		hide_output sudo wget 'https://download.oracle.com/berkeley-db/db-5.1.29.tar.gz'
 		hide_output sudo tar -xzvf db-5.1.29.tar.gz
+		if [[ ("${DISTRO}" == "20") ]]
+			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' db-5.1.29/src/dbinc/atomic.h
+		fi
 		cd db-5.1.29/build_unix/
 		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db5/
 		hide_output sudo make install
@@ -469,6 +472,9 @@ else
 		cd ${absolutepath}/daemon_setup/tmp
 		hide_output sudo wget 'https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz'
 		hide_output sudo tar -xzvf db-5.3.28.tar.gz
+		if [[ ("${DISTRO}" == "20") ]]
+			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' db-5.3.28/src/dbinc/atomic.h
+		fi
 		cd db-5.3.28/build_unix/
 		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db5.3/
 		hide_output sudo make install
