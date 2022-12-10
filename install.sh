@@ -17,7 +17,7 @@ clear
 	TEMPINSTALL="$1"
 	STRATUMFILE="$2"
 
-	if [ ! -z "${TEMPINSTALL}" ]; then
+	if [ ! -z "${STRATUMFILE}" ]; then
 		echo "Starting installer..."
 	fi
 	
@@ -36,10 +36,11 @@ clear
 	else
 		installdirname="${TEMPINSTALL}"
 	fi
-
-	source ${installdirname}/conf/prerequisite.sh
-
-	source ${installdirname}/conf/getip.sh
+	
+	if [ ! -z "${STRATUMFILE}" ]; then
+		source ${installdirname}/conf/prerequisite.sh
+		source ${installdirname}/conf/getip.sh
+	fi
 
 	sudo sed -i 's#btcdons#'$BTCDEP'#' conf/functions.sh
 	sleep 1
