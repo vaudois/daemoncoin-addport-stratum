@@ -29,12 +29,12 @@ CREATECOIN=true
 now=$(date +"%m_%d_%Y")
 #set -e
 # old numbers of all cpu = NPROC=$(nproc) // use all if problem to compile new command use all -1
-NPROCPU=$(grep processor /proc/cpuinfo | tail -n 1 | awk '{print $3}')
+NPROCPU=$(nproc)
 
-if [[ ("${NPROCPU}" -le "1") ]]; then
+if [[ ("${NPROCPU}" -le "3") ]]; then
         NPROC="1"
 else
-        NPROC="${NPROC}"
+	NPROC="$((NPROCPU-"2"))"
 fi
 
 # Create the temporary installation directory if it doesn't already exist.
