@@ -339,6 +339,7 @@ else
 	hide_output sudo update-alternatives --config gcc
 
 	echo -e "$GREEN Updated GCC & G++ Completed...$COL_RESET"
+	echo
 	sleep 3
 
 		cd ~
@@ -352,7 +353,6 @@ else
 	}
 
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db4" ]]; then
-		echo
 		echo -e "$YELLOW Building Berkeley 4.8, this may take several minutes...$COL_RESET"
 		sleep 3
 
@@ -371,7 +371,6 @@ else
 	fi
 
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db5" ]]; then
-		echo
 		echo -e "$YELLOW Building Berkeley 5.1, this may take several minutes...$COL_RESET"
 		sleep 3
 
@@ -390,7 +389,6 @@ else
 	fi
 
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db5.3" ]]; then
-		echo
 		echo -e "$YELLOW Building Berkeley 5.3, this may take several minutes...$COL_RESET"
 		sleep 3
 		
@@ -409,7 +407,6 @@ else
 	fi
 
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db6.2" ]]; then
-		echo
 		echo -e "$YELLOW Building Berkeley 6.2, this may take several minutes...$COL_RESET"
 		sleep 3
 
@@ -427,7 +424,6 @@ else
 	fi
 	
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db18" ]]; then
-		echo
 		echo -e "$YELLOW Building Berkeley 18.xx, this may take several minutes...$COL_RESET"
 		sleep 3
 
@@ -445,7 +441,6 @@ else
 	fi
 
 	if [[ ! -d "${absolutepath}/${installtoserver}/openssl" ]]; then
-		echo
 		echo -e "$YELLOW Building OpenSSL 1.0.2g, this may take several minutes...$COL_RESET"
 		sleep 3
 
@@ -463,7 +458,6 @@ else
 	fi
 
 	if [[ "${INSTVERSION}" == "$TAG" ]]; then
-		echo
 		echo -e "$YELLOW Building bls-signatures, this may take several minutes...$COL_RESET"
 		sleep 3
 
@@ -478,10 +472,13 @@ else
 		echo -e "$GREEN bls-signatures Completed...$COL_RESET"
 		DONEINST=true
 	fi
+	
+	if [[ ("${DONEINST}" == "true") ]]; then
+		echo
+	fi
 
 	if [[ "${INSTVERSION}" == "$TAG" ]]; then
 		# Update Timezone
-		echo
 		echo -e "$CYAN => Update default timezone. $COL_RESET"
 		sleep 3
 
