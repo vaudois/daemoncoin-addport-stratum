@@ -159,7 +159,7 @@ else
 	if [[ ("${INSTVERSION}" == "${TAG}") ]]; then
 		#Copy needed files
 		cd ${installdirname}
-		sudo mkdir -p ${absolutepath}/${installtoserver}/conf
+		sudo mkdir -p ${absolutepath}/${installtoserver}/conf/
 
 		source ${installdirname}/conf/functions.sh
 		
