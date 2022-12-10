@@ -28,14 +28,14 @@ CREATECOIN=true
 # Set what we need
 now=$(date +"%m_%d_%Y")
 #set -e
-NPROCPU=${NPROC}
+# old numbers of all cpu = NPROC=$(nproc) // use all if problem to compile new command use all -1
+NPROCPU=$(nproc)
 
 if [[ ("${NPROCPU}" -le "3") ]]; then
         NPROC="1"
 else
 	NPROC="$((NPROCPU-"2"))"
 fi
-
 # Create the temporary installation directory if it doesn't already exist.
 echo
 echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
@@ -235,7 +235,11 @@ if [[ ("$autogen" == "true") ]]; then
 		echo
 		sleep 3
 		# make install
-		make -j${NPROC}
+		TMP=$(mktemp)
+		make -j${NPROC} 2>&1 | tee $TMP
+		OUTPUT=$(cat $TMP)
+		echo $OUTPUT
+		rm $TMP
 	fi
 
 	# Build the coin under berkeley 5.1
@@ -273,7 +277,11 @@ if [[ ("$autogen" == "true") ]]; then
 		echo
 		sleep 3
 		# make install
-		make -j${NPROC}
+		TMP=$(mktemp)
+		make -j${NPROC} 2>&1 | tee $TMP
+		OUTPUT=$(cat $TMP)
+		echo $OUTPUT
+		rm $TMP
 	fi
 
 	# Build the coin under berkeley 5.3
@@ -311,7 +319,11 @@ if [[ ("$autogen" == "true") ]]; then
 		echo
 		sleep 3
 		# make install
-		make -j${NPROC}
+		TMP=$(mktemp)
+		make -j${NPROC} 2>&1 | tee $TMP
+		OUTPUT=$(cat $TMP)
+		echo $OUTPUT
+		rm $TMP
 	fi
 
 	# Build the coin under berkeley 6.2
@@ -349,7 +361,11 @@ if [[ ("$autogen" == "true") ]]; then
 		echo
 		sleep 3
 		# make install
-		make -j${NPROC}
+		TMP=$(mktemp)
+		make -j${NPROC} 2>&1 | tee $TMP
+		OUTPUT=$(cat $TMP)
+		echo $OUTPUT
+		rm $TMP
 	fi
 
 	# Build the coin under UTIL directory with BUILD.SH file
@@ -366,7 +382,7 @@ if [[ ("$autogen" == "true") ]]; then
 		read -r -e -p "where is the folder that contains the BUILD.SH installation file, example xxutil :" reputil
 		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
 		echo ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
-		spiner_output bash build.sh -j${NPROC}
+		spiner_output bash build.sh -j$(nproc)
 
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}/fetch-params.sh" ]]; then
 			echo "fetch-params.sh not found skipping"
@@ -402,7 +418,12 @@ else
 			sleep 3
 			cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/depends
 			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			hide_output make -j${NPROC}
+			# make install
+			TMP=$(mktemp)
+			hide_output make -j${NPROC} 2>&1 | tee $TMP
+			OUTPUT=$(cat $TMP)
+			echo $OUTPUT
+			rm $TMP
 			else
 			echo
 			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
@@ -410,7 +431,12 @@ else
 			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 			echo
 			sleep 3
-			make -j${NPROC}
+			# make install
+			TMP=$(mktemp)
+			make -j${NPROC} 2>&1 | tee $TMP
+			OUTPUT=$(cat $TMP)
+			echo $OUTPUT
+			rm $TMP
 			fi
 			echo
 			echo
@@ -515,7 +541,12 @@ else
 			echo
 			sleep 3
 			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			hide_output make -j${NPROC}
+			# make install
+			TMP=$(mktemp)
+			hide_output make -j${NPROC} 2>&1 | tee $TMP
+			OUTPUT=$(cat $TMP)
+			echo $OUTPUT
+			rm $TMP
 			else
 			echo
 			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
@@ -523,7 +554,12 @@ else
 			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 			echo
 			sleep 3
-			make -j${NPROC}
+			# make install
+			TMP=$(mktemp)
+			make -j${NPROC} 2>&1 | tee $TMP
+			OUTPUT=$(cat $TMP)
+			echo $OUTPUT
+			rm $TMP
 			fi
 			echo
 			echo
@@ -543,7 +579,12 @@ else
 			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 			echo
 			sleep 3
-			make -j${NPROC}
+			# make install
+			TMP=$(mktemp)
+			make -j${NPROC} 2>&1 | tee $TMP
+			OUTPUT=$(cat $TMP)
+			echo $OUTPUT
+			rm $TMP
 			sleep 3
 		fi
 	fi
@@ -592,7 +633,12 @@ else
 		echo -e "$GREEN   Starting compiling with makefile.unix											$COL_RESET"
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		sleep 3
-		make -j${NPROC} -f makefile.unix USE_UPNP=-
+		# make install
+		TMP=$(mktemp)
+		make -j${NPROC} -f makefile.unix USE_UPNP=- 2>&1 | tee $TMP
+		OUTPUT=$(cat $TMP)
+		echo $OUTPUT
+		rm $TMP
 	fi
 fi
 
