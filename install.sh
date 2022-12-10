@@ -238,6 +238,7 @@ else
 	if [[ "${FILEINFO}" == "true" ]]; then
 		echo
 		echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
+		NEWVERSION=${TAG}
 	else
 		FUNC=/etc/functionscoin.sh
 		if [[ ! -f "$FUNC" ]]; then
@@ -269,16 +270,7 @@ else
 			echo -e "$RED You are Cancelled this install! to run again => $COL_RESET$YELLOWsudo bash ${installdirname}/install.sh $COL_RESET"
 			echo
 			exit
-		fi 
-
-		echo '#!/bin/sh
-		PATH_STRATUM='"${path_stratum}"'
-		FUNCTION_FILE='"${FUNCTIONFILE}"'
-		VERSION='"${TAG}"' 
-		BTCDEP='"${BTCDEP}"'
-		LTCDEP='"${LTCDEP}"'
-		ETHDEP='"${ETHDEP}"'
-		BCHDEP='"${BCHDEP}"'' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
+		fi
 	fi
 
 	# Installing other needed files
@@ -601,28 +593,37 @@ else
 		if [ -z "${VERSION}" ]; then
 			echo '#!/bin/sh
 			PATH_STRATUM='"${path_stratum}"'
-			FUNCTION_FILE='"${FUNCTION_FILE}"'
+			FUNCTION_FILE='"${FUNCTIONFILE}"'
 			VERSION='"${TAG}"'
 			BTCDEP='"${BTCDEP}"'
 			LTCDEP='"${LTCDEP}"'
 			ETHDEP='"${ETHDEP}"'
 			BCHDEP='"${BCHDEP}"''| sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
-			NEWVERSION=${TAG}
 			hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
 		else
 			if [[ ! "$VERSION" == "$TAG" ]]; then
 				echo '#!/bin/sh
 				PATH_STRATUM='"${path_stratum}"'
-				FUNCTION_FILE='"${FUNCTION_FILE}"'
+				FUNCTION_FILE='"${FUNCTIONFILE}"'
 				VERSION='"${TAG}"'
 				BTCDEP='"${BTCDEP}"'
 				LTCDEP='"${LTCDEP}"'
 				ETHDEP='"${ETHDEP}"'
 				BCHDEP='"${BCHDEP}"''| sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
-				NEWVERSION=${TAG}
+				hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
 			fi
 			echo -e "$GREEN Done...$COL_RESET"
 		fi
+	else
+		echo '#!/bin/sh
+		PATH_STRATUM='"${path_stratum}"'
+		FUNCTION_FILE='"${FUNCTIONFILE}"'
+		VERSION='"${TAG}"' 
+		BTCDEP='"${BTCDEP}"'
+		LTCDEP='"${LTCDEP}"'
+		ETHDEP='"${ETHDEP}"'
+		BCHDEP='"${BCHDEP}"'' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
+		hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
 	fi
 
 	#Misc
