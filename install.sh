@@ -15,6 +15,7 @@ fi
 
 clear
 	TEMPINSTALL="$1"
+	STRATUMFILE="$2"
 
 	echo "Starting installer..."
 	
