@@ -213,7 +213,6 @@ else
 
 	# Update package and Upgrade Ubuntu
 	echo
-	echo
 	echo -e "$CYAN => Updating system and installing required packages :$COL_RESET"
 	echo 
 	sleep 3
@@ -244,7 +243,6 @@ else
 		if [ -z "${VERSION}" ]; then
 			if [[ ("${INSTALLMASTER}" == "true") ]]; then
 				echo
-				echo
 				echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
 				echo '#!/bin/sh
 				PATH_STRATUM='"${path_stratum}"'
@@ -258,7 +256,6 @@ else
 				NEWVERSION=${TAG}
 				hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
 			else
-				echo
 				echo
 				echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
 				echo '#!/bin/sh
@@ -276,7 +273,6 @@ else
 		else
 		
 			if [[ ! "$VERSION" == "$TAG" ]]; then
-				echo
 				echo
 				echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
 				echo '#!/bin/sh
@@ -302,7 +298,6 @@ else
 
 		if [ -z "${STRATUMFILE}" ]; then
 			echo
-			echo
 			echo -e "$RED Make sure you double check before hitting enter! Only one shot at these! $COL_RESET"
 			echo
 			DEFAULT_path_stratum=/var/stratum
@@ -320,7 +315,6 @@ else
 			# user hit ESC/cancel
 			clear
 			echo
-			echo
 			echo -e "$RED You are Cancelled this install! to run again => $COL_RESET$YELLOWsudo bash ${installdirname}/install.sh $COL_RESET"
 			echo
 			exit
@@ -334,12 +328,9 @@ else
 		LTCDEP='"${LTCDEP}"'
 		ETHDEP='"${ETHDEP}"'
 		BCHDEP='"${BCHDEP}"'' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
-
-		clear
 	fi
 
 	# Installing other needed files
-	echo
 	echo
 	echo -e "$CYAN => Installing other needed files : $COL_RESET"
 	echo
@@ -352,7 +343,6 @@ else
 	sleep 3
 
 	# Installing Package to compile crypto currency
-	echo
 	echo
 	echo -e "$CYAN => Installing Package to compile crypto currency $COL_RESET"
 	echo
@@ -374,7 +364,6 @@ else
 
 	# Installing Package to compile crypto currency
 	echo
-	echo
 	echo -e "$CYAN => Installing additional system files required for daemons $COL_RESET"
 	echo
 	sleep 3
@@ -393,7 +382,6 @@ else
 	echo -e "$GREEN Additional System Files Completed...$COL_RESET"
 	
 	# Updating gcc & g++ to version 8
-	echo
 	echo
 	echo -e "$CYAN => Updating GCC & G++ ... $COL_RESET"
 	echo
@@ -561,14 +549,12 @@ else
 
 	if [[ "$DONEINST" == "true" ]]; then
 		echo
-		echo
 		echo -e "$GREEN Done...$COL_RESET"
 		sleep 3
 	fi
 
 	if [[ "${INSTVERSION}" == "$TAG" ]]; then
 		# Update Timezone
-		echo
 		echo
 		echo -e "$CYAN => Update default timezone. $COL_RESET"
 		echo
@@ -590,12 +576,10 @@ else
 		if [[ "${NEWVERSION}" == "$TAG" ]]; then
 			# Updating Daemonbuilder
 			echo
-			echo
 			echo -e "$YELLOW Updating DaemonBuilder Coin! $COL_RESET"
 			sleep 3
 		else
 			# Install Daemonbuilder
-			echo
 			echo
 			echo -e "$CYAN => Install DaemonBuilder Coin. $COL_RESET"
 			echo
@@ -626,12 +610,10 @@ else
 		if [[ "${NEWVERSION}" == "$TAG" ]]; then
 			# Updating Addport
 			echo
-			echo
 			echo -e "$YELLOW Updating Addport Coin! $COL_RESET"
 			sleep 3
 		else
 			# Install Addport
-			echo
 			echo
 			echo -e "$CYAN => Install Addport Coin. $COL_RESET"
 			echo
@@ -659,7 +641,6 @@ else
 
 	if [[ "${INSTVERSION}" == "$TAG" ]]; then
 		# Final Directory permissions
-		echo
 		echo
 		echo -e "$CYAN => Final Directory permissions $COL_RESET"
 		echo
