@@ -14,7 +14,7 @@ fi
 
 cd ${absolutepath}/${installtoserver}/daemon_builder
 
-RESULT=$(dialog --stdout --title "Daemon Builder Coin" --menu "Choose one" -1 60 9 \
+RESULT=$(dialog --stdout --title "Daemon Builder Coin" --menu "Choose one" 16 60 9 \
 1 "Install Berkeley 4.8 Coin with autogen file" \
 2 "Install Berkeley 5.1 Coin with autogen file" \
 3 "Install Berkeley 5.3 Coin with autogen file" \
