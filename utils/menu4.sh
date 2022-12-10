@@ -65,7 +65,8 @@ if [[ ("${LATESTVER}" > "${VERSION}" && "${LATESTVER}" != "null") ]]; then
 else
 	message_box " Updating This script " \
 	"Check if this scrypt needs update.
-	\n\nYou are currently using version ${VERSION}"
+	\nyou already have the latest version installed!
+	\nYour Version is: ${VERSION}"
 
 	cd ~
 	clear
