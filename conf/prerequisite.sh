@@ -1,9 +1,7 @@
 #!/bin/bash
-#####################################################
-# Source https://mailinabox.email/ https://github.com/mail-in-a-box/mailinabox
-# Updated by cryptopool.builders for crypto use...
-# Modified by Xavatar
-#####################################################
+##########################################
+# Updated by vaudois for crypto use...
+##########################################
 
 ESC_SEQ="\x1b["
 COL_RESET=$ESC_SEQ"39;49;00m"
