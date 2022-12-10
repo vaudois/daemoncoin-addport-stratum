@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 18.04/20.04
-#   v0.7.8.8 (2022-12-10)
+#   v0.7.8.7 (2022-12-10)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.7.8.8
+	TAG=v0.7.8.7
 fi
 
 clear
@@ -344,6 +344,13 @@ else
 		cd ~
 		sudo mkdir -p ${absolutepath}/daemon_setup/tmp/
 
+	function berkeley_pacht_4x_5x
+	{
+		if [[ ("${DISTRO}" == "20") ]]; then
+			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ${absolutepath}/daemon_setup/tmp/$1/dbinc/atomic.h
+		fi
+	}
+
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db4" ]]; then
 		echo
 		echo -e "$YELLOW Building Berkeley 4.8, this may take several minutes...$COL_RESET"
@@ -355,13 +362,9 @@ else
 		hide_output sudo tar -xzvf db-4.8.30.NC.tar.gz
 		cd db-4.8.30.NC/build_unix/
 		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db4/
-		if [[ ("${DISTRO}" == "20") ]]; then
-			cd ${absolutepath}/daemon_setup/tmp
-			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' db-4.8.30.NC/dbinc/atomic.h
-			cd db-4.8.30.NC/build_unix/
-		fi
+		berkeley_pacht_4x_5x "db-4.8.30.NC"
 		hide_output sudo make install
-		cd ${absolutepath}/daemon_setup/tmp
+		cd ${absolutepath}/daemon_setup/tmp/
 		sudo rm -r db-4.8.30.NC.tar.gz db-4.8.30.NC
 		echo -e "$GREEN Berkeley 4.8 Completed...$COL_RESET"
 		DONEINST=true
@@ -373,16 +376,12 @@ else
 		sleep 3
 
 		sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db5/
-		cd ${absolutepath}/daemon_setup/tmp
+		cd ${absolutepath}/daemon_setup/tmp/
 		hide_output sudo wget 'https://download.oracle.com/berkeley-db/db-5.1.29.tar.gz'
 		hide_output sudo tar -xzvf db-5.1.29.tar.gz
 		cd db-5.1.29/build_unix/
 		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db5/
-		if [[ ("${DISTRO}" == "20") ]]; then
-			cd ${absolutepath}/daemon_setup/tmp
-			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' db-5.1.29/src/dbinc/atomic.h
-			cd db-5.1.29/build_unix/
-		fi
+		berkeley_pacht_4x_5x "db-5.1.29/src"
 		hide_output sudo make install
 		cd ${absolutepath}/daemon_setup/tmp
 		sudo rm -r db-5.1.29.tar.gz db-5.1.29
@@ -396,18 +395,14 @@ else
 		sleep 3
 		
 		sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db5.3/
-		cd ${absolutepath}/daemon_setup/tmp
+		cd ${absolutepath}/daemon_setup/tmp/
 		hide_output sudo wget 'https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz'
 		hide_output sudo tar -xzvf db-5.3.28.tar.gz
 		cd db-5.3.28/build_unix/
 		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db5.3/
-		if [[ ("${DISTRO}" == "20") ]]; then
-			cd ${absolutepath}/daemon_setup/tmp
-			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' db-5.3.28/src/dbinc/atomic.h
-			cd db-5.3.28/build_unix/
-		fi
+		berkeley_pacht_4x_5x "db-5.3.28/src"
 		hide_output sudo make install
-		cd ${absolutepath}/daemon_setup/tmp
+		cd ${absolutepath}/daemon_setup/tmp/
 		sudo rm -r db-5.3.28.tar.gz db-5.3.28
 		echo -e "$GREEN Berkeley 5.3 Completed...$COL_RESET"
 		DONEINST=true
@@ -419,13 +414,13 @@ else
 		sleep 3
 
 		sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db6.2/
-		cd ${absolutepath}/daemon_setup/tmp
+		cd ${absolutepath}/daemon_setup/tmp/
 		hide_output sudo wget 'https://download.oracle.com/berkeley-db/db-6.2.23.tar.gz'
 		hide_output sudo tar -xzvf db-6.2.23.tar.gz
 		cd db-6.2.23/build_unix/
 		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db6.2/
 		hide_output sudo make install
-		cd ${absolutepath}/daemon_setup/tmp
+		cd ${absolutepath}/daemon_setup/tmp/
 		sudo rm -r db-6.2.23.tar.gz db-6.2.23
 		echo -e "$GREEN Berkeley 6.2 Completed...$COL_RESET"
 		DONEINST=true
@@ -437,13 +432,13 @@ else
 		sleep 3
 
 		sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db18/
-		cd ${absolutepath}/daemon_setup/tmp
+		cd ${absolutepath}/daemon_setup/tmp/
 		hide_output sudo wget 'https://download.oracle.com/berkeley-db/db-18.1.40.tar.gz'
 		hide_output sudo tar -xzvf db-18.1.40.tar.gz
 		cd db-18.1.40/build_unix/
 		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db18/
 		hide_output sudo make install
-		cd ${absolutepath}/daemon_setup/tmp
+		cd ${absolutepath}/daemon_setup/tmp/
 		sudo rm -r db-18.1.40.tar.gz db-18.1.40
 		echo -e "$GREEN Berkeley 18.xx Completed...$COL_RESET"
 		DONEINST=true
@@ -454,14 +449,14 @@ else
 		echo -e "$YELLOW Building OpenSSL 1.0.2g, this may take several minutes...$COL_RESET"
 		sleep 3
 
-		cd ${absolutepath}/daemon_setup/tmp
+		cd ${absolutepath}/daemon_setup/tmp/
 		hide_output sudo wget https://www.openssl.org/source/old/1.0.2/openssl-1.0.2g.tar.gz --no-check-certificate
 		hide_output sudo tar -xf openssl-1.0.2g.tar.gz
 		cd openssl-1.0.2g
 		hide_output sudo ./config --prefix=${absolutepath}/${installtoserver}/openssl --openssldir=${absolutepath}/${installtoserver}/openssl shared zlib
 		hide_output sudo make
 		hide_output sudo make install
-		cd ${absolutepath}/daemon_setup/tmp
+		cd ${absolutepath}/daemon_setup/tmp/
 		sudo rm -r openssl-1.0.2g.tar.gz openssl-1.0.2g
 		echo -e "$GREEN OpenSSL 1.0.2g Completed...$COL_RESET"
 		DONEINST=true
@@ -472,13 +467,13 @@ else
 		echo -e "$YELLOW Building bls-signatures, this may take several minutes...$COL_RESET"
 		sleep 3
 
-		cd ${absolutepath}/daemon_setup/tmp
+		cd ${absolutepath}/daemon_setup/tmp/
 		hide_output sudo wget 'https://github.com/codablock/bls-signatures/archive/v20181101.zip'
 		hide_output sudo unzip v20181101.zip
 		cd bls-signatures-20181101
 		hide_output sudo cmake .
 		hide_output sudo make install
-		cd ${absolutepath}/daemon_setup/tmp
+		cd ${absolutepath}/daemon_setup/tmp/
 		sudo rm -r v20181101.zip bls-signatures-20181101
 		echo -e "$GREEN bls-signatures Completed...$COL_RESET"
 		DONEINST=true
