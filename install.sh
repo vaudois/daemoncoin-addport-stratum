@@ -153,7 +153,9 @@ else
 			sudo rm -rf ${installdirname}/
 			cd ~
 			clear
-			exit;
+			if [ -z "${STRATUMFILE}" ]; then
+				exit;
+			fi
 		else
 			FILEINFO=true
 		fi
