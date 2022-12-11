@@ -493,6 +493,7 @@ else
 	
 	if [[ "${NEWVERSION}" == "$TAG" ]] || [[ "${INSTVERSION}" == "$TAG" ]]; then
 		if [[ "${NEWVERSION}" == "$TAG" ]]; then
+			echo
 			# Updating Daemonbuilder
 			echo -e "$YELLOW Updating Coinbuild Coin! $COL_RESET"
 			sleep 3
@@ -526,7 +527,6 @@ else
 
 		if [[ "${NEWVERSION}" == "$TAG" ]]; then
 			# Updating Addport
-			echo
 			echo -e "$YELLOW Updating Addport Coin! $COL_RESET"
 			sleep 3
 		else
