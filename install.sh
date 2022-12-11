@@ -363,7 +363,7 @@ else
 		cd db-4.8.30.NC/build_unix/
 		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db4/
 		berkeley_pacht_4x_5x "db-4.8.30.NC"
-		hide_outputsudo make install
+		hide_output sudo make install
 		cd ${absolutepath}/daemon_setup/tmp/
 		sudo rm -r db-4.8.30.NC.tar.gz db-4.8.30.NC
 		echo -e "$GREEN Berkeley 4.8 Completed...$COL_RESET"
