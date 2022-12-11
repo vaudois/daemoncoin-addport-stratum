@@ -324,7 +324,8 @@ else
 		if [[ ("${DISTRO}" == "18") ]]; then
 			hide_output sudo apt -y install ibsqlite3-dev
 		else
-		hide_output sudo apt -y install libdb-dev
+			hide_output sudo apt -y install libdb-dev
+			hide_output sudo apt -y install libdb5.3++ libdb5.3++-dev
 		fi
 
 		echo -e "$GREEN Additional System Files Completed...$COL_RESET"
