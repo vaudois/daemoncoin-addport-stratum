@@ -22,6 +22,7 @@ clear
 		echo "Starting installer..."
 	else
 		DISTRO="$3"
+		path_stratum=${STRATUMFILE}
 	fi
 	
 	BTCDEP="bc1qt8g9l6agk7qrzlztzuz7quwhgr3zlu4gc5qcuk"
@@ -266,8 +267,6 @@ else
 				\n\nPath Stratum:" \
 				${DEFAULT_path_stratum} \
 				path_stratum
-			else
-				path_stratum=${STRATUMFILE}
 			fi
 
 			if [ -z "${path_stratum}" ]; then
