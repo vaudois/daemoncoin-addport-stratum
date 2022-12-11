@@ -323,6 +323,8 @@ else
 		libnghttp2-dev librtmp-dev libssh2-1 libssh2-1-dev libldap2-dev libidn11-dev libpsl-dev libnatpmp-dev systemtap-sdt-dev qtwayland5
 		if [[ ("${DISTRO}" == "18") ]]; then
 			hide_output sudo apt -y install ibsqlite3-dev
+		else
+		hide_output sudo apt -y install libdb-dev
 		fi
 
 		echo -e "$GREEN Additional System Files Completed...$COL_RESET"
