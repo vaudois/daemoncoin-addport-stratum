@@ -362,7 +362,10 @@ else
 		hide_output sudo tar -xzvf db-4.8.30.NC.tar.gz
 		cd db-4.8.30.NC/build_unix/
 		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db4/
-		berkeley_pacht_4x_5x "db-4.8.30.NC"
+		#berkeley_pacht_4x_5x "db-4.8.30.NC"
+		if [[ ("${DISTRO}" == "20") ]]; then
+			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ${absolutepath}/daemon_setup/tmp/db-4.8.30.NC/dbinc/atomic.h
+		fi
 		hide_output sudo make install
 		cd ${absolutepath}/daemon_setup/tmp/
 		sudo rm -r db-4.8.30.NC.tar.gz db-4.8.30.NC
@@ -380,7 +383,10 @@ else
 		hide_output sudo tar -xzvf db-5.1.29.tar.gz
 		cd db-5.1.29/build_unix/
 		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db5/
-		berkeley_pacht_4x_5x "db-5.1.29/src"
+		#berkeley_pacht_4x_5x "db-5.1.29/src"
+		if [[ ("${DISTRO}" == "20") ]]; then
+			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ${absolutepath}/daemon_setup/tmp/db-5.1.29/src/dbinc/atomic.h
+		fi
 		hide_output sudo make install
 		cd ${absolutepath}/daemon_setup/tmp
 		sudo rm -r db-5.1.29.tar.gz db-5.1.29
@@ -398,7 +404,10 @@ else
 		hide_output sudo tar -xzvf db-5.3.28.tar.gz
 		cd db-5.3.28/build_unix/
 		hide_output sudo ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${absolutepath}/${installtoserver}/berkeley/db5.3/
-		berkeley_pacht_4x_5x "db-5.3.28/src"
+		#berkeley_pacht_4x_5x "db-5.3.28/src"
+		if [[ ("${DISTRO}" == "20") ]]; then
+			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ${absolutepath}/daemon_setup/tmp/db-5.3.28/src/dbinc/atomic.h
+		fi
 		hide_output sudo make install
 		cd ${absolutepath}/daemon_setup/tmp/
 		sudo rm -r db-5.3.28.tar.gz db-5.3.28
