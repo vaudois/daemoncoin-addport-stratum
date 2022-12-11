@@ -466,9 +466,9 @@ else
 				echo
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --prefix=`pwd`/depends/i686-pc-linux-gnu
+				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-pc-linux-gnu
 				else
-				./configure --prefix=`pwd`/depends/i686-pc-linux-gnu
+				./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-pc-linux-gnu
 				fi
 			elif [ -d "$DEPENDS/x86_64-pc-linux-gnu/" ]; then
 				echo
@@ -476,9 +476,9 @@ else
 				echo
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-pc-linux-gnu
 				else
-				./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+				./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-pc-linux-gnu
 				fi
 			elif [ -d "$DEPENDS/i686-w64-mingw32/" ]; then
 				echo
@@ -486,9 +486,9 @@ else
 				echo
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --prefix=`pwd`/depends/i686-w64-mingw32
+				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-w64-mingw32
 				else
-				./configure --prefix=`pwd`/depends/i686-w64-mingw32
+				./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-w64-mingw32
 				fi
 			elif [ -d "$DEPENDS/x86_64-w64-mingw32/" ]; then
 				echo
@@ -496,9 +496,9 @@ else
 				echo
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
+				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-w64-mingw32
 				else
-				./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
+				./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-w64-mingw32
 				fi
 			elif [ -d "$DEPENDS/x86_64-apple-darwin14/" ]; then
 				echo
@@ -506,9 +506,9 @@ else
 				echo
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --prefix=`pwd`/depends/x86_64-apple-darwin14
+				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-apple-darwin14
 				else
-				./configure --prefix=`pwd`/depends/x86_64-apple-darwin14
+				./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-apple-darwin14
 				fi
 			elif [ -d "$DEPENDS/arm-linux-gnueabihf/" ]; then
 				echo
@@ -516,9 +516,9 @@ else
 				echo
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --prefix=`pwd`/depends/arm-linux-gnueabihf
+				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/arm-linux-gnueabihf
 				else
-				./configure --prefix=`pwd`/depends/arm-linux-gnueabihf
+				./configure --with-incompatible-bdb --prefix=`pwd`/depends/arm-linux-gnueabihf
 				fi
 			elif [ -d "$DEPENDS/aarch64-linux-gnu/" ]; then
 				echo
@@ -526,9 +526,9 @@ else
 				echo
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --prefix=`pwd`/depends/aarch64-linux-gnu
+				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/aarch64-linux-gnu
 				else
-				./configure --prefix=`pwd`/depends/aarch64-linux-gnu
+				./configure --with-incompatible-bdb --prefix=`pwd`/depends/aarch64-linux-gnu
 				fi
 			fi
 			echo
