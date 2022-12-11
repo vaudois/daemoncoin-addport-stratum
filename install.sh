@@ -424,7 +424,7 @@ else
 	fi
 	
 	if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db18" ]]; then
-		echo -e "$YELLOW Building Berkeley 18.xx, this may take several minutes...$COL_RESET"
+		echo -e "$YELLOW Building Berkeley 18, this may take several minutes...$COL_RESET"
 		sleep 3
 
 		sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db18/
