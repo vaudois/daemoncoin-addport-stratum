@@ -382,7 +382,7 @@ if [[ ("$autogen" == "true") ]]; then
 		read -r -e -p "where is the folder that contains the BUILD.SH installation file, example xxutil :" reputil
 		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
 		echo ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}
-		spiner_output bash build.sh -j$(nproc)
+		bash build.sh -j$(nproc)
 
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}/fetch-params.sh" ]]; then
 			echo "fetch-params.sh not found skipping"
