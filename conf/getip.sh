@@ -2,14 +2,12 @@
 # Updated by vaudois for crypto use...
 #####################################################
 
-FUNC=/etc/functionscoin.sh
+FUNC=/etc/coinbuild.sh
 MULTISERVER=/etc/multiserver.sh
 if [[ -f "$MULTISERVER" ]]; then
 	source /etc/multiserver.sh
 elif [[ -f "$FUNC" ]]; then
-	source /etc/functionscoin.sh
-else
-	source /etc/functions.sh
+	source /etc/coinbuild.sh
 fi
 
 echo -e "$CYAN => Setting our global variables : $COL_RESET"
