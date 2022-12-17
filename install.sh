@@ -46,37 +46,37 @@ clear
 		source ${installdirname}/conf/getip.sh
 	fi
 
-	sudo sed -i 's#btcdons#'$BTCDEP'#' conf/functions.sh
+	sudo sed -i 's#btcdons#'$BTCDEP'#' conf/coinbuild.sh
 	sleep 1
 
-	sudo sed -i 's#ltcdons#'$LTCDEP'#' conf/functions.sh
+	sudo sed -i 's#ltcdons#'$LTCDEP'#' conf/coinbuild.sh
 	sleep 1
 
-	sudo sed -i 's#ethdons#'$ETHDEP'#' conf/functions.sh
+	sudo sed -i 's#ethdons#'$ETHDEP'#' conf/coinbuild.sh
 	sleep 1
 
-	sudo sed -i 's#bchdons#'$BCHDEP'#' conf/functions.sh
+	sudo sed -i 's#bchdons#'$BCHDEP'#' conf/coinbuild.sh
 	sleep 1
 
-	sudo sed -i 's#daemonnameserver#'$daemonname'#' conf/functions.sh
+	sudo sed -i 's#daemonnameserver#'$daemonname'#' conf/coinbuild.sh
 	sleep 1
 
-	sudo sed -i 's#installpath#'$installtoserver'#' conf/functions.sh
+	sudo sed -i 's#installpath#'$installtoserver'#' conf/coinbuild.sh
 	sleep 1
 	
-	sudo sed -i 's#absolutepathserver#'$absolutepath'#' conf/functions.sh
+	sudo sed -i 's#absolutepathserver#'$absolutepath'#' conf/coinbuild.sh
 	sleep 1
 
-	sudo sed -i 's#versiontag#'$TAG'#' conf/functions.sh
+	sudo sed -i 's#versiontag#'$TAG'#' conf/coinbuild.sh
 	sleep 1
 	
-	sudo sed -i 's#distroserver#'$DISTRO'#' conf/functions.sh
+	sudo sed -i 's#distroserver#'$DISTRO'#' conf/coinbuild.sh
 	sleep 1
 
 	# Are we running as root?
 if (( $EUID == 0 )); then
 
-	source conf/functions.sh
+	source conf/coinbuild.sh
 
 	if ! locale -a | grep en_US.utf8 > /dev/null; then
 		# Generate locale if not exists
@@ -130,7 +130,7 @@ else
 		source ${absolutepath}/${installtoserver}/conf/info.sh
 		if [[ ("$VERSION" == "$TAG") ]]; then
 			
-			source ${installdirname}/conf/functions.sh
+			source ${installdirname}/conf/coinbuild.sh
 
 			if ! locale -a | grep en_US.utf8 > /dev/null; then
 				# Generate locale if not exists
@@ -171,17 +171,13 @@ else
 		cd ${installdirname}
 		sudo mkdir -p ${absolutepath}/${installtoserver}/conf/
 
-		source ${installdirname}/conf/functions.sh
+		source ${installdirname}/conf/coinbuild.sh
 		
-		FUNC=/etc/functions.sh
+		FUNC=/etc/coinbuild.sh
 		if [[ ! -f "$FUNC" ]]; then
-			sudo cp -r ${installdirname}/conf/functions.sh /etc/
-			FUNCTIONFILE=functions.sh
-			source /etc/functions.sh
-		else
-			sudo cp -r ${installdirname}/conf/functions.sh /etc/functionscoin.sh
-			FUNCTIONFILE=functionscoin.sh
-			source /etc/functionscoin.sh
+			sudo cp -r ${installdirname}/conf/coinbuild.sh /etc/
+			FUNCTIONFILE=coinbuild.sh
+			source /etc/coinbuild.sh
 		fi
 
 		SCSCRYPT=/etc/screen-scrypt.sh
@@ -200,15 +196,12 @@ else
 
 	else
 		if [[ ("${EXIT}" == "false") ]]; then
-			source ${installdirname}/conf/functions.sh
+			source ${installdirname}/conf/coinbuild.sh
 
-			FUNC=/etc/functionscoin.sh
+			FUNC=/etc/coinbuild.sh
 			if [[ ! -f "$FUNC" ]]; then
-				sudo cp -r ${installdirname}/conf/functions.sh /etc/
-				FUNCTIONFILE=functions.sh
-			else
-				sudo cp -r ${installdirname}/conf/functions.sh /etc/functionscoin.sh
-				FUNCTIONFILE=functionscoin.sh
+				sudo cp -r ${installdirname}/conf/coinbuild.sh /etc/
+				FUNCTIONFILE=coinbuild.sh
 			fi
 		fi
 	fi
@@ -248,11 +241,9 @@ else
 			echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
 			NEWVERSION=${TAG}
 		else
-			FUNC=/etc/functionscoin.sh
+			FUNC=/etc/coinbuild.sh
 			if [[ ! -f "$FUNC" ]]; then
-				source /etc/functions.sh
-			else
-				source /etc/functionscoin.sh
+				source /etc/coinbuild.sh
 			fi
 
 
@@ -551,7 +542,7 @@ else
 			if [[ "${INSTVERSION}" == "$TAG" ]]; then
 				sleep 3
 				echo '#!/usr/bin/env bash
-				source /etc/'"${FUNCTIONFILE}"' # load our functions
+				source /etc/'"${FUNCTIONFILE}"' # load our coinbuild.sh
 				cd '"${absolutepath}"'/'"${installtoserver}"'/daemon_builder
 				bash start.sh
 				cd ~' | sudo -E tee /usr/bin/${daemonname} >/dev/null 2>&1
