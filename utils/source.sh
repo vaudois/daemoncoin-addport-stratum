@@ -4,12 +4,7 @@
 # Source to compile wallets
 #####################################################
 
-FUNC=/etc/functionscoin.sh
-if [[ ! -f "$FUNC" ]]; then
-	source /etc/functions.sh
-else
-	source /etc/functionscoin.sh
-fi
+source /etc/coinbuild.sh
 
 YIIMPOLL=/etc/yiimpool.conf
 if [[ -f "$YIIMPOLL" ]]; then
