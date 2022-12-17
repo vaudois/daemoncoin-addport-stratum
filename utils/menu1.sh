@@ -5,12 +5,7 @@
 # Menu: Build New Coin Daemon from Source Code
 #####################################################
 
-FUNC=/etc/functionscoin.sh
-if [[ ! -f "$FUNC" ]]; then
-	source /etc/functions.sh
-else
-	source /etc/functionscoin.sh
-fi
+source /etc/coinbuild.sh
 
 cd ${absolutepath}/${installtoserver}/daemon_builder
 
