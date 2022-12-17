@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 #####################################################
-# Source code https://github.com/end222/pacmenu
 # Updated by Vaudois
 # Menu: Build New Coin Daemon from Source Code
 #####################################################
