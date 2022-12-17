@@ -23,12 +23,7 @@
 	
 	whoami=`whoami`
 
-	FUNC=/etc/functionscoin.sh
-	if [[ ! -f "$FUNC" ]]; then
-		source /etc/functions.sh
-	else
-		source /etc/functionscoin.sh
-	fi
+	source /etc/coinbuild.sh
 
 	source $HOME/${installtoserver}/conf/coin.sh
 	term_art
