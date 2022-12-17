@@ -1,17 +1,10 @@
 #!/usr/bin/env bash
 #####################################################
-# Source code https://github.com/end222/pacmenu
 # Updated by Vaudois
 # Menu: Update new Stratum
 #####################################################
 
-FUNC=/etc/functionscoin.sh
-if [[ ! -f "$FUNC" ]]; then
-	source /etc/functions.sh
-else
-	source /etc/functionscoin.sh
-fi
-
+source /etc/coinbuild.sh
 source ${absolutepath}/${installtoserver}/conf/info.sh
 
 message_box " Stratum compiler " \
