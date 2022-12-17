@@ -1,18 +1,10 @@
 #!/usr/bin/env bash
 #####################################################
 # This is the entry point for configuring the system.
-# Source https://mailinabox.email/ https://github.com/mail-in-a-box/mailinabox
 # Updated by Vaudois
 #####################################################
 
-FUNC=/etc/functionscoin.sh
-if [[ ! -f "$FUNC" ]]; then
-	source /etc/functions.sh
-else
-	source /etc/functionscoin.sh
-fi
-# load our functions
-
+source /etc/coinbuild.sh
 source ${absolutepath}/${installtoserver}/conf/info.sh
 
 cd ${absolutepath}/${installtoserver}/daemon_builder
