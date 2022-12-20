@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 18.04/20.04
-#   v0.7.9.1 (2022-12-17)
+#   v0.7.9.2 (2022-12-17)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.7.9.1
+	TAG=v0.7.9.2
 fi
 
 clear
@@ -184,6 +184,9 @@ else
 		if [[ ! -f "$SCSCRYPT" ]]; then
 			hide_output sudo cp -r ${installdirname}/utils/screen-scrypt.sh /etc/
 			hide_output sudo chmod +x /etc/screen-scrypt.sh
+			
+			#Add to contrab screen-scrypt
+			(crontab -l 2>/dev/null; echo "@reboot sleep 20 && /etc/screen-scrypt.sh") | crontab -
 		fi
 
 		EDITCONFAPP=/usr/bin/editconf.py
@@ -557,10 +560,6 @@ else
 			# Final Directory permissions
 			echo
 			echo -e "$CYAN => Final Directory permissions $COL_RESET"
-			sleep 3
-
-			#Add to contrab screen-scrypt
-			(crontab -l 2>/dev/null; echo "@reboot sleep 20 && /etc/screen-scrypt.sh") | crontab -
 			sleep 3
 
 			#Restart service
