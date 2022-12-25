@@ -92,8 +92,8 @@ if (( $EUID == 0 )); then
 	export NCURSES_NO_UTF8_ACS=1
 
 	# Welcome
-	message_box "Daemoncoin & Addport & Stratum Installer" \
-	"Hello and thanks for using the Daemoncoin & Addport & Stratum!
+	message_box "Coinbuild & Addport & Stratum Installer" \
+	"Hello and thanks for using the Coinbuild & Addport & Stratum!
 	\n\nInstallation for the most part is fully automated. In most cases any user responses that are needed are asked prior to the installation.
 	\n\nNOTE: You should only install this on a brand new Ubuntu 18.04 or Ubuntu 20.04 installation.
 	\n\nIMPORTANT: Please run this scrypt logged in Sudo User Thnaks you."
