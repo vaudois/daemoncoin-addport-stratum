@@ -5,6 +5,7 @@
 #####################################################
 
 source /etc/coinbuild.sh
+source ${absolutepath}/${installtoserver}/conf/info.sh
 
 YIIMPOLL=/etc/yiimpool.conf
 if [[ -f "$YIIMPOLL" ]]; then
@@ -49,7 +50,7 @@ else
 	echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 fi
 # Just double checking folder permissions
-sudo setfacl -m u:$USER:rwx ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
+sudo setfacl -m u:${USERSERVER}:rwx ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 
 # Get the github information
@@ -974,7 +975,7 @@ if [[ "${YIIMPCONF}" == "true" ]]; then
 		sudo mkdir -p $STORAGE_ROOT/wallets
 	fi
 
-	sudo setfacl -m u:$USER:rwx $STORAGE_ROOT/wallets
+	sudo setfacl -m u:${USERSERVER}:rwx $STORAGE_ROOT/wallets
 	mkdir -p $STORAGE_ROOT/wallets/."${coind::-1}"
 	sleep 3
 	if [[ "$coinwalletmv" == "true" ]] ; then
@@ -993,7 +994,7 @@ else
 		sudo mkdir -p ${absolutepath}/wallets
 	fi
 
-	sudo setfacl -m u:$USER:rwx ${absolutepath}/wallets
+	sudo setfacl -m u:${USERSERVER}:rwx ${absolutepath}/wallets
 	mkdir -p ${absolutepath}/wallets/."${coind::-1}"
 	sleep 3
 	if [[ "$coinwalletmv" == "true" ]] ; then
