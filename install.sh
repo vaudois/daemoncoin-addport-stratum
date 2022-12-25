@@ -574,6 +574,7 @@ else
 			sleep 3
 			if [ -z "${VERSION}" ]; then
 				echo '#!/bin/sh
+				USERSERVER='"${whoami}"'
 				PATH_STRATUM='"${path_stratum}"'
 				FUNCTION_FILE='"${FUNCTIONFILE}"'
 				VERSION='"${TAG}"'
@@ -585,6 +586,7 @@ else
 			else
 				if [[ ! "$VERSION" == "$TAG" ]]; then
 					echo '#!/bin/sh
+					USERSERVER='"${whoami}"'
 					PATH_STRATUM='"${path_stratum}"'
 					FUNCTION_FILE='"${FUNCTIONFILE}"'
 					VERSION='"${TAG}"'
@@ -601,6 +603,7 @@ else
 			echo -e "$YELLOW FINISH! Creating info file to Version $TAG! $COL_RESET"
 			sleep 3
 			echo '#!/bin/sh
+			USERSERVER='"${whoami}"'
 			PATH_STRATUM='"${path_stratum}"'
 			FUNCTION_FILE='"${FUNCTIONFILE}"'
 			VERSION='"${TAG}"'
