@@ -132,7 +132,7 @@ fi
 if [ -f $PATH_STRATUM/config/$coinsymbollower.$coinalgo.conf ]; then
   if [[ ("$overwrite" == "y" || "$overwrite" == "Y" || "$overwrite" == "yes" || "$overwrite" == "YES") ]]; then
     # Insert the port in to the new symbol.algo.conf
-    sed -i '/port/c\port = '${coinport}'' $coinsymbollower.$coinalgo.conf
+    sudo sed -i '/port/c\port = '${coinport}'' $coinsymbollower.$coinalgo.conf
     echo -e "$YELLOW Port updated! Remeber to update your blocknotify line!! $COL_RESET"
   fi
 else
@@ -142,7 +142,7 @@ files=(*.$coinalgo.conf)
 if [ -e "${files[0]}" ]; then
 for r in *.$coinalgo.conf; do
   if ! grep -Fxq "exclude = ${coinsymbol}" "$r"; then
-    sed -i -e '$a\
+    sudo sed -i -e '$a\
 [WALLETS]\
 exclude = '${coinsymbol}'' "$r"
 fi
@@ -150,19 +150,19 @@ done
 fi
 sleep 2
 # Copy the default algo.conf to the new symbol.algo.conf
-  cp -r $coinalgo.conf $coinsymbollower.$coinalgo.conf
+  sudo cp -r $coinalgo.conf $coinsymbollower.$coinalgo.conf
   sleep 1
 # Insert the port in to the new symbol.algo.conf
-  sed -i '/port/c\port = '${coinport}'' $coinsymbollower.$coinalgo.conf
+  sudo sed -i '/port/c\port = '${coinport}'' $coinsymbollower.$coinalgo.conf
   sleep 1
 # If setting a nicehash value
 if [[ ("$nicehash" == "y" || "$nicehash" == "Y" || "$nicehash" == "yes" || "$nicehash" == "YES") ]]; then
-  sed -i -e '/difficulty =/a\
+  sudo sed -i -e '/difficulty =/a\
 nicehash = '${nicevalue}'' $coinsymbollower.$coinalgo.conf
 fi
 sleep 1
 # Insert the include in to the new symbol.algo.conf
-  sed -i -e '$a\
+  sudo sed -i -e '$a\
 [WALLETS]\
 include = '${coinsymbol}'' $coinsymbollower.$coinalgo.conf
 fi
@@ -171,7 +171,7 @@ sleep 2
 #Again preventing asshat duplications...
 if ! grep -Fxq "exclude = ${coinsymbol}" "$coinalgo.conf"; then
 # Insert the exclude in to algo.conf
-  sed -i -e '$a\
+  sudo sed -i -e '$a\
 [WALLETS]\
 exclude = '${coinsymbol}'' $coinalgo.conf
 else
@@ -235,7 +235,7 @@ echo "Adding stratum.${coinsymbollower} to crontab for autostart at system boot.
 (crontab -l 2>/dev/null; echo "@reboot sleep 10 && bash stratum.${coinsymbollower} start ${coinsymbollower}") | crontab -
 echo
 echo -e "$YELLOW Starting your new stratum...$COL_RESET"
-bash stratum.${coinsymbollower} start ${coinsymbollower}
+sudo bash stratum.${coinsymbollower} start ${coinsymbollower}
 sleep 1
 
 if [[("$CREATECOIN" == 'true')]]; then
