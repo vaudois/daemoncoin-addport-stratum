@@ -177,8 +177,6 @@ else
 			sudo cp -r ${installdirname}/conf/coinbuild.sh /etc/
 			FUNCTIONFILE=coinbuild.sh
 			source /etc/coinbuild.sh
-		else
-			FUNCTIONFILE=${FUNCTION_FILE}
 		fi
 
 		SCSCRYPT=/etc/screen-scrypt.sh
@@ -206,8 +204,6 @@ else
 			if [[ ! -f "$FUNC" ]]; then
 				sudo cp -r ${installdirname}/conf/coinbuild.sh /etc/
 				FUNCTIONFILE=coinbuild.sh
-			else
-				FUNCTIONFILE=${FUNCTION_FILE}
 			fi
 		fi
 	fi
@@ -258,6 +254,12 @@ else
 				path_stratum=${PATH_STRATUM}
 			fi
 			
+			if [ -z "${FUNCTION_FILE}" ]; then
+				FUNCTIONFILE=coinbuild.sh
+			else
+				FUNCTIONFILE=${FUNCTION_FILE}
+			fi
+
 			term_art
 
 			echo
@@ -269,8 +271,6 @@ else
 			if [[ ! -f "$FUNC" ]]; then
 				source /etc/coinbuild.sh
 				FUNCTIONFILE=coinbuild.sh
-			else
-				FUNCTIONFILE=${FUNCTION_FILE}
 			fi
 
 
