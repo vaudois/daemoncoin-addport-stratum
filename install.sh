@@ -260,6 +260,7 @@ else
 				FUNCTIONFILE=${FUNCTION_FILE}
 			fi
 
+			clear
 			term_art
 
 			echo
