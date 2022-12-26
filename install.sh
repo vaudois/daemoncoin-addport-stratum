@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 18.04/20.04
-#   v0.7.9.3 (2022-12-25)
+#   v0.7.9.4 (2022-12-25)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.7.9.3
+	TAG=v0.7.9.4
 fi
 
 clear
@@ -128,8 +128,6 @@ else
 
 	if [[ -f "${absolutepath}/${installtoserver}/conf/info.sh" ]]; then
 		source ${absolutepath}/${installtoserver}/conf/info.sh
-		path_stratum=${PATH_STRATUM}
-		
 		if [[ ("$VERSION" == "$TAG") ]]; then
 			source ${installdirname}/conf/coinbuild.sh
 
@@ -248,6 +246,22 @@ else
 			echo
 			echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
 			NEWVERSION=${TAG}
+
+			if [ -z "${PATH_STRATUM}" ]; then
+				echo
+				echo -e "$RED Make sure you double check before hitting enter! Only one shot at these! $COL_RESET"
+				echo
+				DEFAULT_path_stratum=/var/stratum
+				input_box " Path Stratum " \
+				"Enter path to stratum directory.
+				\n\n Example: /var/stratum
+				\n\nPath Stratum:" \
+				${DEFAULT_path_stratum} \
+				path_stratum
+			else
+				path_stratum=${PATH_STRATUM}
+			fi
+
 		else
 			FUNC=/etc/coinbuild.sh
 			if [[ ! -f "$FUNC" ]]; then
