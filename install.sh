@@ -128,8 +128,9 @@ else
 
 	if [[ -f "${absolutepath}/${installtoserver}/conf/info.sh" ]]; then
 		source ${absolutepath}/${installtoserver}/conf/info.sh
+		path_stratum=${PATH_STRATUM}
+		
 		if [[ ("$VERSION" == "$TAG") ]]; then
-			
 			source ${installdirname}/conf/coinbuild.sh
 
 			if ! locale -a | grep en_US.utf8 > /dev/null; then
@@ -178,6 +179,8 @@ else
 			sudo cp -r ${installdirname}/conf/coinbuild.sh /etc/
 			FUNCTIONFILE=coinbuild.sh
 			source /etc/coinbuild.sh
+		else
+			FUNCTIONFILE=${FUNCTION_FILE}
 		fi
 
 		SCSCRYPT=/etc/screen-scrypt.sh
@@ -205,6 +208,8 @@ else
 			if [[ ! -f "$FUNC" ]]; then
 				sudo cp -r ${installdirname}/conf/coinbuild.sh /etc/
 				FUNCTIONFILE=coinbuild.sh
+			else
+				FUNCTIONFILE=${FUNCTION_FILE}
 			fi
 		fi
 	fi
@@ -247,6 +252,9 @@ else
 			FUNC=/etc/coinbuild.sh
 			if [[ ! -f "$FUNC" ]]; then
 				source /etc/coinbuild.sh
+				FUNCTIONFILE=coinbuild.sh
+			else
+				FUNCTIONFILE=${FUNCTION_FILE}
 			fi
 
 
