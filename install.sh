@@ -40,11 +40,6 @@ clear
 	else
 		installdirname="${TEMPINSTALL}"
 	fi
-	
-	if [ -z "${STRATUMFILE}" ]; then
-		source ${installdirname}/conf/prerequisite.sh
-		source ${installdirname}/conf/getip.sh
-	fi
 
 	sudo sed -i 's#btcdons#'$BTCDEP'#' conf/coinbuild.sh
 	sleep 1
@@ -72,6 +67,12 @@ clear
 	
 	sudo sed -i 's#distroserver#'$DISTRO'#' conf/coinbuild.sh
 	sleep 1
+
+	if [ -z "${STRATUMFILE}" ]; then
+		source conf/coinbuild.sh
+		source ${installdirname}/conf/prerequisite.sh
+		source ${installdirname}/conf/getip.sh
+	fi
 
 	# Are we running as root?
 if (( $EUID == 0 )); then
