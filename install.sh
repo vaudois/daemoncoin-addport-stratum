@@ -296,6 +296,9 @@ else
 				echo
 				exit
 			fi
+
+			clear
+			term_art
 		fi
 
 		# Installing other needed files
