@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 18.04/20.04
-#   v0.7.9.4 (2022-12-26)
+#   v0.7.9.3 (2022-12-25)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.7.9.4
+	TAG=v0.7.9.3
 fi
 
 clear
@@ -243,10 +243,6 @@ else
 		export NCURSES_NO_UTF8_ACS=1
 
 		if [[ "${FILEINFO}" == "true" ]]; then
-			echo
-			echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
-			NEWVERSION=${TAG}
-
 			if [ -z "${PATH_STRATUM}" ]; then
 				echo
 				echo -e "$RED Make sure you double check before hitting enter! Only one shot at these! $COL_RESET"
@@ -261,6 +257,12 @@ else
 			else
 				path_stratum=${PATH_STRATUM}
 			fi
+			
+			term_art
+
+			echo
+			echo -e "$YELLOW Updating your version to $TAG! $COL_RESET"
+			NEWVERSION=${TAG}
 
 		else
 			FUNC=/etc/coinbuild.sh
