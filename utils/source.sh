@@ -205,6 +205,23 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
 		basedir=$(pwd)
+
+		FILEAUTOGEN=${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/autogen.sh
+		if [[ ! -f "$FILEAUTOGEN" ]]; then
+			echo -e "$YELLOW"
+			find . -maxdepth 1 -type d \( -perm -1 -o \( -perm -10 -o -perm -100 \) \) -printf "%f\n"
+			echo -e "$COL_RESET$MAGENTA"
+			read -r -e -p "Where is the folder that contains the installation ${coin^^}, example bitcoin :" repotherinstall
+			echo -e "$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo -e "$GREEN   Moving files and Starting Building coin $MAGENTA ${coin^^} 					$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo
+
+			sudo mv ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${repotherinstall}/* ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
+			sleep 3
+		fi
+
 		sh autogen.sh
 
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
@@ -223,7 +240,7 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
 		sleep 2
-		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db4/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db4/lib" --without-gui --disable-tests
+		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db4/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db4/lib" --with-incompatible-bdb --without-gui --disable-tests
 		echo
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo -e "$GREEN   Starting make coin...															$COL_RESET"
@@ -246,6 +263,23 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
 		basedir=$(pwd)
+
+		FILEAUTOGEN=${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/autogen.sh
+		if [[ ! -f "$FILEAUTOGEN" ]]; then
+			echo -e "$YELLOW"
+			find . -maxdepth 1 -type d \( -perm -1 -o \( -perm -10 -o -perm -100 \) \) -printf "%f\n"
+			echo -e "$COL_RESET$MAGENTA"
+			read -r -e -p "Where is the folder that contains the installation ${coin^^}, example bitcoin :" repotherinstall
+			echo -e "$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo -e "$GREEN   Moving files and Starting Building coin $MAGENTA ${coin^^} 					$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo
+
+			sudo mv ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${repotherinstall}/* ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
+			sleep 3
+		fi
+
 		sh autogen.sh
 
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
@@ -265,7 +299,7 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
 		sleep 2
-		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db5/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db5/lib" --without-gui --disable-tests
+		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db5/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db5/lib" --with-incompatible-bdb --without-gui --disable-tests
 		echo
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo -e "$GREEN   Starting make coin...															$COL_RESET"
@@ -288,6 +322,23 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
 		basedir=$(pwd)
+
+		FILEAUTOGEN=${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/autogen.sh
+		if [[ ! -f "$FILEAUTOGEN" ]]; then
+			echo -e "$YELLOW"
+			find . -maxdepth 1 -type d \( -perm -1 -o \( -perm -10 -o -perm -100 \) \) -printf "%f\n"
+			echo -e "$COL_RESET$MAGENTA"
+			read -r -e -p "Where is the folder that contains the installation ${coin^^}, example bitcoin :" repotherinstall
+			echo -e "$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo -e "$GREEN   Moving files and Starting Building coin $MAGENTA ${coin^^} 					$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo
+
+			sudo mv ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${repotherinstall}/* ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
+			sleep 3
+		fi
+
 		sh autogen.sh
 
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
@@ -307,7 +358,7 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
 		sleep 2
-		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db5.3/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db5.3/lib" --without-gui --disable-tests
+		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db5.3/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db5.3/lib" --with-incompatible-bdb --without-gui --disable-tests
 		echo
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo -e "$GREEN   Starting make coin...															$COL_RESET"
@@ -330,6 +381,23 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
 		basedir=$(pwd)
+
+		FILEAUTOGEN=${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/autogen.sh
+		if [[ ! -f "$FILEAUTOGEN" ]]; then
+			echo -e "$YELLOW"
+			find . -maxdepth 1 -type d \( -perm -1 -o \( -perm -10 -o -perm -100 \) \) -printf "%f\n"
+			echo -e "$COL_RESET$MAGENTA"
+			read -r -e -p "Where is the folder that contains the installation ${coin^^}, example bitcoin :" repotherinstall
+			echo -e "$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo -e "$GREEN   Moving files and Starting Building coin $MAGENTA ${coin^^} 					$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo
+
+			sudo mv ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${repotherinstall}/* ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
+			sleep 3
+		fi
+
 		sh autogen.sh
 
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/share/genbuild.sh" ]]; then
@@ -349,7 +417,7 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
 		sleep 2
-		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db6.2/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db6.2/lib" --without-gui --disable-tests
+		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db6.2/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db6.2/lib" --with-incompatible-bdb --without-gui --disable-tests
 		echo
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo -e "$GREEN   Starting make coin...															$COL_RESET"
@@ -372,6 +440,23 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
 		basedir=$(pwd)
+
+		FILEAUTOGEN=${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/autogen.sh
+		if [[ ! -f "$FILEAUTOGEN" ]]; then
+			echo -e "$YELLOW"
+			find . -maxdepth 1 -type d \( -perm -1 -o \( -perm -10 -o -perm -100 \) \) -printf "%f\n"
+			echo -e "$COL_RESET$MAGENTA"
+			read -r -e -p "Where is the folder that contains the installation ${coin^^}, example bitcoin :" repotherinstall
+			echo -e "$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo -e "$GREEN   Moving files and Starting Building coin $MAGENTA ${coin^^} 					$COL_RESET"
+			echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+			echo
+
+			sudo mv ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${repotherinstall}/* ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
+			sleep 3
+		fi
+
 		sh autogen.sh
 
 		find . -maxdepth 1 -type d \( -perm -1 -o \( -perm -10 -o -perm -100 \) \) -printf "%f\n"
