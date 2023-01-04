@@ -379,9 +379,10 @@ else
 
 		function berkeley_pacht_4x_5x
 		{
-			if [[ ("${DISTRO}" == "20") ]]; then
-				sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ${absolutepath}/daemon_setup/tmp/$1/dbinc/atomic.h
-			fi
+			sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ${absolutepath}/daemon_setup/tmp/$1/dbinc/atomic.h
+			#if [[ ("${DISTRO}" == "20") ]]; then
+			#	sudo sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ${absolutepath}/daemon_setup/tmp/$1/dbinc/atomic.h
+			#fi
 		}
 
 		if [[ ! -d "${absolutepath}/${installtoserver}/berkeley/db4" ]]; then
