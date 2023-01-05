@@ -507,6 +507,8 @@ else
 			OUTPUT=$(cat $TMP)
 			echo $OUTPUT
 			rm $TMP
+			sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
+			sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 			else
 			echo
 			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
