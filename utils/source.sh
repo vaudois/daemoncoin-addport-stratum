@@ -241,8 +241,6 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$GREEN   Starting configure coin...													$COL_RESET"
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
-		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 		sleep 2
 		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db4/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db4/lib" --with-incompatible-bdb --without-gui --disable-tests
 		echo
@@ -255,7 +253,7 @@ if [[ ("$autogen" == "true") ]]; then
 		sleep 3
 		# make install
 		TMP=$(mktemp)
-		make -j${NPROC} 2>&1 | tee $TMP
+		sudo make -j${NPROC} 2>&1 | tee $TMP
 		OUTPUT=$(cat $TMP)
 		echo $OUTPUT
 		rm $TMP
@@ -304,8 +302,6 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$GREEN   Starting configure coin...													$COL_RESET"
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
-		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 		sleep 2
 		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db5/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db5/lib" --with-incompatible-bdb --without-gui --disable-tests
 		echo
@@ -318,7 +314,7 @@ if [[ ("$autogen" == "true") ]]; then
 		sleep 3
 		# make install
 		TMP=$(mktemp)
-		make -j${NPROC} 2>&1 | tee $TMP
+		sudo make -j${NPROC} 2>&1 | tee $TMP
 		OUTPUT=$(cat $TMP)
 		echo $OUTPUT
 		rm $TMP
@@ -367,8 +363,6 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$GREEN   Starting configure coin...													$COL_RESET"
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
-		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 		sleep 2
 		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db5.3/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db5.3/lib" --with-incompatible-bdb --without-gui --disable-tests
 		echo
@@ -381,7 +375,7 @@ if [[ ("$autogen" == "true") ]]; then
 		sleep 3
 		# make install
 		TMP=$(mktemp)
-		make -j${NPROC} 2>&1 | tee $TMP
+		sudo make -j${NPROC} 2>&1 | tee $TMP
 		OUTPUT=$(cat $TMP)
 		echo $OUTPUT
 		rm $TMP
@@ -430,8 +424,6 @@ if [[ ("$autogen" == "true") ]]; then
 		echo -e "$GREEN   Starting configure coin...													$COL_RESET"
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo
-		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 		sleep 2
 		./configure CPPFLAGS="-I${absolutepath}/${installtoserver}/berkeley/db6.2/include -O2" LDFLAGS="-L${absolutepath}/${installtoserver}/berkeley/db6.2/lib" --with-incompatible-bdb --without-gui --disable-tests
 		echo
@@ -444,7 +436,7 @@ if [[ ("$autogen" == "true") ]]; then
 		sleep 3
 		# make install
 		TMP=$(mktemp)
-		make -j${NPROC} 2>&1 | tee $TMP
+		sudo make -j${NPROC} 2>&1 | tee $TMP
 		OUTPUT=$(cat $TMP)
 		echo $OUTPUT
 		rm $TMP
@@ -484,13 +476,11 @@ if [[ ("$autogen" == "true") ]]; then
 		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
 		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 		sleep 3
-		bash build.sh -j$(nproc)
+		sudo bash build.sh -j$(nproc)
 
 		if [[ ! -e "${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${reputil}/fetch-params.sh" ]]; then
 			echo "fetch-params.sh not found skipping"
 		else
-			sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-			sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 			sh fetch-params.sh
 		fi
 	fi
@@ -522,27 +512,30 @@ else
 			sleep 3
 			cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/depends
 			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			# make install
-			TMP=$(mktemp)
-			hide_output make -j${NPROC} 2>&1 | tee $TMP
-			OUTPUT=$(cat $TMP)
-			echo $OUTPUT
-			rm $TMP
+				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
+				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
+				sleep 3
+				# make install
+				TMP=$(mktemp)
+				hide_output make -j${NPROC} 2>&1 | tee $TMP
+				OUTPUT=$(cat $TMP)
+				echo $OUTPUT
+				rm $TMP
 			else
-			echo
-			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-			echo -e "$GREEN   Starting make coin...														$COL_RESET"
-			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
-			echo
-			sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-			sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
-			sleep 3
-			# make install
-			TMP=$(mktemp)
-			make -j${NPROC} 2>&1 | tee $TMP
-			OUTPUT=$(cat $TMP)
-			echo $OUTPUT
-			rm $TMP
+				echo
+				echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
+				echo -e "$GREEN   Starting make coin...														$COL_RESET"
+				echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
+				echo
+				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
+				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
+				sleep 3
+				# make install
+				TMP=$(mktemp)
+				sudo make -j${NPROC} 2>&1 | tee $TMP
+				OUTPUT=$(cat $TMP)
+				echo $OUTPUT
+				rm $TMP
 			fi
 			echo
 			echo
@@ -554,12 +547,17 @@ else
 			echo -e "$GREEN   Starting Building coin $MAGENTA ${coin^^} $COL_RESET using autogen...		$COL_RESET"
 			echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 			echo
+			sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
+			sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 			sleep 3
 			cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
 			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-			hide_output sh autogen.sh
+				hide_output sh autogen.sh
 			else
-			sh autogen.sh
+				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
+				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
+				sleep 3
+				sh autogen.sh
 			fi
 			echo
 			echo
@@ -570,85 +568,71 @@ else
 				echo
 				echo -e "$YELLOW => Configure with i686-pc-linux-gnu... $COL_RESET"
 				echo
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-pc-linux-gnu
+					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-pc-linux-gnu
 				else
-				./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-pc-linux-gnu
+					./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-pc-linux-gnu
 				fi
 			elif [ -d "$DEPENDS/x86_64-pc-linux-gnu/" ]; then
 				echo
 				echo -e "$YELLOW => Configure with x86_64-pc-linux-gnu... $COL_RESET"
 				echo
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-pc-linux-gnu
 				else
-				./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+					./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-pc-linux-gnu
 				fi
 			elif [ -d "$DEPENDS/i686-w64-mingw32/" ]; then
 				echo
 				echo -e "$YELLOW => Configure with i686-w64-mingw32... $COL_RESET"
 				echo
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-w64-mingw32
+					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-w64-mingw32
 				else
-				./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-w64-mingw32
+					./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-w64-mingw32
 				fi
 			elif [ -d "$DEPENDS/x86_64-w64-mingw32/" ]; then
 				echo
 				echo -e "$YELLOW => Configure with x86_64-w64-mingw32... $COL_RESET"
 				echo
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-w64-mingw32
+					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-w64-mingw32
 				else
-				./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-w64-mingw32
+					./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-w64-mingw32
 				fi
 			elif [ -d "$DEPENDS/x86_64-apple-darwin14/" ]; then
 				echo
 				echo -e "$YELLOW => Configure with x86_64-apple-darwin14... $COL_RESET"
 				echo
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-apple-darwin14
+					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-apple-darwin14
 				else
-				./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-apple-darwin14
+					./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-apple-darwin14
 				fi
 			elif [ -d "$DEPENDS/arm-linux-gnueabihf/" ]; then
 				echo
 				echo -e "$YELLOW => Configure with arm-linux-gnueabihf... $COL_RESET"
 				echo
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/arm-linux-gnueabihf
+					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/arm-linux-gnueabihf
 				else
-				./configure --with-incompatible-bdb --prefix=`pwd`/depends/arm-linux-gnueabihf
+					./configure --with-incompatible-bdb --prefix=`pwd`/depends/arm-linux-gnueabihf
 				fi
 			elif [ -d "$DEPENDS/aarch64-linux-gnu/" ]; then
 				echo
 				echo -e "$YELLOW => Configure with aarch64-linux-gnu... $COL_RESET"
 				echo
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 				sleep 3
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-				hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/aarch64-linux-gnu
+					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/aarch64-linux-gnu
 				else
-				./configure --with-incompatible-bdb --prefix=`pwd`/depends/aarch64-linux-gnu
+					./configure --with-incompatible-bdb --prefix=`pwd`/depends/aarch64-linux-gnu
 				fi
 			fi
 			echo
@@ -659,8 +643,6 @@ else
 			echo
 			echo -e "$YELLOW => Executing make to finalize... $COL_RESET"
 			echo
-			sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-			sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 			sleep 3
 			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
 			# make install
@@ -680,7 +662,7 @@ else
 			sleep 3
 			# make install
 			TMP=$(mktemp)
-			make -j${NPROC} 2>&1 | tee $TMP
+			sudo make -j${NPROC} 2>&1 | tee $TMP
 			OUTPUT=$(cat $TMP)
 			echo $OUTPUT
 			rm $TMP
@@ -707,7 +689,7 @@ else
 			sleep 3
 			# make install
 			TMP=$(mktemp)
-			make -j${NPROC} 2>&1 | tee $TMP
+			sudo make -j${NPROC} 2>&1 | tee $TMP
 			OUTPUT=$(cat $TMP)
 			echo $OUTPUT
 			rm $TMP
@@ -751,25 +733,23 @@ else
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo -e "$GREEN   Starting precompiling with make depends libs*									$COL_RESET"
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
-		echo
 		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
 		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 		sleep 3
 		sudo make libleveldb.a libmemenv.a
 		cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/src
-		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
-		sleep 3
 		sed -i '/USE_UPNP:=0/i BDB_LIB_PATH = '${absolutepath}'/'${installtoserver}'/berkeley/db4/lib\nBDB_INCLUDE_PATH = '${absolutepath}'/'${installtoserver}'/berkeley/db4/include\nOPENSSL_LIB_PATH = '${absolutepath}'/'${installtoserver}'/openssl/lib\nOPENSSL_INCLUDE_PATH = '${absolutepath}'/'${installtoserver}'/openssl/include' makefile.unix
 		sed -i '/USE_UPNP:=1/i BDB_LIB_PATH = '${absolutepath}'/'${installtoserver}'/berkeley/db4/lib\nBDB_INCLUDE_PATH = '${absolutepath}'/'${installtoserver}'/berkeley/db4/include\nOPENSSL_LIB_PATH = '${absolutepath}'/'${installtoserver}'/openssl/lib\nOPENSSL_INCLUDE_PATH = '${absolutepath}'/'${installtoserver}'/openssl/include' makefile.unix
 		echo
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 		echo -e "$GREEN   Starting compiling with makefile.unix											$COL_RESET"
 		echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
+		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
+		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 		sleep 3
 		# make install
 		TMP=$(mktemp)
-		make -j${NPROC} -f makefile.unix USE_UPNP=- 2>&1 | tee $TMP
+		sudo make -j${NPROC} -f makefile.unix USE_UPNP=- 2>&1 | tee $TMP
 		OUTPUT=$(cat $TMP)
 		echo $OUTPUT
 		rm $TMP
