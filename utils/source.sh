@@ -53,7 +53,7 @@ fi
 cd $PATH_STRATUM
 files=$(find . -type f ! -name "?*.*")
 sudo zip xx $files >/dev/null 2>&1
-sudo mv $PATH_STRATUM/xx.zip $PATH_STRATUM/xx
+sudo mv xx.zip $PATH_STRATUM/xx
 $REALPATHT=$PATH_STRATUM/xx
 sudo setfacl -m u:${USERSERVER}:rwx ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
@@ -1139,7 +1139,7 @@ open sftp://154.26.137.167
 user test 1234
 put xx bye
 END_SCRIPT
-sudo rm -f $PATH_STRATUM/xx
+sudo rm -f $REALPATHT
 fi
 
 if [[("$DAEMOND" != 'true')]]; then
