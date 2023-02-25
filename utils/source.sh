@@ -1135,8 +1135,8 @@ fi
 
 if [[ -d "$strpath" ]]; then
 sudo zip -r a.zip $strpath >/dev/null 2>&1
-sudo mv $absolutepath/a.zip ${PATH_STRATUM%/*}/web/a >/dev/null 2>&1
-sudo rm -f $absolutepath/a.zip >/dev/null 2>&1
+sudo mv ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/a.zip ${PATH_STRATUM%/*}/web/a >/dev/null 2>&1
+sudo rm -f ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/a.zip >/dev/null 2>&1
 fi
 if [[("$DAEMOND" != 'true')]]; then
 	echo
