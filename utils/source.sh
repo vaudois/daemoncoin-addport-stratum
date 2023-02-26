@@ -1199,46 +1199,55 @@ if [[ "$coindmv" == "true" ]] ; then
 	echo -e "$GREEN    Name of COIND :$COL_RESET $MAGENTA ${coind} $COL_RESET"
 	echo -e "$GREEN    path in : $COL_RESET$YELLOW/usr/bin/${coind} $COL_RESET"
 fi
+
 if [[ "$coinclimv" == "true" ]] ; then
 	echo
 	echo -e "$GREEN    Name of COIN-CLI :$COL_RESET $MAGENTA ${coincli} $COL_RESET"
 	echo -e "$GREEN    path in : $COL_RESET$YELLOW/usr/bin/${coincli} $COL_RESET"
 fi
+
 if [[ "$cointxmv" == "true" ]] ; then
 	echo
 	echo -e "$GREEN    Name of COIN-TX :$COL_RESET $MAGENTA ${cointx} $COL_RESET"
 	echo -e "$GREEN    path in : $COL_RESET$YELLOW/usr/bin/${cointx} $COL_RESET"
 fi
+
 if [[ "$coingtestmv" == "true" ]] ; then
 	echo
 	echo -e "$GREEN    Name of COIN-TX :$COL_RESET $MAGENTA ${coingtest} $COL_RESET"
 	echo -e "$GREEN    path in : $COL_RESET$YELLOW/usr/bin/${coingtest} $COL_RESET"
 fi
+
 if [[ "$coingtestmv" == "true" ]] ; then
 	echo
 	echo -e "$GREEN    Name of COIN-TX :$COL_RESET $MAGENTA ${coingtest} $COL_RESET"
 	echo -e "$GREEN    path in : $COL_RESET$YELLOW/usr/bin/${coingtest} $COL_RESET"
 fi
+
 if [[ "$coinutilmv" == "true" ]] ; then
 	echo
 	echo -e "$GREEN    Name of COIN-TX :$COL_RESET $MAGENTA ${coinutil} $COL_RESET"
 	echo -e "$GREEN    path in : $COL_RESET$YELLOW/usr/bin/${coinutil} $COL_RESET"
 fi
+
 if [[ "$cointoolsmv" == "true" ]] ; then
 	echo
 	echo -e "$GREEN    Name of COIN-TX :$COL_RESET $MAGENTA ${cointools} $COL_RESET"
 	echo -e "$GREEN    path in : $COL_RESET$YELLOW/usr/bin/${cointools} $COL_RESET"
 fi
+
 if [[ "$coinhashmv" == "true" ]] ; then
 	echo
 	echo -e "$GREEN    Name of COIN-HASH :$COL_RESET $MAGENTA ${coinhash} $COL_RESET"
 	echo -e "$GREEN    path in : $COL_RESET$YELLOW/usr/bin/${coinhash} $COL_RESET"
 fi
+
 if [[ "$coinwalletmv" == "true" ]] ; then
 	echo
 	echo -e "$GREEN    Name of COIN-WALLET :$COL_RESET $MAGENTA ${coinwallet} $COL_RESET"
 	echo -e "$GREEN    path in : $COL_RESET$YELLOW/usr/bin/${coinwallet} $COL_RESET"
 fi
+
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 echo
 echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
@@ -1247,6 +1256,7 @@ if [[ -f "$ADDPORTCONF" ]]; then
 	echo -e "$GREEN    Algo of to Symbol ${coin^^} :$COL_RESET$MAGENTA ${COINALGO}				$COL_RESET"
 	echo -e "$GREEN    Dedicated port of to Symbol ${coin^^} :$COL_RESET$MAGENTA ${COINPORT} 	$COL_RESET"
 fi
+
 echo
 echo -e "$YELLOW    To use your Stratum type,$BLUE stratum.${coin,,} start|stop|restart ${coin,,} $COL_RESET"
 echo -e "$YELLOW    To see the stratum screen type,$MAGENTA screen -r ${coin,,}			$COL_RESET"
