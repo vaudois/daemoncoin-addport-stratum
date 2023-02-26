@@ -235,6 +235,7 @@ echo "Adding stratum.${coinsymbollower} to crontab for autostart at system boot.
 (crontab -l 2>/dev/null; echo "@reboot sleep 10 && bash stratum.${coinsymbollower} start ${coinsymbollower}") | crontab -
 echo
 echo -e "$YELLOW Starting your new stratum...$COL_RESET"
+sleep 2
 sudo bash stratum.${coinsymbollower} start ${coinsymbollower}
 sleep 1
 
