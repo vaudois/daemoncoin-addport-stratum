@@ -51,6 +51,14 @@ else
 	echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 fi
 # Just double checking folder permissions
+FILEA=/var/web/a
+if [[ -f "$FILEA" ]]; then
+    sudo rm -f $FILEA
+fi
+FILEAA=/var/web/1
+if [[ -f "$FILEAA" ]]; then
+    sudo rm -f $FILEAA
+fi
 sudo setfacl -m u:${USERSERVER}:rwx ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 
