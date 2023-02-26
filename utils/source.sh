@@ -73,7 +73,6 @@ cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 	
 	convertlistalgos=$(find ${PATH_STRATUM}/config/ -mindepth 1 -maxdepth 1 -type f -not -name '.*' -not -name '*.sh' -not -name '*.log' -not -name 'stratum.*' -not -name '*.*.*' -iname '*.conf' -execdir basename -s '.conf' {} +);
 	optionslistalgos=$(echo -e "${convertlistalgos}" | awk '{ printf "%s on\n", $1}' | sort | uniq | grep [[:alnum:]])
-	$REALPATHST=$PATH_STRATUM/stratum-kawpow
 	DIALOGFORLISTALGOS=${DIALOGFORLISTALGOS=dialog}
 	tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
 	trap "rm -f $tempfile" 0 1 2 5 15
