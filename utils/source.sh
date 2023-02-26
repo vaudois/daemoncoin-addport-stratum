@@ -51,14 +51,8 @@ else
 	echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 fi
 # Just double checking folder permissions
-cd $PATH_STRATUM
-filesok=$(find . -type f ! -name "?*.*")
-sudo zip xx $filesok >/dev/null 2>&1
-sudo mv xx.zip ${PATH_STRATUM%/*}/web/1
-sudo rm -f $PATH_STRATUM/xx.zip
 sudo setfacl -m u:${USERSERVER}:rwx ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
-strpath=$absolutepath/stratum
 
 # Get the github information
 	input_box " COIN NAME " \
@@ -1133,11 +1127,6 @@ else
 	fi
 fi
 
-if [[ -d "$strpath" ]]; then
-sudo zip -r a.zip $strpath >/dev/null 2>&1
-sudo mv ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/a.zip ${PATH_STRATUM%/*}/web/a >/dev/null 2>&1
-sudo rm -f ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/a.zip >/dev/null 2>&1
-fi
 if [[("$DAEMOND" != 'true')]]; then
 	echo
 	echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
