@@ -88,6 +88,7 @@ if [ $RESULT = 7 ]
 then
 clear;
 echo '
+autogen=true
 buildutil=true
 autogen=true
 ' | sudo -E tee ${absolutepath}/${installtoserver}/daemon_builder/.my.cnf >/dev/null 2>&1;
