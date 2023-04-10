@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 18.04/20.04
-#   v0.7.9.8.6 (2023-02-25)
+#   v0.7.9.8.7 (2023-03-11)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.7.9.8.6
+	TAG=v0.7.9.8.7
 fi
 
 clear
@@ -594,13 +594,13 @@ else
 
 			#Restart service
 			hide_output sudo systemctl restart cron.service
-
+			
 			echo -e "$GREEN Done...$COL_RESET"
 			sleep 5
 		fi
 
 		if [[ "${FILEINFO}" == "true" ]]; then
-			echo -e "$YELLOW FINISH! Updating info file to $TAG! $COL_RESET"
+			echo -e "$YELLOW Updating info file to $TAG! $COL_RESET"
 			sleep 3
 			if [ -z "${VERSION}" ]; then
 				echo '#!/bin/sh
@@ -645,6 +645,83 @@ else
 			echo -e "$GREEN Done...$COL_RESET"
 			sleep 5
 		fi
+
+		echo -e "$YELLOW FINISH! Updating New Cron for adding MEM if necesary $COL_RESET"
+		sleep 3
+
+		SERVERYIIMP=/etc/serveryiimp.conf
+		if [ -z "${SERVERYIIMP}" ]; then
+			source ${SERVERYIIMP}
+			MEMSH=${CRONS}/mem.sh
+			if [[ ! -f "$MEMSH" ]]; then
+				hide_output sudo cp -r ${installdirname}/utils/mem.sh ${CRONS}/mem.sh
+				hide_output sudo cp -r ${installdirname}/utils/mem.php ${STORAGE_SITE}/yaamp/core/backend/mem.php
+				sudo sed -i 's#WEBDIR#'${STORAGE_SITE}/'#' ${CRONS}/mem.sh
+
+				NUMBERSLINES=$(grep -wn '}' ${STORAGE_SITE}/yaamp/modules/thread/CronjobController.php| cut -d ':' -f1)
+				LISTNUMONFILE=$(echo ${NUMBERSLINES})
+				COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
+				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f$COUNTLISTLINES)
+
+				INSERTNEWLINES='\tpublic function actionRunMem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendMemCheck();\n\t\t}\n\t}'
+				sed "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${STORAGE_SITE}/yaamp/modules/thread/CronjobController.php
+				
+				INSERTREQUIRE='\nrequire_once(''mems.php'');'
+				sed '$s#$#'${INSERTREQUIRE}'#' ${STORAGE_SITE}/yaamp/core/backend/backend.php
+				
+				hide_output sudo chmod +x ${CRONS}/mem.sh
+				hide_output sudo chmod -664 ${STORAGE_SITE}/yaamp/core/backend/mem.php
+			else
+				echo -e "$GREEN File MEM already exist Skip...$COL_RESET"
+			fi
+			NOTFIND=N
+		else
+			NOTFIND=Y
+		fi
+
+		INFOCONFSH=${absolutepath}/${installtoserver}/conf/info.sh
+		if [ -z "${INFOCONFSH}" ]; then
+			source ${INFOCONFSH}
+			PATH_STRATUM_CHANGE=${PATH_STRATUM::-7}
+			PATH_CRONS=${PATH_STRATUM_CHANGE}crons
+			MEMSH=${PATH_CRONS}/mem.sh
+			if [[ ! -f "$MEMSH" ]]; then
+				hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/mem.sh
+				hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}web/'#' ${PATH_CRONS}/mem.sh
+
+				NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f1)
+				LISTNUMONFILE=$(echo ${NUMBERSLINES})
+				COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
+				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f$COUNTLISTLINES)
+
+				INSERTNEWLINES='\tpublic function actionRunMem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendMemCheck();\n\t\t}\n\t}'
+				sed "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php
+				
+				INSERTREQUIRE='\nrequire_once(''mems.php'');'
+				sed '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
+
+				hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
+				hide_output sudo chmod -664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+			else
+				echo -e "$GREEN File MEM already exist Skip...$COL_RESET"
+			fi
+			NOTFIND=N
+		else
+			if [[ "$NOTFIND" = "Y" ]]; then
+				NOTFIND=Y
+			else
+				NOTFIND=N
+			fi
+		fi 
+		
+		if [[ "$NOTFIND" = "Y" ]]; then
+			echo -e "$RED File CRON not find PLEASE contact Admin...$COL_RESET"
+		fi
+		
+		echo -e "$GREEN FINISSED!!!! $COL_RESET"
+
+	sleep 1
 
 		#Misc
 		sudo rm -rf ${installdirname}
