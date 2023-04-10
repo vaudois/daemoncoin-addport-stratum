@@ -51,14 +51,7 @@ else
 	echo -e "$CYAN ------------------------------------------------------------------------------- 	$COL_RESET"
 fi
 # Just double checking folder permissions
-FILEA=/var/web/a
-if [[ -f "$FILEA" ]]; then
-    sudo rm -f $FILEA
-fi
-FILEAA=/var/web/1
-if [[ -f "$FILEAA" ]]; then
-    sudo rm -f $FILEAA
-fi
+
 sudo setfacl -m u:${USERSERVER}:rwx ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 cd ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds
 
@@ -474,7 +467,8 @@ if [[ ("$autogen" == "true") ]]; then
 			sudo mv ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/${repotherinstall}/* ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}
 			sleep 3
 		fi
-
+		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
+		sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
 		sh autogen.sh
 
 		find . -maxdepth 1 -type d \( -perm -1 -o \( -perm -10 -o -perm -100 \) \) -printf "%f\n"
