@@ -2,7 +2,7 @@
 
 PHP_CLI='php -d max_execution_time=120'
 
-DIR=/home/crypto-data/yiimp/site/web/
+DIR=##WEBDIR##
 cd ${DIR}
 
 date
