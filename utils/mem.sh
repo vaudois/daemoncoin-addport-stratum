@@ -10,6 +10,6 @@ echo started in ${DIR}
 
 while true; do
 ${PHP_CLI} runconsole.php cronjob/runMem
-sleep 90
+sleep 1800
 done
 exec bash
