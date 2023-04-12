@@ -14,6 +14,8 @@ function BackendMemCheck()
 	{
 		echo "% of Memory is too up of limit $memlimit%";
 		echo "\n";
+		echo "-------------------> START <-------------------";
+		echo "\n";
 		foreach($coins_run as $coin)
 		{
 			$coinlover = strtolower($coin->symbol);
@@ -22,9 +24,11 @@ function BackendMemCheck()
 			echo "Done.\n";
 			sleep(10);
 		}
-		echo "ALL COINS restarted Done. Now Memory is ";
+		echo strftime('%A %d %B %Y %I:%M:%S')." ALL COINS restarted Done. Now Memory is ";
 		system("free -m | awk 'NR==2{printf \"%.0f\", $3*100/$2 }'");
 		echo "%\n";
+		echo "-------------------> END <-------------------";
+		echo "\n";
 	}
 	else
 	{
