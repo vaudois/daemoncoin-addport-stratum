@@ -16,7 +16,7 @@ function BackendMemCheck()
 
 					$mem = system("free -m | awk 'NR==2{printf \"%.0f\", $3*100/$2 }'");
 					
-					$memlimit = 95;
+					$memlimit = MEM_LIMIT_SET_MAX;
 
 					if($mem > $memlimit)
 					{
