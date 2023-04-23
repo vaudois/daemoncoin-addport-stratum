@@ -24,17 +24,48 @@ function BackendMemCheck()
 						echo "\n";
 						echo "-------------------> START <-------------------";
 						echo "\n";
+						$RunStratumAuto = system('screen -S stratum -Q select .');
+						if(!$RunStratumAuto)
+						{
+							echo "--> Stoping Stratum & Daemon Controller... <--\n";
+							system('bash /usr/bin/screens stop stratdaem');
+							sleep (1);
+						}
 						foreach($coins_run as $coin)
 						{
 							$coinlover = strtolower($coin->symbol);
-							echo "Restarting Stratum of coin -> ".$coin->symbol." ";
-							system("stratum.$coinlover restart $coinlover");
-							echo "Done.\n";
-							sleep(10);
+							if (file_exists("/usr/bin/stratum".$coinlover))
+							{
+								echo "Restarting Stratum of coin -> ".$coin->symbol." ";
+								system("bash /usr/bin/stratum.$coinlover restart $coinlover");
+								echo "Done.\n";
+								sleep(5);
+							}
+							else
+							{
+								echo "||=====================================================================||\n";
+								echo "  Restarting Stratum of coin -> ".$coin->symbol."\n";
+								echo "	ERROR: file stratum.$coinlover on /usr/bin/ Not Exist! please Create!";
+								echo "\n||=====================================================================||";	
+							}
 						}
 						echo strftime('%A %d %B %Y %I:%M:%S')." ALL COINS restarted Done. Now Memory is ";
 						system("free -m | awk 'NR==2{printf \"%.0f\", $3*100/$2 }'");
 						echo "%\n";
+						echo "--------->> RESTARTS CRONS <<----------\n";
+						system('bash /usr/bin/screens restart loop2');
+						sleep(1);
+						system('bash /usr/bin/screens restart blocks');
+						sleep(1);
+						system('bash /usr/bin/screens restart main');
+						sleep(1);
+						system('bash /usr/bin/screens restart debug');
+						sleep(1);
+						if(!$RunStratumAuto)
+						{
+							echo "--> Starting Stratum & Daemon Controller... <--\n";
+							system('bash /usr/bin/screens restart stratdaem');
+						}
 						echo "-------------------> END <-------------------";
 						echo "\n";
 					}
