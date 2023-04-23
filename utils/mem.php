@@ -34,7 +34,7 @@ function BackendMemCheck()
 						foreach($coins_run as $coin)
 						{
 							$coinlover = strtolower($coin->symbol);
-							if (file_exists("/usr/bin/stratum".$coinlover))
+							if (file_exists("/usr/bin/stratum.".$coinlover))
 							{
 								echo "Restarting Stratum of coin -> ".$coin->symbol." ";
 								system("bash /usr/bin/stratum.$coinlover restart $coinlover");
