@@ -31,7 +31,7 @@ function BackendStratdaemStatus()
 
 								if($coin_on)
 								{
-									if (file_exists("/usr/bin/stratum".$coinlover))
+									if (file_exists("/usr/bin/stratum.".$coinlover))
 									{
 										echo "\n||=====================================================================||\n";
 										echo "  Starting Stratum of coin -> ".$symbol." ";
@@ -56,7 +56,7 @@ function BackendStratdaemStatus()
 
 								if(!$coin_off)
 								{
-									if (file_exists("/usr/bin/stratum".$coinlover))
+									if (file_exists("/usr/bin/stratum.".$coinlover))
 									{
 										echo "\n||=========================================================================||\n";
 										echo "  Stop Stratum of coin -> ".$symbol." ";
