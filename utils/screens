@@ -2,7 +2,7 @@
 # Updated by Vaudois for Yiimp...                                                                                   #
 ############################################################################################################################
 
-source /etc/functions.sh
+source FILEFUNCCOLOR
 CRONS=DIRCRONS
 LOG_DIR=DIRLOG
 
