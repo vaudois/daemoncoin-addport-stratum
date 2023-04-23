@@ -309,7 +309,7 @@ else
 
 		hide_output sudo apt-get -y install dialog acl libgmp3-dev libmysqlclient-dev libcurl4-gnutls-dev libkrb5-dev libldap2-dev libidn11-dev gnutls-dev \
 		librtmp-dev sendmail mutt screen git make
-		hide_output sudo apt -y install pwgen unzip
+		hide_output sudo apt -y install pwgen unzip p7zip-full
 		echo -e "$GREEN Done...$COL_RESET"
 		sleep 3
 
