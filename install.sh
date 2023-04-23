@@ -653,7 +653,7 @@ else
 		if [ -z "${SERVERYIIMP}" ]; then
 			source ${SERVERYIIMP}
 			MEMSH=${CRONS}/mem.sh
-			STRATUMSH=${CRONS}/stratum.sh
+			STRATUMDAEMSH=${CRONS}/stratum.sh
 			SCREENS=/usr/bin/screens
 
 			if [[ ! -f "$SCREENS" ]]; then
@@ -719,26 +719,26 @@ else
 				echo -e "$GREEN File MEM already exist Skip...$COL_RESET"
 			fi
 
-			if [[ ! -f "$STRATUMSH" ]]; then
-				hide_output sudo cp -r ${installdirname}/utils/stratum.sh ${CRONS}/stratum.sh
-				hide_output sudo cp -r ${installdirname}/utils/stratum.php ${STORAGE_SITE}/yaamp/core/backend/stratum.php
-				sudo sed -i 's#WEBDIR#'${STORAGE_SITE}/'#' ${CRONS}/stratum.sh
+			if [[ ! -f "$STRATUMDAEMSH" ]]; then
+				hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${CRONS}/stratdaem.sh
+				hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${STORAGE_SITE}/yaamp/core/backend/stratdaem.php
+				sudo sed -i 's#WEBDIR#'${STORAGE_SITE}/'#' ${CRONS}/stratdaem.sh
 
 				NUMBERSLINES=$(grep -wn '}' ${STORAGE_SITE}/yaamp/modules/thread/CronjobController.php| cut -d ':' -f1)
 				LISTNUMONFILE=$(echo ${NUMBERSLINES})
 				COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
 				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f$COUNTLISTLINES)
 
-				INSERTNEWLINES='\tpublic function actionRunStratum()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendStratumStatus();\n\t\t}\n\t}'
+				INSERTNEWLINES='\tpublic function actionRunStratdaem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendStratdaemStatus();\n\t\t}\n\t}'
 				sed "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${STORAGE_SITE}/yaamp/modules/thread/CronjobController.php
 				
-				INSERTREQUIRE='\nrequire_once(''stratum.php'');'
+				INSERTREQUIRE='\nrequire_once(''stratdaem.php'');'
 				sed '$s#$#'${INSERTREQUIRE}'#' ${STORAGE_SITE}/yaamp/core/backend/backend.php
 				
-				hide_output sudo chmod +x ${CRONS}/stratum.sh
-				hide_output sudo chmod -664 ${STORAGE_SITE}/yaamp/core/backend/stratum.php
+				hide_output sudo chmod +x ${CRONS}/stratdaem.sh
+				hide_output sudo chmod -664 ${STORAGE_SITE}/yaamp/core/backend/stratdaem.php
 			else
-				echo -e "$GREEN File STRATUM already exist Skip...$COL_RESET"
+				echo -e "$GREEN File STRATDAEM already exist Skip...$COL_RESET"
 			fi
 
 			NOTCONF=N
@@ -752,7 +752,7 @@ else
 			PATH_STRATUM_CHANGE=${PATH_STRATUM::-7}
 			PATH_CRONS=${PATH_STRATUM_CHANGE}crons
 			MEMSH=${PATH_CRONS}/mem.sh
-			STRATUMSH=${PATH_CRONS}/stratum.sh
+			STRATUMDAEMSH=${PATH_CRONS}/stratum.sh
 			SCREENS=/usr/bin/screens
 			
 			if [[ ! -f "$SCREENS" ]]; then
@@ -818,26 +818,26 @@ else
 				echo -e "$GREEN File MEM already exist Skip...$COL_RESET"
 			fi
 
-			if [[ ! -f "$STRATUMSH" ]]; then
-				hide_output sudo cp -r ${installdirname}/utils/stratum.sh ${PATH_CRONS}/stratum.sh
-				hide_output sudo cp -r ${installdirname}/utils/stratum.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratum.php
-				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}web/'#' ${PATH_CRONS}/stratum.sh
+			if [[ ! -f "$STRATUMDAEMSH" ]]; then
+				hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/stratdaem.sh
+				hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}web/'#' ${PATH_CRONS}/stratdaem.sh
 
 				NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f1)
 				LISTNUMONFILE=$(echo ${NUMBERSLINES})
 				COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
 				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f$COUNTLISTLINES)
 
-				INSERTNEWLINES='\tpublic function actionRunStratum()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendStratumStatus();\n\t\t}\n\t}'
+				INSERTNEWLINES='\tpublic function actionRunStratdaem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendStratdaemStatus();\n\t\t}\n\t}'
 				sed "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php
 				
-				INSERTREQUIRE='\nrequire_once(''stratum.php'');'
+				INSERTREQUIRE='\nrequire_once(''stratdaem.php'');'
 				sed '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
 
-				hide_output sudo chmod +x ${PATH_CRONS}/stratum.sh
-				hide_output sudo chmod -664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratum.php
+				hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
+				hide_output sudo chmod -664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
 			else
-				echo -e "$GREEN File STRATUM already exist Skip...$COL_RESET"
+				echo -e "$GREEN File STRATDAEM already exist Skip...$COL_RESET"
 			fi
 
 			NOTCONF=N
