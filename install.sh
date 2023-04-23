@@ -660,8 +660,13 @@ else
 				echo -e "$RED File SCREENS not exist creating...$COL_RESET"
 
 				hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
+				sleep 1
 				sudo sed -i 's#DIRCRONS#'${CRONS}'#' /usr/bin/screens
+				sleep 1
 				sudo sed -i 's#DIRLOG#'${CRONS}log/'#' /usr/bin/screens
+				sleep 1
+				sudo sed -i 's#FILEFUNCCOLOR#'${FUNCTIONFILE}'#' /usr/bin/screens
+				sleep 1
 				hide_output sudo chmod +x /usr/bin/screens
 				
 				echo -e "$GREEN Done.$COL_RESET"
@@ -673,8 +678,13 @@ else
 				hide_output sudo cp -r /usr/bin/screens /usr/bin/screens-old
 				hide_output sudo rm -f /usr/bin/screens
 				hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
+				sleep 1
 				sudo sed -i 's#DIRCRONS#'${CRONS}'#' /usr/bin/screens
+				sleep 1
 				sudo sed -i 's#DIRLOG#'${CRONS}log/'#' /usr/bin/screens
+				sleep 1
+				sudo sed -i 's#FILEFUNCCOLOR#'${FUNCTIONFILE}'#' /usr/bin/screens
+				sleep 1
 				hide_output sudo chmod +x /usr/bin/screens
 
 				echo -e "$GREEN Done.$COL_RESET"
@@ -749,8 +759,13 @@ else
 				echo -e "$RED File SCREENS not exist creating...$COL_RESET"
 
 				hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
+				sleep 1
 				sudo sed -i 's#DIRCRONS#'${PATH_CRONS}'#' /usr/bin/screens
+				sleep 1
 				sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}log/'#' /usr/bin/screens
+				sleep 1
+				sudo sed -i 's#FILEFUNCCOLOR#'${FUNCTION_FILE}'#' /usr/bin/screens
+				sleep 1
 				hide_output sudo chmod +x /usr/bin/screens
 
 				echo -e "$GREEN Done.$COL_RESET"
@@ -762,8 +777,13 @@ else
 				hide_output sudo cp -r /usr/bin/screens /usr/bin/screens-old
 				hide_output sudo rm -f /usr/bin/screens
 				hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
+				sleep 1
 				sudo sed -i 's#DIRCRONS#'${CRONS}'#' /usr/bin/screens
+				sleep 1
 				sudo sed -i 's#DIRLOG#'${CRONS}log/'#' /usr/bin/screens
+				sleep 1
+				sudo sed -i 's#FILEFUNCCOLOR#'${FUNCTION_FILE}'#' /usr/bin/screens
+				sleep 1
 				hide_output sudo chmod +x /usr/bin/screens
 
 				echo -e "$GREEN Done.$COL_RESET"
