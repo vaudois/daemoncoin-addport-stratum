@@ -27,8 +27,8 @@ blocks="screen -dmS blocks ${CRONS}/blocks.sh"
 blocksstop='screen -X -S blocks quit'
 mem="screen -dmS mem ${CRONS}/mem.sh"
 memstop='screen -X -S mem quit'
-stratum="screen -dmS stratum ${CRONS}/stratum.sh"
-stratumstop='screen -X -S stratum quit'
+stratdaem="screen -dmS stratdaem ${CRONS}/stratdaem.sh"
+stratdaemstop='screen -X -S stratdaem quit'
 debug="screen -dmS debug tail -f ${LOG_DIR}/debug.log"
 debugstop='screen -X -S debug quit'
 
@@ -90,15 +90,15 @@ startstop_mem() {
     esac
 }
 
-startstop_stratum() {
+startstop_stratdaem() {
     cmd=$1
     case $cmd in
-        stop) $stratumstop ;;
-        start) $stratum ;;
+        stop) $stratdaemstop ;;
+        start) $stratdaem ;;
         restart)
-            $stratumstop
+            $stratdaemstop
             sleep 1
-            $stratum
+            $stratdaem
             ;;
     esac
 }
@@ -133,7 +133,7 @@ for name; do
         blocks) startstop_blocks $cmd ;;
         debug) startstop_debug $cmd ;;
 		mem) startstop_mem $cmd ;;
-		stratum) startstop_stratum $cmd ;;
+		stratdaem) startstop_stratdaem $cmd ;;
         *) startstop_service $cmd $name ;;
     esac
 done
