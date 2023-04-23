@@ -1,6 +1,6 @@
 <?php
 
-function BackendStratumStatus()
+function BackendStratdaemStatus()
 {
 	if(defined("STRATUM_AUTO_STATUS"))
 	{
