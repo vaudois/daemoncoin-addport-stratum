@@ -24,7 +24,7 @@ function BackendMemCheck()
 						echo "\n";
 						echo "-------------------> START <-------------------";
 						echo "\n";
-						$RunStratumAuto = system('screen -S stratum -Q select .');
+						$RunStratumAuto = system('screen -S stratdaem -Q select .');
 						if(!$RunStratumAuto)
 						{
 							echo "--> Stoping Stratum & Daemon Controller... <--\n";
