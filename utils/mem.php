@@ -11,9 +11,25 @@ function BackendMemCheck()
 				if(MEM_LIMIT_SET_MAX >= 75)
 				{
 					$t1 = microtime(true);
+
+					$CheckRunStratum = system('screen -S stratdaem -Q select .');
+					if(!$CheckRunStratum)
+					{
+						$check_daemon = exec("ps aux | grep '[php] cronjob/runStratdaem' | awk 'NR=1{printf \"%s\", $9}' | sed 's/://'");
+						$check_date = exec("date -d '-1 hour ago' \"+ %H%M\"");
+
+						if ( !empty($check_daemon) && $check_daemon < $check_date)
+						{
+							echo strftime('%A %d %B %Y %I:%M:%S')." --> ";
+							echo "Daemon: $check_daemon & Date: $check_date = Stratum & Daemon Controller blocked! restarting... <--\n";
+							system('bash /usr/bin/screens restart stratdaem');
+							sleep (1);
+						}
+					}
 					
 					$coins_run = getdbolist('db_coins', "enable and visible and auto_ready");
 
+					echo strftime('%A %d %B %Y %I:%M:%S')." --> ";
 					$mem = system("free -m | awk 'NR==2{printf \"%.0f\", $3*100/$2 }'");
 					
 					$memlimit = MEM_LIMIT_SET_MAX;
@@ -53,13 +69,15 @@ function BackendMemCheck()
 						system("free -m | awk 'NR==2{printf \"%.0f\", $3*100/$2 }'");
 						echo "%\n";
 						echo "--------->> RESTARTS CRONS <<----------\n";
-						system('bash /usr/bin/screens restart loop2');
-						sleep(1);
-						system('bash /usr/bin/screens restart blocks');
-						sleep(1);
-						system('bash /usr/bin/screens restart main');
-						sleep(1);
-						system('bash /usr/bin/screens restart debug');
+						//system('bash /usr/bin/screens restart loop2');
+						//sleep(1);
+						//system('bash /usr/bin/screens restart blocks');
+						//sleep(1);
+						//system('bash /usr/bin/screens restart main');
+						//sleep(1);
+						//system('bash /usr/bin/screens restart debug');
+						//ps aux | grep '120 runconsole.php cronjob/runStratdaem' | awk 'NR=2{print f, $9}'
+
 						sleep(1);
 						if(!$RunStratumAuto)
 						{
