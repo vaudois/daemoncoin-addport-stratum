@@ -148,7 +148,7 @@ exclude = '${coinsymbol}'' "$r"
 fi
 done
 fi
-sleep 2
+sleep 1
 # Copy the default algo.conf to the new symbol.algo.conf
   sudo cp -r $coinalgo.conf $coinsymbollower.$coinalgo.conf
   sleep 1
@@ -159,14 +159,15 @@ sleep 2
 if [[ ("$nicehash" == "y" || "$nicehash" == "Y" || "$nicehash" == "yes" || "$nicehash" == "YES") ]]; then
   sudo sed -i -e '/difficulty =/a\
 nicehash = '${nicevalue}'' $coinsymbollower.$coinalgo.conf
-fi
 sleep 1
+fi
+
 # Insert the include in to the new symbol.algo.conf
   sudo sed -i -e '$a\
 [WALLETS]\
 include = '${coinsymbol}'' $coinsymbollower.$coinalgo.conf
+sleep 1
 fi
-sleep 2
 
 #Again preventing asshat duplications...
 if ! grep -Fxq "exclude = ${coinsymbol}" "$coinalgo.conf"; then
@@ -174,65 +175,159 @@ if ! grep -Fxq "exclude = ${coinsymbol}" "$coinalgo.conf"; then
   sudo sed -i -e '$a\
 [WALLETS]\
 exclude = '${coinsymbol}'' $coinalgo.conf
+sleep 1
 else
   echo -e "$YELLOW ${coinsymbol} is already in $coinalgo.conf, skipping... Which means you are trying to run this multiple times for the same coin. $COL_RESET"
   echo
 fi
-sleep 1
 
-# New coin stratum start file
-echo '#####################################################
-# Source code from https://codereview.stackexchange.com/questions/55077/small-bash-script-to-sta$
-# Updated by Vaudois for Daemon Coin use...
-#####################################################
+read -e -p "You cant use a default stratum? (y/n) : " stratumyesnot
+if [[ ("$stratumyesnot" == "n" || "$stratumyesnot" == "N" || "$stratumyesnot" == "not" || "$stratumyesnot" == "NOT" || "$stratumyesnot" == "no" || "$stratumyesnot" == "NO") ]]; then
+	cd $PATH_STRATUM
+	echo
+	echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+	echo -e "$GREEN   List os avalible STRATUMS: $COL_RESET"
+	echo -e "$YELLOW"
+	find . -maxdepth 1 -type f -name "stratum*" \( -perm -1 -o \( -perm -10 -o -perm -100 \) \) -printf "%f\n"
+	echo -e "$COL_RESET"
+	echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+	echo
+	read -r -e -p "Please enter your stratum desired o use, example stratum :" stratumselected
+	echo
+	echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+	echo
 
-STRATUM_DIR='""''"${PATH_STRATUM}"''""'
-#!/usr/bin/env bash
+	stratumsplit=(${stratumselected//-/ })
+	if [[ -z "${stratumsplit[1]}" ]]; then
+		echo
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$RED   PLEASE save stratums with --> (-) example: stratum-mike $COL_RESET"
+		echo -e "$CYAN --------------------------------------------------------------------------------------- 	$COL_RESET"
+		echo -e "$YELLOW STOP INSTALL!!! $COL_RESET"
+		echo
+		exit;
+	else
+		filerun=run-${stratumsplit[1]}.sh
+		if [[ ! -f "${filerun}" ]]; then
+			echo '#!/usr/bin/env bash
+			cd '""''"${PATH_STRATUM}"''""'/config/ && ./'""''"${filerun}"''""' $*
+			done ' | sudo -E tee ${PATH_STRATUM}/${filerun} >/dev/null 2>&1
+			sudo chmod +x ${PATH_STRATUM}/${filerun}
+			sleep 1
+			echo '#!/usr/bin/env bash
+			ulimit -n 10240
+			ulimit -u 10240
+			cd '""''"${PATH_STRATUM}"''""'
+			while true; do
+			./'""''"${stratumselected}"''""' config/$1
+			sleep 2
+			done
+			exec bash
+			done ' | sudo -E tee ${PATH_STRATUM}/config/${filerun} >/dev/null 2>&1
+			sudo chmod +x ${PATH_STRATUM}/config/${filerun}
+		fi
+	fi
 
-'""''"${coinsymbollower}"''""'="screen -dmS '""''"${coinsymbollower}"''""' bash $STRATUM_DIR/run.sh '""''"${coinsymbollower}"''""'.'""''"${coinalgo}"''""'"
-'""''"${coinsymbollower}"''""'stop="'screen -X -S ${coinsymbollower} quit'"
+	# New coin stratum start file
+	echo '#####################################################
+	# Source code from https://codereview.stackexchange.com/questions/55077/small-bash-script-to-sta$
+	# Updated by Vaudois for Daemon Coin use...
+	#####################################################
 
-startstop_'""''"${coinsymbollower}"''""'() {
-    cmd=$1
-    case $cmd in
-        stop) $'""''"${coinsymbollower}"''""'stop ;;
-        start) $'""''"${coinsymbollower}"''""' ;;
-        restart)
-            $'""''"${coinsymbollower}"''""'stop
-            sleep 1
-            $'""''"${coinsymbollower}"''""'
-            ;;
-    esac
-}
+	STRATUM_DIR='""''"${PATH_STRATUM}"''""'
+	#!/usr/bin/env bash
 
-case "$1" in
-    start|stop|restart) cmd=$1 ;;
-    *)
-        shift
-        servicenames=${@-servicenames}
-        echo "usage: $0 [start|stop|restart] algo"
-        exit 1
-esac
+	'""''"${coinsymbollower}"''""'="screen -dmS '""''"${coinsymbollower}"''""' bash $STRATUM_DIR/'""''"${filerun}"''""' '""''"${coinsymbollower}"''""'.'""''"${coinalgo}"''""'"
+	'""''"${coinsymbollower}"''""'stop="'screen -X -S ${coinsymbollower} quit'"
+
+	startstop_'""''"${coinsymbollower}"''""'() {
+		cmd=$1
+		case $cmd in
+			stop) $'""''"${coinsymbollower}"''""'stop ;;
+			start) $'""''"${coinsymbollower}"''""' ;;
+			restart)
+				$'""''"${coinsymbollower}"''""'stop
+				sleep 1
+				$'""''"${coinsymbollower}"''""'
+				;;
+		esac
+	}
+
+	case "$1" in
+		start|stop|restart) cmd=$1 ;;
+		*)
+			shift
+			servicenames=${@-servicenames}
+			echo "usage: $0 [start|stop|restart] algo"
+			exit 1
+	esac
 
 
-shift
+	shift
 
-for name; do
-    case "$name" in
-    '""''"${coinsymbollower}"''""') startstop_'""''"${coinsymbollower}"''""' $cmd ;;
-    *) startstop_service $cmd $name ;;
-    esac
-done ' | sudo -E tee ${PATH_STRATUM}/config/stratum.${coinsymbollower} >/dev/null 2>&1
-sudo chmod +x ${PATH_STRATUM}/config/stratum.${coinsymbollower}
-sleep 1
+	for name; do
+		case "$name" in
+		'""''"${coinsymbollower}"''""') startstop_'""''"${coinsymbollower}"''""' $cmd ;;
+		*) startstop_service $cmd $name ;;
+		esac
+	done ' | sudo -E tee ${PATH_STRATUM}/config/stratum.${coinsymbollower} >/dev/null 2>&1
+	sudo chmod +x ${PATH_STRATUM}/config/stratum.${coinsymbollower}
+	sleep 1
+else
+	# New coin stratum start file
+	echo '#####################################################
+	# Source code from https://codereview.stackexchange.com/questions/55077/small-bash-script-to-sta$
+	# Updated by Vaudois for Daemon Coin use...
+	#####################################################
+
+	STRATUM_DIR='""''"${PATH_STRATUM}"''""'
+	#!/usr/bin/env bash
+
+	'""''"${coinsymbollower}"''""'="screen -dmS '""''"${coinsymbollower}"''""' bash $STRATUM_DIR/run.sh '""''"${coinsymbollower}"''""'.'""''"${coinalgo}"''""'"
+	'""''"${coinsymbollower}"''""'stop="'screen -X -S ${coinsymbollower} quit'"
+
+	startstop_'""''"${coinsymbollower}"''""'() {
+		cmd=$1
+		case $cmd in
+			stop) $'""''"${coinsymbollower}"''""'stop ;;
+			start) $'""''"${coinsymbollower}"''""' ;;
+			restart)
+				$'""''"${coinsymbollower}"''""'stop
+				sleep 1
+				$'""''"${coinsymbollower}"''""'
+				;;
+		esac
+	}
+
+	case "$1" in
+		start|stop|restart) cmd=$1 ;;
+		*)
+			shift
+			servicenames=${@-servicenames}
+			echo "usage: $0 [start|stop|restart] algo"
+			exit 1
+	esac
+
+
+	shift
+
+	for name; do
+		case "$name" in
+		'""''"${coinsymbollower}"''""') startstop_'""''"${coinsymbollower}"''""' $cmd ;;
+		*) startstop_service $cmd $name ;;
+		esac
+	done ' | sudo -E tee ${PATH_STRATUM}/config/stratum.${coinsymbollower} >/dev/null 2>&1
+	sudo chmod +x ${PATH_STRATUM}/config/stratum.${coinsymbollower}
+	sleep 1
+fi
 
 sudo cp -r ${PATH_STRATUM}/config/stratum.${coinsymbollower} /usr/bin
 sudo ufw allow $coinport
 sleep 1
 
-echo
-echo "Adding stratum.${coinsymbollower} to crontab for autostart at system boot."
-(crontab -l 2>/dev/null; echo "@reboot sleep 10 && bash stratum.${coinsymbollower} start ${coinsymbollower}") | crontab -
+#echo
+#echo "Adding stratum.${coinsymbollower} to crontab for autostart at system boot."
+#(crontab -l 2>/dev/null; echo "@reboot sleep 10 && bash stratum.${coinsymbollower} start ${coinsymbollower}") | crontab -
 echo
 echo -e "$YELLOW Starting your new stratum...$COL_RESET"
 sleep 2
