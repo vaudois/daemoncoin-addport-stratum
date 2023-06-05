@@ -235,6 +235,7 @@ else
   echo
 fi
 
+echo
 read -e -p "You cant use a default stratum? (y/n) : " stratumyesnot
 if [[ ("$stratumyesnot" == "n" || "$stratumyesnot" == "N" || "$stratumyesnot" == "not" || "$stratumyesnot" == "NOT" || "$stratumyesnot" == "no" || "$stratumyesnot" == "NO") ]]; then
 	cd $PATH_STRATUM
