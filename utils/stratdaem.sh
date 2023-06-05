@@ -10,6 +10,6 @@ echo started in ${DIR}
 
 while true; do
 ${PHP_CLI} runconsole.php cronjob/runStratdaem
-sleep 20
+sleep 25
 done
 exec bash
