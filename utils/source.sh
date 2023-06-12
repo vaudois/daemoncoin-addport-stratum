@@ -556,11 +556,12 @@ else
 			if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
 				hide_output sh autogen.sh
 			else
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
-				sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
-				sleep 3
 				sh autogen.sh
 			fi
+			sleep 1
+			sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type d -exec chmod 777 {} \; 
+			sudo find ${absolutepath}/${installtoserver}/daemon_builder/temp_coin_builds/${coindir}/ -type f -exec chmod 777 {} \;
+			sleep 3
 			echo
 			echo
 			echo -e "$GREEN Done...$COL_RESET"
@@ -571,70 +572,147 @@ else
 				echo -e "$YELLOW => Configure with i686-pc-linux-gnu... $COL_RESET"
 				echo
 				sleep 3
+				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-pc-linux-gnu
+					if [[ ("$gccbdb" == "1") ]]; then
+						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/i686-pc-linux-gnu
+					else
+						hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-pc-linux-gnu
+					fi
+					echo
 				else
-					./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-pc-linux-gnu
+					if [[ ("$gccbdb" == "1") ]]; then
+						./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/i686-pc-linux-gnu
+					else
+						./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-pc-linux-gnu
+					fi
+					echo
 				fi
 			elif [ -d "$DEPENDS/x86_64-pc-linux-gnu/" ]; then
 				echo
 				echo -e "$YELLOW => Configure with x86_64-pc-linux-gnu... $COL_RESET"
 				echo
 				sleep 3
+				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+					if [[ ("$gccbdb" == "1") ]]; then
+						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+					else
+						hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+					fi
+					echo
 				else
-					./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+					if [[ ("$gccbdb" == "1") ]]; then
+						./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+					else
+						./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+					fi
+					echo				
 				fi
 			elif [ -d "$DEPENDS/i686-w64-mingw32/" ]; then
 				echo
 				echo -e "$YELLOW => Configure with i686-w64-mingw32... $COL_RESET"
 				echo
 				sleep 3
+				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-w64-mingw32
+					if [[ ("$gccbdb" == "1") ]]; then
+						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/i686-w64-mingw32
+					else
+						hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-w64-mingw32
+					fi
+					echo
 				else
-					./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-w64-mingw32
+					if [[ ("$gccbdb" == "1") ]]; then
+						./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/i686-w64-mingw32
+					else
+						./configure --with-incompatible-bdb --prefix=`pwd`/depends/i686-w64-mingw32
+					fi
+					echo				
 				fi
 			elif [ -d "$DEPENDS/x86_64-w64-mingw32/" ]; then
 				echo
 				echo -e "$YELLOW => Configure with x86_64-w64-mingw32... $COL_RESET"
 				echo
 				sleep 3
+				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-w64-mingw32
+					if [[ ("$gccbdb" == "1") ]]; then
+						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/x86_64-w64-mingw32
+					else
+						hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-w64-mingw32
+					fi
+					echo
 				else
-					./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-w64-mingw32
+					if [[ ("$gccbdb" == "1") ]]; then
+						./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/x86_64-w64-mingw32
+					else
+						./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-w64-mingw32
+					fi
+					echo				
 				fi
 			elif [ -d "$DEPENDS/x86_64-apple-darwin14/" ]; then
 				echo
 				echo -e "$YELLOW => Configure with x86_64-apple-darwin14... $COL_RESET"
 				echo
 				sleep 3
+				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-apple-darwin14
+					if [[ ("$gccbdb" == "1") ]]; then
+						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/x86_64-apple-darwin14
+					else
+						hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-apple-darwin14
+					fi
+					echo
 				else
-					./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-apple-darwin14
+					if [[ ("$gccbdb" == "1") ]]; then
+						./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/x86_64-apple-darwin14
+					else
+						./configure --with-incompatible-bdb --prefix=`pwd`/depends/x86_64-apple-darwin14
+					fi
+					echo				
 				fi
 			elif [ -d "$DEPENDS/arm-linux-gnueabihf/" ]; then
 				echo
 				echo -e "$YELLOW => Configure with arm-linux-gnueabihf... $COL_RESET"
 				echo
 				sleep 3
+				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/arm-linux-gnueabihf
+					if [[ ("$gccbdb" == "1") ]]; then
+						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/arm-linux-gnueabihf
+					else
+						hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/arm-linux-gnueabihf
+					fi
+					echo
 				else
-					./configure --with-incompatible-bdb --prefix=`pwd`/depends/arm-linux-gnueabihf
+					if [[ ("$gccbdb" == "1") ]]; then
+						./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/arm-linux-gnueabihf
+					else
+						./configure --with-incompatible-bdb --prefix=`pwd`/depends/arm-linux-gnueabihf
+					fi
+					echo				
 				fi
 			elif [ -d "$DEPENDS/aarch64-linux-gnu/" ]; then
 				echo
 				echo -e "$YELLOW => Configure with aarch64-linux-gnu... $COL_RESET"
 				echo
 				sleep 3
+				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
-					hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/aarch64-linux-gnu
+					if [[ ("$gccbdb" == "1") ]]; then
+						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/aarch64-linux-gnu
+					else
+						hide_output ./configure --with-incompatible-bdb --prefix=`pwd`/depends/aarch64-linux-gnu
+					fi
+					echo
 				else
-					./configure --with-incompatible-bdb --prefix=`pwd`/depends/aarch64-linux-gnu
+					if [[ ("$gccbdb" == "1") ]]; then
+						./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/aarch64-linux-gnu
+					else
+						./configure --with-incompatible-bdb --prefix=`pwd`/depends/aarch64-linux-gnu
+					fi
+					echo				
 				fi
 			fi
 			echo
