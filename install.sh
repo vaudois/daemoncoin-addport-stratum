@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 18.04/20.04
-#   v0.8.2 (2023-06-06)
+#   v0.8.3 (2023-06-13)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.8.2
+	TAG=v0.8.3
 fi
 
 clear
@@ -650,7 +650,7 @@ else
 		sleep 3
 
 		SERVERYIIMP=/etc/serveryiimp.conf
-		if [ -z "${SERVERYIIMP}" ]; then
+		if [[ -f "${SERVERYIIMP}" ]]; then
 			source ${SERVERYIIMP}
 			MEMSH=${CRONS}/mem.sh
 			STRATUMDAEMSH=${CRONS}/stratum.sh
@@ -658,6 +658,7 @@ else
 
 			if [[ ! -f "$SCREENS" ]]; then
 				echo -e "$RED File SCREENS not exist creating...$COL_RESET"
+				sleep 4
 
 				hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
 				sleep 1
@@ -674,6 +675,7 @@ else
 				sleep 5
 			else
 				echo -e "$YELLOW File SCREENS exist updating...$COL_RESET"
+				sleep 4
 
 				hide_output sudo cp -r /usr/bin/screens /usr/bin/screens-old
 				hide_output sudo rm -f /usr/bin/screens
@@ -747,7 +749,7 @@ else
 		fi
 
 		INFOCONFSH=${absolutepath}/${installtoserver}/conf/info.sh
-		if [ -z "${INFOCONFSH}" ]; then
+		if [[ -f "${INFOCONFSH}" ]]; then
 			source ${INFOCONFSH}
 			PATH_STRATUM_CHANGE=${PATH_STRATUM::-7}
 			PATH_CRONS=${PATH_STRATUM_CHANGE}crons
@@ -851,9 +853,11 @@ else
 		
 		if [[ "$NOTCONF" = "Y" ]]; then
 			echo -e "$RED File CRON not find PLEASE contact Admin...$COL_RESET"
+			sleep 5
 		fi
 		
 		echo -e "$GREEN FINISSED!!!! $COL_RESET"
+		sleep 3
 
 	sleep 1
 
