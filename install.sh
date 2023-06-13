@@ -773,7 +773,7 @@ else
 					sleep 1
 					sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}log/'#' /usr/bin/screens
 					sleep 1
-					sudo sed -i 's#FILEFUNCCOLOR#'${FUNCTION_FILE}'#' /usr/bin/screens
+					sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
 					sleep 1
 					hide_output sudo chmod +x /usr/bin/screens
 
