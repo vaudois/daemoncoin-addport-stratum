@@ -40,7 +40,9 @@ clear
 	else
 		installdirname="${TEMPINSTALL}"
 	fi
-
+ 
+	source conf/updates.conf
+ 
 	sudo sed -i 's#btcdons#'$BTCDEP'#' conf/coinbuild.sh
 	sleep 1
 
@@ -648,7 +650,7 @@ else
 
 		echo -e "$YELLOW FINISH! Updating New Cron for adding MEM if necesary $COL_RESET"
 		sleep 3
-
+			
 			INFOCONFSH=${absolutepath}/${installtoserver}/conf/info.sh
 			if [[ -f "${INFOCONFSH}" ]]; then
 				source ${INFOCONFSH}
@@ -722,8 +724,15 @@ else
 					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
 					sleep 5
 				else
-					echo -e "$GREEN File MEM already exist Skip...$COL_RESET"
-					sleep 5
+					if [[ ("$MEM_UP" == "1") ]]; then
+						echo -e "$YELLOW There is a new version of file$GREEN MEM...$YELLOW Installing...$COL_RESET"
+						hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+      						echo -e "$GREEN Done...$COL_RESET"
+						sleep 3
+	 				else
+						echo -e "$GREEN File MEM already exist Skip...$COL_RESET"
+						sleep 5
+      					fi
 				fi
 
 				if [[ ! -f "$STRATUMDAEMSH" ]]; then
@@ -747,11 +756,18 @@ else
 					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
 					sleep 5
 				else
-					echo -e "$GREEN File STRATDAEM already exist Skip...$COL_RESET"
-					sleep 5
+    					if [[ ("$STRATDAEM_UP" == "1") ]]; then
+	 					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM...$YELLOW Installing...$COL_RESET"
+       						hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+						echo -e "$GREEN Done...$COL_RESET"
+	     					sleep 3
+	 				else
+						echo -e "$GREEN File STRATDAEM already exist Skip...$COL_RESET"
+						sleep 5
+     					fi
 				fi
-
-			echo -e "$RED File CRON not find PLEASE contact Admin...$COL_RESET"
+			else
+			echo -e "$RED File INFO not find PLEASE contact Admin...$COL_RESET"
 			sleep 5
 		fi
 
