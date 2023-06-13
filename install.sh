@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 18.04/20.04
-#   v0.8.3 (2023-06-13)
+#   v0.8.3.1 rev.1 (2023-06-14)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.8.3
+	TAG=v0.8.3.1
 fi
 
 clear
@@ -650,123 +650,123 @@ else
 
 		echo -e "$YELLOW FINISH! Updating New Cron for adding MEM if necesary $COL_RESET"
 		sleep 3
+
+		INFOCONFSH=${absolutepath}/${installtoserver}/conf/info.sh
+		if [[ -f "${INFOCONFSH}" ]]; then
+			source ${INFOCONFSH}
+			PATH_STRATUM_CHANGE=${PATH_STRATUM::-7}
+			PATH_CRONS=${PATH_STRATUM_CHANGE}crons
+			MEMSH=${PATH_CRONS}/mem.sh
+			STRATUMDAEMSH=${PATH_CRONS}/stratum.sh
+			SCREENS=/usr/bin/screens
 			
-			INFOCONFSH=${absolutepath}/${installtoserver}/conf/info.sh
-			if [[ -f "${INFOCONFSH}" ]]; then
-				source ${INFOCONFSH}
-				PATH_STRATUM_CHANGE=${PATH_STRATUM::-7}
-				PATH_CRONS=${PATH_STRATUM_CHANGE}crons
-				MEMSH=${PATH_CRONS}/mem.sh
-				STRATUMDAEMSH=${PATH_CRONS}/stratum.sh
-				SCREENS=/usr/bin/screens
-				
-				if [[ ! -f "$SCREENS" ]]; then
-					echo -e "$RED File SCREENS not exist creating...$COL_RESET"
+			if [[ ! -f "$SCREENS" ]]; then
+				echo -e "$RED File SCREENS not exist creating...$COL_RESET"
 
-					hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
-					sleep 1
-					sudo sed -i 's#DIRCRONS#'${PATH_CRONS}'#' /usr/bin/screens
-					sleep 1
-					sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}log/'#' /usr/bin/screens
-					sleep 1
-					sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
-					sleep 1
-					hide_output sudo chmod +x /usr/bin/screens
+				hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
+				sleep 1
+				sudo sed -i 's#DIRCRONS#'${PATH_CRONS}'#' /usr/bin/screens
+				sleep 1
+				sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}log/'#' /usr/bin/screens
+				sleep 1
+				sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
+				sleep 1
+				hide_output sudo chmod +x /usr/bin/screens
 
-					echo -e "$GREEN Done.$COL_RESET"
-					echo
-					echo -e "$YELLOW to start crons shell command: $GREENscreens mem restart$YELLOW AND$GREEN screens stratum restart$COL_RESET"
-					sleep 7
-				else
-					echo -e "$YELLOW File SCREENS exist updating...$COL_RESET"
-
-					hide_output sudo cp -r /usr/bin/screens /usr/bin/screens-old
-					hide_output sudo rm -f /usr/bin/screens
-					hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
-					sleep 1
-					sudo sed -i 's#DIRCRONS#'${PATH_CRONS}'#' /usr/bin/screens
-					sleep 1
-					sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}log/'#' /usr/bin/screens
-					sleep 1
-					sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
-					sleep 1
-					hide_output sudo chmod +x /usr/bin/screens
-									
-					echo -e "$GREEN Done.$COL_RESET"
-					echo
-					echo -e "$YELLOW to start crons shell command: $GREENscreens mem restart$YELLOW AND$GREEN screens stratum restart$COL_RESET"
-					sleep 7
-					echo -e "$RED For old file SCREENS backup to$YELLOW SCREENS-OLD$RED in$YELLOW /urs/bin$COL_RESET"
-					echo -e "$RED if you have problems with the new file contact the admin of this script$COL_RESET"
-					echo -e "$RED revert to the previous version of$YELLOW SCREENS$RED by renaming$YELLOW SCREENS-OLD$RED to$YELLOW SCREEN$COL_RESET"
-					echo -e "$GREEN------$COL_RESET"
-					sleep 7
-				fi
-
-				if [[ ! -f "$MEMSH" ]]; then
-					hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/mem.sh
-					hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
-					sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}web/'#' ${PATH_CRONS}/mem.sh
-
-					NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
-					LISTNUMONFILE=$(echo ${NUMBERSLINES})
-					COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
-					GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
-
-					INSERTNEWLINES='\tpublic function actionRunMem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendMemCheck();\n\t\t}\n\t}'
-					sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php
-					
-					INSERTREQUIRE="\nrequire_once('mem.php');"
-					sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
-
-					hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
-					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
-					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
-					sleep 5
-				else
-					if [[ ("$MEM_UP" == "1") ]]; then
-						echo -e "$YELLOW There is a new version of file$GREEN MEM...$YELLOW Installing...$COL_RESET"
-						hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
-      						echo -e "$GREEN Done...$COL_RESET"
-						sleep 3
-	 				else
-						echo -e "$GREEN File MEM already exist Skip...$COL_RESET"
-						sleep 5
-      					fi
-				fi
-
-				if [[ ! -f "$STRATUMDAEMSH" ]]; then
-					hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/stratdaem.sh
-					hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
-					sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}web/'#' ${PATH_CRONS}/stratdaem.sh
-
-					NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
-					LISTNUMONFILE=$(echo ${NUMBERSLINES})
-					COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
-					GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
-
-					INSERTNEWLINES='\tpublic function actionRunStratdaem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendStratdaemStatus();\n\t\t}\n\t}'
-					sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php
-					
-					INSERTREQUIRE="\nrequire_once('stratdaem.php');"
-					sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
-
-					hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
-					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
-					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
-					sleep 5
-				else
-    					if [[ ("$STRATDAEM_UP" == "1") ]]; then
-	 					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM...$YELLOW Installing...$COL_RESET"
-       						hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
-						echo -e "$GREEN Done...$COL_RESET"
-	     					sleep 3
-	 				else
-						echo -e "$GREEN File STRATDAEM already exist Skip...$COL_RESET"
-						sleep 5
-     					fi
-				fi
+				echo -e "$GREEN Done.$COL_RESET"
+				echo
+				echo -e "$YELLOW to start crons shell command: $GREENscreens mem restart$YELLOW AND$GREEN screens stratum restart$COL_RESET"
+				sleep 7
 			else
+				echo -e "$YELLOW File SCREENS exist updating...$COL_RESET"
+
+				hide_output sudo cp -r /usr/bin/screens /usr/bin/screens-old
+				hide_output sudo rm -f /usr/bin/screens
+				hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
+				sleep 1
+				sudo sed -i 's#DIRCRONS#'${PATH_CRONS}'#' /usr/bin/screens
+				sleep 1
+				sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}log/'#' /usr/bin/screens
+				sleep 1
+				sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
+				sleep 1
+				hide_output sudo chmod +x /usr/bin/screens
+								
+				echo -e "$GREEN Done.$COL_RESET"
+				echo
+				echo -e "$YELLOW to start crons shell command: $GREENscreens mem restart$YELLOW AND$GREEN screens stratum restart$COL_RESET"
+				sleep 7
+				echo -e "$RED For old file SCREENS backup to$YELLOW SCREENS-OLD$RED in$YELLOW /urs/bin$COL_RESET"
+				echo -e "$RED if you have problems with the new file contact the admin of this script$COL_RESET"
+				echo -e "$RED revert to the previous version of$YELLOW SCREENS$RED by renaming$YELLOW SCREENS-OLD$RED to$YELLOW SCREEN$COL_RESET"
+				echo -e "$GREEN------$COL_RESET"
+				sleep 7
+			fi
+
+			if [[ ! -f "$MEMSH" ]]; then
+				hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/mem.sh
+				hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}web/'#' ${PATH_CRONS}/mem.sh
+
+				NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
+				LISTNUMONFILE=$(echo ${NUMBERSLINES})
+				COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
+				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
+
+				INSERTNEWLINES='\tpublic function actionRunMem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendMemCheck();\n\t\t}\n\t}'
+				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php
+				
+				INSERTREQUIRE="\nrequire_once('mem.php');"
+				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
+
+				hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
+				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+				sleep 5
+			else
+				if [[ ("$MEM_UP" == "1") ]]; then
+					echo -e "$YELLOW There is a new version of file$GREEN MEM...$YELLOW Installing...$COL_RESET"
+					hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+					echo -e "$GREEN Done...$COL_RESET"
+					sleep 3
+				else
+					echo -e "$GREEN File MEM already exist Skip...$COL_RESET"
+					sleep 5
+				fi
+			fi
+
+			if [[ ! -f "$STRATUMDAEMSH" ]]; then
+				hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/stratdaem.sh
+				hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}web/'#' ${PATH_CRONS}/stratdaem.sh
+
+				NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
+				LISTNUMONFILE=$(echo ${NUMBERSLINES})
+				COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
+				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
+
+				INSERTNEWLINES='\tpublic function actionRunStratdaem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendStratdaemStatus();\n\t\t}\n\t}'
+				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php
+				
+				INSERTREQUIRE="\nrequire_once('stratdaem.php');"
+				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
+
+				hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
+				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+				sleep 5
+			else
+				if [[ ("$STRATDAEM_UP" == "1") ]]; then
+					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM...$YELLOW Installing...$COL_RESET"
+					hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+					echo -e "$GREEN Done...$COL_RESET"
+					sleep 3
+				else
+					echo -e "$GREEN File STRATDAEM already exist Skip...$COL_RESET"
+					sleep 5
+				fi
+			fi
+		else
 			echo -e "$RED File INFO not find PLEASE contact Admin...$COL_RESET"
 			sleep 5
 		fi
