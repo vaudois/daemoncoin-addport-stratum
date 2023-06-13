@@ -649,112 +649,6 @@ else
 		echo -e "$YELLOW FINISH! Updating New Cron for adding MEM if necesary $COL_RESET"
 		sleep 3
 
-		SERVERYIIMP=/etc/serveryiimp.conf
-		if [[ -f "${SERVERYIIMP}" ]]; then
-			source ${SERVERYIIMP}
-			MEMSH=${CRONS}/mem.sh
-			STRATUMDAEMSH=${CRONS}/stratum.sh
-			SCREENS=/usr/bin/screens
-
-			if [[ ! -f "$SCREENS" ]]; then
-				echo -e "$RED File SCREENS not exist creating...$COL_RESET"
-				sleep 4
-
-				hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
-				sleep 1
-				sudo sed -i 's#DIRCRONS#'${CRONS}'#' /usr/bin/screens
-				sleep 1
-				sudo sed -i 's#DIRLOG#'${CRONS}log/'#' /usr/bin/screens
-				sleep 1
-				sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTIONFILE}'#' /usr/bin/screens
-				sleep 1
-				hide_output sudo chmod +x /usr/bin/screens
-				
-				echo -e "$GREEN Done.$COL_RESET"
-				echo -e "$YELLOW to start crons shell command: $GREENscreens mem restart$YELLOW AND$GREEN screens stratum restart$COL_RESET"
-				sleep 5
-			else
-				echo -e "$YELLOW File SCREENS exist updating...$COL_RESET"
-				sleep 4
-
-				hide_output sudo cp -r /usr/bin/screens /usr/bin/screens-old
-				hide_output sudo rm -f /usr/bin/screens
-				hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
-				sleep 1
-				sudo sed -i 's#DIRCRONS#'${CRONS}'#' /usr/bin/screens
-				sleep 1
-				sudo sed -i 's#DIRLOG#'${CRONS}log/'#' /usr/bin/screens
-				sleep 1
-				sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTIONFILE}'#' /usr/bin/screens
-				sleep 1
-				hide_output sudo chmod +x /usr/bin/screens
-
-				echo -e "$GREEN Done.$COL_RESET"
-				echo -e "$YELLOW to start crons shell command: $GREENscreens mem restart$YELLOW AND$GREEN screens stratum restart$COL_RESET"
-				sleep 5
-				echo -e "$RED For old file SCREENS backup to$YELLOW SCREENS-OLD$RED in$YELLOW /urs/bin$COL_RESET"
-				echo -e "$RED if you have problems with the new file contact the admin of this script$COL_RESET"
-				echo -e "$RED revert to the previous version of$YELLOW SCREENS$RED by renaming$YELLOW SCREENS-OLD$RED to$YELLOW SCREEN$COL_RESET"
-				echo -e "$GREEN------$COL_RESET"
-				sleep 5
-			fi
-
-			if [[ ! -f "$MEMSH" ]]; then
-				hide_output sudo cp -r ${installdirname}/utils/mem.sh ${CRONS}/mem.sh
-				hide_output sudo cp -r ${installdirname}/utils/mem.php ${STORAGE_SITE}/yaamp/core/backend/mem.php
-				sudo sed -i 's#WEBDIR#'${STORAGE_SITE}/'#' ${CRONS}/mem.sh
-
-				NUMBERSLINES=$(grep -wn '}' ${STORAGE_SITE}/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
-				LISTNUMONFILE=$(echo ${NUMBERSLINES})
-				COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
-				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
-
-				INSERTNEWLINES='\tpublic function actionRunMem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendMemCheck();\n\t\t}\n\t}'
-				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${STORAGE_SITE}/yaamp/modules/thread/CronjobController.php
-				
-				INSERTREQUIRE="\nrequire_once('mem.php');"
-				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${STORAGE_SITE}/yaamp/core/backend/backend.php
-				
-				hide_output sudo chmod +x ${CRONS}/mem.sh
-				hide_output sudo chgrp www-data ${STORAGE_SITE}/yaamp/core/backend/mem.php
-				hide_output sudo chmod 664 ${STORAGE_SITE}/yaamp/core/backend/mem.php
-				sleep 5
-			else
-				echo -e "$GREEN File MEM already exist Skip...$COL_RESET"
-				sleep 5
-			fi
-
-			if [[ ! -f "$STRATUMDAEMSH" ]]; then
-				hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${CRONS}/stratdaem.sh
-				hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${STORAGE_SITE}/yaamp/core/backend/stratdaem.php
-				sudo sed -i 's#WEBDIR#'${STORAGE_SITE}/'#' ${CRONS}/stratdaem.sh
-
-				NUMBERSLINES=$(grep -wn '}' ${STORAGE_SITE}/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
-				LISTNUMONFILE=$(echo ${NUMBERSLINES})
-				COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
-				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
-
-				INSERTNEWLINES='\tpublic function actionRunStratdaem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendStratdaemStatus();\n\t\t}\n\t}'
-				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${STORAGE_SITE}/yaamp/modules/thread/CronjobController.php
-				
-				INSERTREQUIRE="\nrequire_once('stratdaem.php');"
-				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${STORAGE_SITE}/yaamp/core/backend/backend.php
-				
-				hide_output sudo chmod +x ${CRONS}/stratdaem.sh
-				hide_output sudo chgrp www-data ${STORAGE_SITE}/yaamp/core/backend/stratdaem.php
-				hide_output sudo chmod 664 ${STORAGE_SITE}/yaamp/core/backend/stratdaem.php
-				sleep 5
-			else
-				echo -e "$GREEN File STRATDAEM already exist Skip...$COL_RESET"
-				sleep 5
-			fi
-
-			NOTCONF=N
-		else
-			NOTCONF=Y
-		fi
-		
-		if [[ ("${NOTCONF}" == "Y") ]]; then
 			INFOCONFSH=${absolutepath}/${installtoserver}/conf/info.sh
 			if [[ -f "${INFOCONFSH}" ]]; then
 				source ${INFOCONFSH}
@@ -788,9 +682,9 @@ else
 					hide_output sudo rm -f /usr/bin/screens
 					hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
 					sleep 1
-					sudo sed -i 's#DIRCRONS#'${CRONS}'#' /usr/bin/screens
+					sudo sed -i 's#DIRCRONS#'${PATH_CRONS}'#' /usr/bin/screens
 					sleep 1
-					sudo sed -i 's#DIRLOG#'${CRONS}log/'#' /usr/bin/screens
+					sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}log/'#' /usr/bin/screens
 					sleep 1
 					sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
 					sleep 1
@@ -857,17 +751,10 @@ else
 					sleep 5
 				fi
 
-				NOTCONF=N
-			else
-					NOTCONF=Y
-			fi
-		fi
-		
-		if [[ "$NOTCONF" == "Y" ]]; then
 			echo -e "$RED File CRON not find PLEASE contact Admin...$COL_RESET"
 			sleep 5
 		fi
-		
+
 		echo -e "$GREEN FINISSED!!!! $COL_RESET"
 		sleep 3
 
