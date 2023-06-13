@@ -710,10 +710,10 @@ else
 				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
 
 				INSERTNEWLINES='\tpublic function actionRunMem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendMemCheck();\n\t\t}\n\t}'
-				sudo sed "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${STORAGE_SITE}/yaamp/modules/thread/CronjobController.php
+				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${STORAGE_SITE}/yaamp/modules/thread/CronjobController.php
 				
-				INSERTREQUIRE='\nrequire_once(''mem.php'');'
-				sudo sed '$s#$#'${INSERTREQUIRE}'#' ${STORAGE_SITE}/yaamp/core/backend/backend.php
+				INSERTREQUIRE="\nrequire_once('mem.php');"
+				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${STORAGE_SITE}/yaamp/core/backend/backend.php
 				
 				hide_output sudo chmod +x ${CRONS}/mem.sh
 				hide_output sudo chmod -664 ${STORAGE_SITE}/yaamp/core/backend/mem.php
@@ -734,10 +734,10 @@ else
 				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
 
 				INSERTNEWLINES='\tpublic function actionRunStratdaem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendStratdaemStatus();\n\t\t}\n\t}'
-				sudo sed "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${STORAGE_SITE}/yaamp/modules/thread/CronjobController.php
+				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${STORAGE_SITE}/yaamp/modules/thread/CronjobController.php
 				
-				INSERTREQUIRE='\nrequire_once(''stratdaem.php'');'
-				sudo sed '$s#$#'${INSERTREQUIRE}'#' ${STORAGE_SITE}/yaamp/core/backend/backend.php
+				INSERTREQUIRE="\nrequire_once('stratdaem.php');"
+				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${STORAGE_SITE}/yaamp/core/backend/backend.php
 				
 				hide_output sudo chmod +x ${CRONS}/stratdaem.sh
 				hide_output sudo chmod -664 ${STORAGE_SITE}/yaamp/core/backend/stratdaem.php
@@ -816,10 +816,10 @@ else
 					GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
 
 					INSERTNEWLINES='\tpublic function actionRunMem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendMemCheck();\n\t\t}\n\t}'
-					sudo sed "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php
+					sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php
 					
-					INSERTREQUIRE='\nrequire_once(''mem.php'');'
-					sudo sed '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
+					INSERTREQUIRE="\nrequire_once('mem.php');"
+					sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
 
 					hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
 					hide_output sudo chmod -664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
@@ -840,10 +840,10 @@ else
 					GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
 
 					INSERTNEWLINES='\tpublic function actionRunStratdaem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendStratdaemStatus();\n\t\t}\n\t}'
-					sudo sed "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php
+					sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php
 					
-					INSERTREQUIRE='\nrequire_once(''stratdaem.php'');'
-					sudo sed '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
+					INSERTREQUIRE="\nrequire_once('stratdaem.php');"
+					sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
 
 					hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
 					hide_output sudo chmod -664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
