@@ -716,7 +716,8 @@ else
 				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${STORAGE_SITE}/yaamp/core/backend/backend.php
 				
 				hide_output sudo chmod +x ${CRONS}/mem.sh
-				hide_output sudo chmod -664 ${STORAGE_SITE}/yaamp/core/backend/mem.php
+				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+				hide_output sudo chmod 664 ${STORAGE_SITE}/yaamp/core/backend/mem.php
 				sleep 5
 			else
 				echo -e "$GREEN File MEM already exist Skip...$COL_RESET"
@@ -740,7 +741,8 @@ else
 				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${STORAGE_SITE}/yaamp/core/backend/backend.php
 				
 				hide_output sudo chmod +x ${CRONS}/stratdaem.sh
-				hide_output sudo chmod -664 ${STORAGE_SITE}/yaamp/core/backend/stratdaem.php
+				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+				hide_output sudo chmod 664 ${STORAGE_SITE}/yaamp/core/backend/stratdaem.php
 				sleep 5
 			else
 				echo -e "$GREEN File STRATDAEM already exist Skip...$COL_RESET"
@@ -822,7 +824,8 @@ else
 					sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
 
 					hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
-					hide_output sudo chmod -664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
 					sleep 5
 				else
 					echo -e "$GREEN File MEM already exist Skip...$COL_RESET"
@@ -846,7 +849,8 @@ else
 					sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
 
 					hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
-					hide_output sudo chmod -664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
 					sleep 5
 				else
 					echo -e "$GREEN File STRATDAEM already exist Skip...$COL_RESET"
