@@ -716,7 +716,7 @@ else
 				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${STORAGE_SITE}/yaamp/core/backend/backend.php
 				
 				hide_output sudo chmod +x ${CRONS}/mem.sh
-				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+				hide_output sudo chgrp www-data ${STORAGE_SITE}web/yaamp/core/backend/mem.php
 				hide_output sudo chmod 664 ${STORAGE_SITE}/yaamp/core/backend/mem.php
 				sleep 5
 			else
@@ -741,7 +741,7 @@ else
 				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${STORAGE_SITE}/yaamp/core/backend/backend.php
 				
 				hide_output sudo chmod +x ${CRONS}/stratdaem.sh
-				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+				hide_output sudo chgrp www-data ${STORAGE_SITE}web/yaamp/core/backend/stratdaem.php
 				hide_output sudo chmod 664 ${STORAGE_SITE}/yaamp/core/backend/stratdaem.php
 				sleep 5
 			else
