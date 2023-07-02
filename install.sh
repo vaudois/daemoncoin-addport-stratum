@@ -259,7 +259,7 @@ else
 			
 			if [ -z "${FUNCTION_FILE}" ]; then
 				FUNCTION_FILE=coinbuild.sh
-			else
+			fi
 
 			clear
 			term_art
