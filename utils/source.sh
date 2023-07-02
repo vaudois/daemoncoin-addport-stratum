@@ -1252,8 +1252,13 @@ if [[("$DAEMOND" != 'true')]]; then
 
 	if [[ "${YIIMPCONF}" == "true" ]]; then
 		sudo nano $STORAGE_ROOT/wallets/."${coind::-1}"/${coind::-1}.conf
+  		sudo chown pool $STORAGE_ROOT/wallets/."${coind::-1}"/${coind::-1}.conf
+    		sudo chgrp pool $STORAGE_ROOT/wallets/."${coind::-1}"/${coind::-1}.conf
 	else
 		sudo nano ${absolutepath}/wallets/."${coind::-1}"/${coind::-1}.conf
+  		sudo chown ${USERSERVER} ${absolutepath}/wallets/."${coind::-1}"/${coind::-1}.conf
+    		sudo chgrp ${USERSERVER} ${absolutepath}/wallets/."${coind::-1}"/${coind::-1}.conf
+    
 	fi
 
 	clear
