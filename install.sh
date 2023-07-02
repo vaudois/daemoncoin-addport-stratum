@@ -178,7 +178,7 @@ else
 		FUNC=/etc/coinbuild.sh
 		if [[ ! -f "$FUNC" ]]; then
 			sudo cp -r ${installdirname}/conf/coinbuild.sh /etc/
-			FUNCTIONFILE=coinbuild.sh
+			FUNCTION_FILE=coinbuild.sh
 			source /etc/coinbuild.sh
 		fi
 
@@ -206,7 +206,7 @@ else
 			FUNC=/etc/coinbuild.sh
 			if [[ ! -f "$FUNC" ]]; then
 				sudo cp -r ${installdirname}/conf/coinbuild.sh /etc/
-				FUNCTIONFILE=coinbuild.sh
+				FUNCTION_FILE=coinbuild.sh
 			fi
 		fi
 	fi
@@ -258,10 +258,8 @@ else
 			fi
 			
 			if [ -z "${FUNCTION_FILE}" ]; then
-				FUNCTIONFILE=coinbuild.sh
+				FUNCTION_FILE=coinbuild.sh
 			else
-				FUNCTIONFILE=${FUNCTION_FILE}
-			fi
 
 			clear
 			term_art
@@ -274,7 +272,7 @@ else
 			FUNC=/etc/coinbuild.sh
 			if [[ ! -f "$FUNC" ]]; then
 				source /etc/coinbuild.sh
-				FUNCTIONFILE=coinbuild.sh
+				FUNCTION_FILE=coinbuild.sh
 			fi
 
 
@@ -590,7 +588,7 @@ else
 			if [[ "${INSTVERSION}" == "$TAG" ]]; then
 				sleep 3
 				echo '#!/usr/bin/env bash
-				source /etc/'"${FUNCTIONFILE}"' # load our coinbuild.sh
+				source /etc/'"${FUNCTION_FILE}"' # load our coinbuild.sh
 				cd '"${absolutepath}"'/'"${installtoserver}"'/daemon_builder
 				bash start.sh
 				cd ~' | sudo -E tee /usr/bin/${daemonname} >/dev/null 2>&1
@@ -621,7 +619,7 @@ else
 				echo '#!/bin/sh
 				USERSERVER='"${whoami}"'
 				PATH_STRATUM='"${path_stratum}"'
-				FUNCTION_FILE='"${FUNCTIONFILE}"'
+				FUNCTION_FILE='"${FUNCTION_FILE}"'
 				VERSION='"${TAG}"'
 				BTCDEP='"${BTCDEP}"'
 				LTCDEP='"${LTCDEP}"'
@@ -633,7 +631,7 @@ else
 					echo '#!/bin/sh
 					USERSERVER='"${whoami}"'
 					PATH_STRATUM='"${path_stratum}"'
-					FUNCTION_FILE='"${FUNCTIONFILE}"'
+					FUNCTION_FILE='"${FUNCTION_FILE}"'
 					VERSION='"${TAG}"'
 					BTCDEP='"${BTCDEP}"'
 					LTCDEP='"${LTCDEP}"'
@@ -650,7 +648,7 @@ else
 			echo '#!/bin/sh
 			USERSERVER='"${whoami}"'
 			PATH_STRATUM='"${path_stratum}"'
-			FUNCTION_FILE='"${FUNCTIONFILE}"'
+			FUNCTION_FILE='"${FUNCTION_FILE}"'
 			VERSION='"${TAG}"'
 			BTCDEP='"${BTCDEP}"'
 			LTCDEP='"${LTCDEP}"'
