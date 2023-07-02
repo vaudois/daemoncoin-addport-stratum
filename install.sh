@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 18.04 / 20.04
-#   v0.8.3.3 rev.2 (2023-07-02)
+#   v0.8.3.4 rev.3 (2023-07-02)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.8.3.2
+	TAG=v0.8.3.4
 fi
 
 clear
