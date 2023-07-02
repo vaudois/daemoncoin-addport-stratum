@@ -740,13 +740,26 @@ else
 				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
 				sleep 5
 			else
-				if [[ ("$MEM_UP" == "1") ]]; then
-					echo -e "$YELLOW There is a new version of file$GREEN MEM...$YELLOW Installing...$COL_RESET"
-					hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+				if [[ ("$MEM_SH_UP" == "1") ]]; then
+					echo -e "$YELLOW There is a new version of file$GREEN MEM.SH...$YELLOW Installing...$COL_RESET"
+					hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/mem.sh
+					hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
 				else
-					echo -e "$GREEN File MEM already exist Skip...$COL_RESET"
+					echo -e "$GREEN File MEM.SH already exist Skip...$COL_RESET"
+					sleep 5
+				fi
+
+				if [[ ("$MEM_PHP_UP" == "1") ]]; then
+					echo -e "$YELLOW There is a new version of file$GREEN MEM.PHP...$YELLOW Installing...$COL_RESET"
+					hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+					echo -e "$GREEN Done...$COL_RESET"
+					sleep 3
+				else
+					echo -e "$GREEN File MEM.PHP already exist Skip...$COL_RESET"
 					sleep 5
 				fi
 			fi
@@ -772,13 +785,26 @@ else
 				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
 				sleep 5
 			else
-				if [[ ("$STRATDAEM_UP" == "1") ]]; then
-					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM...$YELLOW Installing...$COL_RESET"
-					hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+				if [[ ("$STRATDAEM_SH_UP" == "1") ]]; then
+					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM.SH...$YELLOW Installing...$COL_RESET"
+					hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/stratdaem.sh
+     					hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
 				else
-					echo -e "$GREEN File STRATDAEM already exist Skip...$COL_RESET"
+					echo -e "$GREEN File STRATDAEM.SH already exist Skip...$COL_RESET"
+					sleep 5
+				fi
+    
+				if [[ ("$STRATDAEM_PHP_UP" == "1") ]]; then
+					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM.PHP...$YELLOW Installing...$COL_RESET"
+					hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+					echo -e "$GREEN Done...$COL_RESET"
+					sleep 3
+				else
+					echo -e "$GREEN File STRATDAEM.PHP already exist Skip...$COL_RESET"
 					sleep 5
 				fi
 			fi
