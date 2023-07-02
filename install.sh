@@ -4,13 +4,13 @@
 # Current Created by : Vaudois
 # web: https://coinXpool.com
 # Program:
-#   Install Daemon Coin on Ubuntu 18.04/20.04
-#   v0.8.3.1 rev.1 (2023-06-14)
+#   Install Daemon Coin on Ubuntu 18.04 / 20.04
+#   v0.8.3.2 rev.2 (2023-07-02)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.8.3.1
+	TAG=v0.8.3.2
 fi
 
 clear
@@ -351,6 +351,18 @@ else
 		else
 			hide_output sudo apt -y install libdb-dev
 			hide_output sudo apt -y install libdb5.3++ libdb5.3++-dev
+		fi
+		hide_output sudo apt -y install libgtest-dev
+  		sleep 2
+		cd /usr/src/gtest
+		hide_output sudo cmake .
+  		sleep 2
+		hide_output sudo make
+  		sleep 2
+		if [[ -d "/usr/src/gtest/lib" ]]; then
+			hide_output sudo mv /usr/src/gtest/lib/libg* /usr/lib/
+		else
+			hide_output sudo mv /usr/src/gtest/libg* /usr/lib/
 		fi
 
 		echo -e "$GREEN Additional System Files Completed...$COL_RESET"
