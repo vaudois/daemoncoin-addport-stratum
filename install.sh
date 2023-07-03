@@ -666,13 +666,14 @@ else
 		if [[ -f "${INFOCONFSH}" ]]; then
 			source ${INFOCONFSH}
 			PATH_STRATUM_CHANGE=${PATH_STRATUM::-7}
-			if [[ -d "${PATH_STRATUM_CHANGE}crons" ]]; then
-			    PATH_CRONS=${PATH_STRATUM_CHANGE}crons 
+   			PATH_CRONS_CHECK=${PATH_STRATUM_CHANGE}crons
+			if [[ -d "${PATH_CRONS_CHECK}" ]]; then
+			    PATH_CRONS=${PATH_CRONS_CHECK}
 			else
 			    PATH_CRONS=${PATH_STRATUM_CHANGE}web/crons
 			fi
 			MEMSH=${PATH_CRONS}/mem.sh
-			STRATUMDAEMSH=${PATH_CRONS}/stratum.sh
+			STRATUMDAEMSH=${PATH_CRONS}/stratdaem.sh
 			SCREENS=/usr/bin/screens
 			
 			if [[ ! -f "$SCREENS" ]]; then
