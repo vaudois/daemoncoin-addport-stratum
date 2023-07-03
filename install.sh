@@ -665,12 +665,12 @@ else
 		INFOCONFSH=${absolutepath}/${installtoserver}/conf/info.sh
 		if [[ -f "${INFOCONFSH}" ]]; then
 			source ${INFOCONFSH}
-			PATH_STRATUM_CHANGE=${PATH_STRATUM::-7}
-   			PATH_CRONS_CHECK=${PATH_STRATUM_CHANGE}crons
+			PATH_STRATUM_CHANGE=${PATH_STRATUM::-8}
+   			PATH_CRONS_CHECK=${PATH_STRATUM_CHANGE}/crons
 			if [[ -d "${PATH_CRONS_CHECK}" ]]; then
 			    PATH_CRONS=${PATH_CRONS_CHECK}
 			else
-			    PATH_CRONS=${PATH_STRATUM_CHANGE}web/crons
+			    PATH_CRONS=${PATH_STRATUM_CHANGE}/web/crons
 			fi
 			MEMSH=${PATH_CRONS}/mem.sh
 			STRATUMDAEMSH=${PATH_CRONS}/stratdaem.sh
@@ -683,7 +683,7 @@ else
 				sleep 1
 				sudo sed -i 's#DIRCRONS#'${PATH_CRONS}'#' /usr/bin/screens
 				sleep 1
-				sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}log/'#' /usr/bin/screens
+				sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}/log/'#' /usr/bin/screens
 				sleep 1
 				sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
 				sleep 1
@@ -702,7 +702,7 @@ else
 				sleep 1
 				sudo sed -i 's#DIRCRONS#'${PATH_CRONS}'#' /usr/bin/screens
 				sleep 1
-				sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}log/'#' /usr/bin/screens
+				sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}/log/'#' /usr/bin/screens
 				sleep 1
 				sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
 				sleep 1
@@ -721,23 +721,23 @@ else
 
 			if [[ ! -f "$MEMSH" ]]; then
 				hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/mem.sh
-				hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
-				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}web/'#' ${PATH_CRONS}/mem.sh
+				hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
+				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}/web/'#' ${PATH_CRONS}/mem.sh
 
-				NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
+				NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
 				LISTNUMONFILE=$(echo ${NUMBERSLINES})
 				COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
 				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
 
 				INSERTNEWLINES='\tpublic function actionRunMem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendMemCheck();\n\t\t}\n\t}'
-				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php
+				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php
 				
 				INSERTREQUIRE="\nrequire_once('mem.php');"
-				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
+				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/backend.php
 
 				hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
-				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
-				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
+				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 				sleep 5
 			else
 				if [[ ("$MEM_SH_UP" == "1") ]]; then
@@ -753,9 +753,9 @@ else
 
 				if [[ ("$MEM_PHP_UP" == "1") ]]; then
 					echo -e "$YELLOW There is a new version of file$GREEN MEM.PHP...$YELLOW Installing...$COL_RESET"
-					hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
-					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
-					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/mem.php
+					hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
+					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
+					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
 				else
@@ -766,23 +766,23 @@ else
 
 			if [[ ! -f "$STRATUMDAEMSH" ]]; then
 				hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/stratdaem.sh
-				hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
-				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}web/'#' ${PATH_CRONS}/stratdaem.sh
+				hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
+				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}/web/'#' ${PATH_CRONS}/stratdaem.sh
 
-				NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
+				NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
 				LISTNUMONFILE=$(echo ${NUMBERSLINES})
 				COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
 				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
 
 				INSERTNEWLINES='\tpublic function actionRunStratdaem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendStratdaemStatus();\n\t\t}\n\t}'
-				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}web/yaamp/modules/thread/CronjobController.php
+				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php
 				
 				INSERTREQUIRE="\nrequire_once('stratdaem.php');"
-				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/backend.php
+				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/backend.php
 
 				hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
-				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
-				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
+				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 				sleep 5
 			else
 				if [[ ("$STRATDAEM_SH_UP" == "1") ]]; then
@@ -798,9 +798,9 @@ else
     
 				if [[ ("$STRATDAEM_PHP_UP" == "1") ]]; then
 					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM.PHP...$YELLOW Installing...$COL_RESET"
-					hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
-					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
-					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}web/yaamp/core/backend/stratdaem.php
+					hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
+					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
+					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
 				else
