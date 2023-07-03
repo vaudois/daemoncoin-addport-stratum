@@ -172,6 +172,8 @@ else
 		#Copy needed files
 		cd ${installdirname}
 		sudo mkdir -p ${absolutepath}/${installtoserver}/conf/
+                hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/conf/
+     		hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/conf/
 
 		source ${installdirname}/conf/coinbuild.sh
 		
@@ -389,6 +391,8 @@ else
 
 			cd ~
 			sudo mkdir -p ${absolutepath}/daemon_setup/tmp/
+                   	hide_output sudo chgrp ${whoami} ${absolutepath}/daemon_setup/tmp/
+     			hide_output sudo chown ${whoami} ${absolutepath}/daemon_setup/tmp/
 
 		function berkeley_pacht_4x_5x
 		{
@@ -403,6 +407,8 @@ else
 			sleep 3
 
 			sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db4/
+                   	hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/berkeley/db4/
+     			hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/berkeley/db4/
 			cd ${absolutepath}/daemon_setup/tmp
 			hide_output sudo wget 'https://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'
 			hide_output sudo tar -xzvf db-4.8.30.NC.tar.gz
@@ -421,6 +427,8 @@ else
 			sleep 3
 
 			sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db5/
+                   	hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/berkeley/db5/
+     			hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/berkeley/db5/
 			cd ${absolutepath}/daemon_setup/tmp/
 			hide_output sudo wget 'https://download.oracle.com/berkeley-db/db-5.1.29.tar.gz'
 			hide_output sudo tar -xzvf db-5.1.29.tar.gz
@@ -439,6 +447,8 @@ else
 			sleep 3
 
 			sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db5.3/
+                   	hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/berkeley/db5.3/
+     			hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/berkeley/db5.3/
 			cd ${absolutepath}/daemon_setup/tmp/
 			hide_output sudo wget 'https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz'
 			hide_output sudo tar -xzvf db-5.3.28.tar.gz
@@ -457,6 +467,8 @@ else
 			sleep 3
 
 			sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db6.2/
+                   	hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/berkeley/db6.2/
+     			hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/berkeley/db6.2/
 			cd ${absolutepath}/daemon_setup/tmp/
 			hide_output sudo wget 'https://download.oracle.com/berkeley-db/db-6.2.23.tar.gz'
 			hide_output sudo tar -xzvf db-6.2.23.tar.gz
@@ -474,6 +486,8 @@ else
 			sleep 3
 
 			sudo mkdir -p ${absolutepath}/${installtoserver}/berkeley/db18/
+                   	hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/berkeley/db18/
+     			hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/berkeley/db18/
 			cd ${absolutepath}/daemon_setup/tmp/
 			hide_output sudo wget 'https://download.oracle.com/berkeley-db/db-18.1.40.tar.gz'
 			hide_output sudo tar -xzvf db-18.1.40.tar.gz
@@ -552,6 +566,8 @@ else
 
 			cd ${installdirname}
 			sudo mkdir -p ${absolutepath}/${installtoserver}/daemon_builder/
+                        hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/daemon_builder/
+     			hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/daemon_builder/
 
 			hide_output sudo cp -r ${installdirname}/utils/start.sh ${absolutepath}/${installtoserver}/daemon_builder/
 			hide_output sudo cp -r ${installdirname}/utils/menu.sh ${absolutepath}/${installtoserver}/daemon_builder/
@@ -584,6 +600,8 @@ else
 
 			hide_output sudo cp -r ${installdirname}/utils/addport.sh /usr/bin/addport
 			hide_output sudo chmod +x /usr/bin/addport
+                     	hide_output sudo chgrp ${whoami} /usr/bin/addport
+     			hide_output sudo chown ${whoami} /usr/bin/addport
 
 			if [[ "${INSTVERSION}" == "$TAG" ]]; then
 				sleep 3
@@ -593,6 +611,8 @@ else
 				bash start.sh
 				cd ~' | sudo -E tee /usr/bin/${daemonname} >/dev/null 2>&1
 				hide_output sudo chmod +x /usr/bin/${daemonname}
+                     		hide_output sudo chgrp ${whoami} /usr/bin/${daemonname}
+     				hide_output sudo chown ${whoami} /usr/bin/${daemonname}
 			fi
 
 			echo -e "$GREEN Done...$COL_RESET"
@@ -626,6 +646,8 @@ else
 				ETHDEP='"${ETHDEP}"'
 				BCHDEP='"${BCHDEP}"''| sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
 				hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
+                 		hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/conf/info.sh
+     				hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/conf/info.sh
 			else
 				if [[ ! "$VERSION" == "$TAG" ]]; then
 					echo '#!/bin/sh
@@ -638,6 +660,8 @@ else
 					ETHDEP='"${ETHDEP}"'
 					BCHDEP='"${BCHDEP}"''| sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
 					hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
+                 			hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/conf/info.sh
+     					hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/conf/info.sh
 				fi
 				echo -e "$GREEN Done...$COL_RESET"
 				sleep 5
@@ -655,6 +679,8 @@ else
 			ETHDEP='"${ETHDEP}"'
 			BCHDEP='"${BCHDEP}"'' | sudo -E tee ${absolutepath}/${installtoserver}/conf/info.sh >/dev/null 2>&1
 			hide_output sudo chmod +x ${absolutepath}/${installtoserver}/conf/info.sh
+                 	hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/conf/info.sh
+     			hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/conf/info.sh
 			echo -e "$GREEN Done...$COL_RESET"
 			sleep 5
 		fi
@@ -688,6 +714,8 @@ else
 				sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
 				sleep 1
 				hide_output sudo chmod +x /usr/bin/screens
+             			hide_output sudo chgrp ${whoami} /usr/bin/screens
+     				hide_output sudo chown ${whoami} /usr/bin/screens
 
 				echo -e "$GREEN Done.$COL_RESET"
 				echo
@@ -707,6 +735,8 @@ else
 				sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
 				sleep 1
 				hide_output sudo chmod +x /usr/bin/screens
+             			hide_output sudo chgrp ${whoami} /usr/bin/screens
+     				hide_output sudo chown ${whoami} /usr/bin/screens
 								
 				echo -e "$GREEN Done.$COL_RESET"
 				echo
@@ -736,7 +766,10 @@ else
 				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/backend.php
 
 				hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
+         			hide_output sudo chgrp ${whoami} ${PATH_CRONS}/mem.sh
+     				hide_output sudo chown ${whoami} ${PATH_CRONS}/mem.sh
 				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
+    				hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 				sleep 5
 			else
@@ -744,6 +777,8 @@ else
 					echo -e "$YELLOW There is a new version of file$GREEN MEM.SH...$YELLOW Installing...$COL_RESET"
 					hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/mem.sh
 					hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
+     					hide_output sudo chgrp ${whoami} ${PATH_CRONS}/mem.sh
+     					hide_output sudo chown ${whoami} ${PATH_CRONS}/mem.sh
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
 				else
@@ -755,6 +790,7 @@ else
 					echo -e "$YELLOW There is a new version of file$GREEN MEM.PHP...$YELLOW Installing...$COL_RESET"
 					hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
+     					hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
@@ -781,7 +817,10 @@ else
 				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/backend.php
 
 				hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
+                 		hide_output sudo chgrp ${whoami} ${PATH_CRONS}/stratdaem.sh
+     				hide_output sudo chown ${whoami} ${PATH_CRONS}/stratdaem.sh
 				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
+    				hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 				sleep 5
 			else
@@ -789,6 +828,8 @@ else
 					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM.SH...$YELLOW Installing...$COL_RESET"
 					hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/stratdaem.sh
      					hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
+                 			hide_output sudo chgrp ${whoami} ${PATH_CRONS}/stratdaem.sh
+     					hide_output sudo chown ${whoami} ${PATH_CRONS}/stratdaem.sh
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
 				else
@@ -800,6 +841,7 @@ else
 					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM.PHP...$YELLOW Installing...$COL_RESET"
 					hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
+     					hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
