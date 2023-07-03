@@ -23,9 +23,9 @@ if [[ ("${LATESTVER}" > "${VERSION}" && "${LATESTVER}" != "null") ]]; then
 	REPO="vaudois/daemoncoin-addport-stratum"
 
 	temp_dir="$(mktemp -d)" && \
-		git clone -q git@github.com:${REPO%.git} "${temp_dir}" && \
+		sudo git clone -q git@github.com:${REPO%.git} "${temp_dir}" && \
 			cd "${temp_dir}/" && \
-				git -c advice.detachedHead=false checkout -q tags/${TAG}
+				sudo git -c advice.detachedHead=false checkout -q tags/${TAG}
 	sleep 1
 	test $? -eq 0 ||
 		{ 
