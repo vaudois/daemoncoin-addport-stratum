@@ -172,18 +172,16 @@ else
 		#Copy needed files
 		cd ${installdirname}
 		sudo mkdir -p ${absolutepath}/${installtoserver}/conf/
-                hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/conf/
-     		hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/conf/
-
 		source ${installdirname}/conf/coinbuild.sh
-		
 		FUNC=/etc/coinbuild.sh
 		if [[ ! -f "$FUNC" ]]; then
 			sudo cp -r ${installdirname}/conf/coinbuild.sh /etc/
 			FUNCTION_FILE=coinbuild.sh
 			source /etc/coinbuild.sh
 		fi
-
+                hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/conf/
+     		hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/conf/
+       
 		SCSCRYPT=/etc/screen-scrypt.sh
 		if [[ ! -f "$SCSCRYPT" ]]; then
 			hide_output sudo cp -r ${installdirname}/utils/screen-scrypt.sh /etc/
