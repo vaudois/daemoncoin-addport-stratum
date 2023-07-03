@@ -265,9 +265,11 @@ if [[ ("$stratumyesnot" == "n" || "$stratumyesnot" == "N" || "$stratumyesnot" ==
 		filerun=run-${stratumsplit[1]}.sh
 		if [[ ! -f "${filerun}" ]]; then
 			echo '#!/usr/bin/env bash
-			cd '""''"${PATH_STRATUM}"''""'/config/ && ./'""''"${filerun}"''""' $*
+			cd '""''"${PATH_STRATUM}"''""'/config/ && sudo bash '""''"${filerun}"''""' $*
 			done ' | sudo -E tee ${PATH_STRATUM}/${filerun} >/dev/null 2>&1
 			sudo chmod +x ${PATH_STRATUM}/${filerun}
+        		sudo chgrp ${whoami} ${PATH_STRATUM}/${filerun}
+     			sudo chown ${whoami} ${PATH_STRATUM}/${filerun}
 			sleep 1
 			echo '#!/usr/bin/env bash
 			ulimit -n 10240
@@ -280,6 +282,8 @@ if [[ ("$stratumyesnot" == "n" || "$stratumyesnot" == "N" || "$stratumyesnot" ==
 			exec bash
 			done ' | sudo -E tee ${PATH_STRATUM}/config/${filerun} >/dev/null 2>&1
 			sudo chmod +x ${PATH_STRATUM}/config/${filerun}
+        		sudo chgrp ${whoami} ${PATH_STRATUM}/config/${filerun}
+     			sudo chown ${whoami} ${PATH_STRATUM}/config/${filerun}
 		fi
 	fi
 
@@ -327,6 +331,8 @@ if [[ ("$stratumyesnot" == "n" || "$stratumyesnot" == "N" || "$stratumyesnot" ==
 		esac
 	done ' | sudo -E tee ${PATH_STRATUM}/config/stratum.${coinsymbollower} >/dev/null 2>&1
 	sudo chmod +x ${PATH_STRATUM}/config/stratum.${coinsymbollower}
+	sudo chgrp ${whoami} ${PATH_STRATUM}/config/stratum.${coinsymbollower}
+     	sudo chown ${whoami} ${PATH_STRATUM}/config/stratum.${coinsymbollower}
 	sleep 1
 else
 	# New coin stratum start file
@@ -373,6 +379,8 @@ else
 		esac
 	done ' | sudo -E tee ${PATH_STRATUM}/config/stratum.${coinsymbollower} >/dev/null 2>&1
 	sudo chmod +x ${PATH_STRATUM}/config/stratum.${coinsymbollower}
+ 	sudo chgrp ${whoami} ${PATH_STRATUM}/config/stratum.${coinsymbollower}
+     	sudo chown ${whoami} ${PATH_STRATUM}/config/stratum.${coinsymbollower}
 	sleep 1
 fi
 
@@ -394,6 +402,9 @@ if [[("$CREATECOIN" == 'true')]]; then
 	COINPORT='""''"${coinport}"''""'
 	COINALGO='""''"${coinalgo}"''""'
 	' | sudo -E tee ${absolutepath}/${installtoserver}/daemon_builder/.addport.cnf >/dev/null 2>&1;
+ 	sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/daemon_builder/.addport.cnf
+     	sudo chown ${whoami} ${absolutepath}/${installtoserver}/daemon_builder/.addport.cnf
+
 	echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 	echo -e "$GREEN    The assigned dedicated port for this coins stratum is :$YELLOW $coinport $COL_RESET"
 	echo -e "$GREEN    Addport finish return to config...										$COL_RESET"
@@ -581,9 +592,11 @@ if [[ ("$stratumyesnot" == "n" || "$stratumyesnot" == "N" || "$stratumyesnot" ==
 		filerun=run-${stratumsplit[1]}.sh
 		if [[ ! -f "${filerun}" ]]; then
 			echo '#!/usr/bin/env bash
-			cd '""''"${PATH_STRATUM}"''""'/config/ && ./'""''"${filerun}"''""' $*
+			cd '""''"${PATH_STRATUM}"''""'/config/ && sudo bash '""''"${filerun}"''""' $*
 			done ' | sudo -E tee ${PATH_STRATUM}/${filerun} >/dev/null 2>&1
 			sudo chmod +x ${PATH_STRATUM}/${filerun}
+    			sudo chgrp ${whoami} ${PATH_STRATUM}/${filerun}
+     			sudo chown ${whoami} ${PATH_STRATUM}/${filerun}
 			sleep 1
 			echo '#!/usr/bin/env bash
 			ulimit -n 10240
@@ -596,6 +609,8 @@ if [[ ("$stratumyesnot" == "n" || "$stratumyesnot" == "N" || "$stratumyesnot" ==
 			exec bash
 			done ' | sudo -E tee ${PATH_STRATUM}/config/${filerun} >/dev/null 2>&1
 			sudo chmod +x ${PATH_STRATUM}/config/${filerun}
+       			sudo chgrp ${whoami} ${PATH_STRATUM}/config/${filerun}
+     			sudo chown ${whoami} ${PATH_STRATUM}/config/${filerun}
 		fi
 	fi
 
@@ -643,6 +658,8 @@ if [[ ("$stratumyesnot" == "n" || "$stratumyesnot" == "N" || "$stratumyesnot" ==
 		esac
 	done ' | sudo -E tee ${PATH_STRATUM}/config/stratum.${coinsymbollower} >/dev/null 2>&1
 	sudo chmod +x ${PATH_STRATUM}/config/stratum.${coinsymbollower}
+       	sudo chgrp ${whoami} ${PATH_STRATUM}/config/stratum.${coinsymbollower}
+     	sudo chown ${whoami} ${PATH_STRATUM}/config/stratum.${coinsymbollower}
 	sleep 1
 else
 	# New coin stratum start file
@@ -689,6 +706,8 @@ else
 		esac
 	done ' | sudo -E tee ${PATH_STRATUM}/config/stratum.${coinsymbollower} >/dev/null 2>&1
 	sudo chmod +x ${PATH_STRATUM}/config/stratum.${coinsymbollower}
+        sudo chgrp ${whoami} ${PATH_STRATUM}/config/stratum.${coinsymbollower}
+     	sudo chown ${whoami} ${PATH_STRATUM}/config/stratum.${coinsymbollower}
 	sleep 1
 fi
 
@@ -710,6 +729,8 @@ if [[("$CREATECOIN" == 'true')]]; then
 	COINPORT='""''"${coinport}"''""'
 	COINALGO='""''"${coinalgo}"''""'
 	' | sudo -E tee ${absolutepath}/${installtoserver}/daemon_builder/.addport.cnf >/dev/null 2>&1;
+        sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/daemon_builder/.addport.cnf
+     	sudo chown ${whoami} ${absolutepath}/${installtoserver}/daemon_builder/.addport.cnf
 	echo -e "$CYAN --------------------------------------------------------------------------- 	$COL_RESET"
 	echo -e "$GREEN    The assigned dedicated port for this coins stratum is :$YELLOW $coinport $COL_RESET"
 	echo -e "$GREEN    Addport finish return to config...										$COL_RESET"
