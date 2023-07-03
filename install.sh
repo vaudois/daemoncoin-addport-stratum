@@ -689,18 +689,18 @@ else
 		INFOCONFSH=${absolutepath}/${installtoserver}/conf/info.sh
 		if [[ -f "${INFOCONFSH}" ]]; then
 			source ${INFOCONFSH}
-			PATH_STRATUM_CHANGE=${PATH_STRATUM::-8}
-   			PATH_CRONS_CHECK=${PATH_STRATUM_CHANGE}/crons
+			PATH_STRATUM_CHANGE="${PATH_STRATUM::-8}"
+   			PATH_CRONS_CHECK="${PATH_STRATUM_CHANGE}/crons"
 			if [[ -d "${PATH_CRONS_CHECK}" ]]; then
-			    PATH_CRONS=${PATH_CRONS_CHECK}
+			    PATH_CRONS="${PATH_CRONS_CHECK}"
 			else
-			    PATH_CRONS=${PATH_STRATUM_CHANGE}/web/crons
+			    PATH_CRONS="${PATH_STRATUM_CHANGE}/web/crons"
 			fi
-			MEMSH=${PATH_CRONS}/mem.sh
-			STRATUMDAEMSH=${PATH_CRONS}/stratdaem.sh
+			MEMSH="${PATH_CRONS}/mem.sh"
+			STRATUMDAEMSH="${PATH_CRONS}/stratdaem.sh"
 			SCREENS=/usr/bin/screens
 			
-			if [[ ! -f "$SCREENS" ]]; then
+			if [[ ! -f "${SCREENS}" ]]; then
 				echo -e "$RED File SCREENS not exist creating...$COL_RESET"
 
 				hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
@@ -747,7 +747,7 @@ else
 				sleep 7
 			fi
 
-			if [[ ! -f "$MEMSH" ]]; then
+			if [[ ! -f "${MEMSH}" ]]; then
 				hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/mem.sh
 				hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}/web/'#' ${PATH_CRONS}/mem.sh
@@ -771,7 +771,7 @@ else
 				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 				sleep 5
 			else
-				if [[ ("$MEM_SH_UP" == "1") ]]; then
+				if [[ ("${MEM_SH_UP}" == "1") ]]; then
 					echo -e "$YELLOW There is a new version of file$GREEN MEM.SH...$YELLOW Installing...$COL_RESET"
 					hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/mem.sh
 					hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
@@ -784,7 +784,7 @@ else
 					sleep 5
 				fi
 
-				if [[ ("$MEM_PHP_UP" == "1") ]]; then
+				if [[ ("${MEM_PHP_UP}" == "1") ]]; then
 					echo -e "$YELLOW There is a new version of file$GREEN MEM.PHP...$YELLOW Installing...$COL_RESET"
 					hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
@@ -798,7 +798,7 @@ else
 				fi
 			fi
 
-			if [[ ! -f "$STRATUMDAEMSH" ]]; then
+			if [[ ! -f "${STRATUMDAEMSH}" ]]; then
 				hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/stratdaem.sh
 				hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}/web/'#' ${PATH_CRONS}/stratdaem.sh
@@ -822,7 +822,7 @@ else
 				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 				sleep 5
 			else
-				if [[ ("$STRATDAEM_SH_UP" == "1") ]]; then
+				if [[ ("${STRATDAEM_SH_UP}" == "1") ]]; then
 					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM.SH...$YELLOW Installing...$COL_RESET"
 					hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/stratdaem.sh
      					hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
@@ -835,7 +835,7 @@ else
 					sleep 5
 				fi
     
-				if [[ ("$STRATDAEM_PHP_UP" == "1") ]]; then
+				if [[ ("${STRATDAEM_PHP_UP}" == "1") ]]; then
 					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM.PHP...$YELLOW Installing...$COL_RESET"
 					hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
