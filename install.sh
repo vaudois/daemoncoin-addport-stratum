@@ -701,8 +701,9 @@ else
 			SCREENS=/usr/bin/screens
 			
 			if [[ ! -f "${SCREENS}" ]]; then
-				echo -e "$RED File SCREENS not exist creating...$COL_RESET"
+				echo -e "$RED File SCREENS not exist creating... load from ${installdirname}/utils $COL_RESET"
 
+				sleep 2
 				hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
 				sleep 1
 				sudo sed -i 's#DIRCRONS#'${PATH_CRONS}'#' /usr/bin/screens
@@ -712,16 +713,17 @@ else
 				sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
 				sleep 1
 				hide_output sudo chmod +x /usr/bin/screens
-             			hide_output sudo chgrp ${whoami} /usr/bin/screens
-     				hide_output sudo chown ${whoami} /usr/bin/screens
+             	hide_output sudo chgrp ${whoami} /usr/bin/screens
+     			hide_output sudo chown ${whoami} /usr/bin/screens
 
 				echo -e "$GREEN Done.$COL_RESET"
 				echo
 				echo -e "$YELLOW to start crons shell command: $GREENscreens mem restart$YELLOW AND$GREEN screens stratum restart$COL_RESET"
 				sleep 7
 			else
-				echo -e "$YELLOW File SCREENS exist updating...$COL_RESET"
+				echo -e "$YELLOW File SCREENS exist updating... from ${installdirname}/utils $COL_RESET"
 
+				sleep 2
 				hide_output sudo cp -r /usr/bin/screens /usr/bin/screens-old
 				hide_output sudo rm -f /usr/bin/screens
 				hide_output sudo cp -r ${installdirname}/utils/screens /usr/bin/screens
@@ -733,8 +735,8 @@ else
 				sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
 				sleep 1
 				hide_output sudo chmod +x /usr/bin/screens
-             			hide_output sudo chgrp ${whoami} /usr/bin/screens
-     				hide_output sudo chown ${whoami} /usr/bin/screens
+             	hide_output sudo chgrp ${whoami} /usr/bin/screens
+     			hide_output sudo chown ${whoami} /usr/bin/screens
 								
 				echo -e "$GREEN Done.$COL_RESET"
 				echo
@@ -748,8 +750,12 @@ else
 			fi
 
 			if [[ ! -f "${MEMSH}" ]]; then
-				hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/mem.sh
-				hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
+				echo -e "$YELLOW File MEM.SH & MEM.PHP not exist copy from ${installdirname}/utils to ${PATH_CRONS}/*** $COL_RESET"
+				
+				sleep 2
+				hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/
+				hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/
+
 				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}/web/'#' ${PATH_CRONS}/mem.sh
 
 				NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
@@ -761,22 +767,25 @@ else
 				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php
 				
 				INSERTREQUIRE="\nrequire_once('mem.php');"
+
 				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/backend.php
 
 				hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
-         			hide_output sudo chgrp ${whoami} ${PATH_CRONS}/mem.sh
-     				hide_output sudo chown ${whoami} ${PATH_CRONS}/mem.sh
+         		hide_output sudo chgrp ${whoami} ${PATH_CRONS}/mem.sh
+     			hide_output sudo chown ${whoami} ${PATH_CRONS}/mem.sh
 				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
-    				hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
+    			hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 				sleep 5
 			else
 				if [[ ("${MEM_SH_UP}" == "1") ]]; then
 					echo -e "$YELLOW There is a new version of file$GREEN MEM.SH...$YELLOW Installing...$COL_RESET"
-					hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/mem.sh
+					
+					sleep 2
+					hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/
 					hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
-     					hide_output sudo chgrp ${whoami} ${PATH_CRONS}/mem.sh
-     					hide_output sudo chown ${whoami} ${PATH_CRONS}/mem.sh
+     				hide_output sudo chgrp ${whoami} ${PATH_CRONS}/mem.sh
+     				hide_output sudo chown ${whoami} ${PATH_CRONS}/mem.sh
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
 				else
@@ -786,9 +795,11 @@ else
 
 				if [[ ("${MEM_PHP_UP}" == "1") ]]; then
 					echo -e "$YELLOW There is a new version of file$GREEN MEM.PHP...$YELLOW Installing...$COL_RESET"
-					hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
+
+					sleep 2
+					hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/
 					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
-     					hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
+     				hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
@@ -799,8 +810,12 @@ else
 			fi
 
 			if [[ ! -f "${STRATUMDAEMSH}" ]]; then
-				hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/stratdaem.sh
-				hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
+				echo -e "$YELLOW File STRATDAEM.SH & STRATDAEM.PHP not exist copy from ${installdirname}/utils to ${PATH_CRONS}/*** $COL_RESET"
+
+				sleep 2
+				hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/
+				hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/
+
 				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}/web/'#' ${PATH_CRONS}/stratdaem.sh
 
 				NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
@@ -815,19 +830,21 @@ else
 				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/backend.php
 
 				hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
-                 		hide_output sudo chgrp ${whoami} ${PATH_CRONS}/stratdaem.sh
-     				hide_output sudo chown ${whoami} ${PATH_CRONS}/stratdaem.sh
+				hide_output sudo chgrp ${whoami} ${PATH_CRONS}/stratdaem.sh
+     			hide_output sudo chown ${whoami} ${PATH_CRONS}/stratdaem.sh
 				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
-    				hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
+    			hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 				sleep 5
 			else
 				if [[ ("${STRATDAEM_SH_UP}" == "1") ]]; then
 					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM.SH...$YELLOW Installing...$COL_RESET"
-					hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/stratdaem.sh
-     					hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
-                 			hide_output sudo chgrp ${whoami} ${PATH_CRONS}/stratdaem.sh
-     					hide_output sudo chown ${whoami} ${PATH_CRONS}/stratdaem.sh
+
+					sleep 2
+					hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/
+     				hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
+                 	hide_output sudo chgrp ${whoami} ${PATH_CRONS}/stratdaem.sh
+     				hide_output sudo chown ${whoami} ${PATH_CRONS}/stratdaem.sh
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
 				else
@@ -837,9 +854,11 @@ else
     
 				if [[ ("${STRATDAEM_PHP_UP}" == "1") ]]; then
 					echo -e "$YELLOW There is a new version of$GREEN STRATDAEM.PHP...$YELLOW Installing...$COL_RESET"
-					hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
+
+					sleep 2
+					hide_output sudo cp -r ${installdirname}/utils/stratdaem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/
 					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
-     					hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
+     				hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
