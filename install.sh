@@ -5,12 +5,12 @@
 # web: https://coinXpool.com
 # Program:
 #   Install Daemon Coin on Ubuntu 18.04 / 20.04
-#   v0.8.3.6 rev.3 (2023-07-03)
+#   v0.8.3.7 rev.3 (2023-07-07)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.8.3.6
+	TAG=v0.8.3.7
 fi
 
 clear
@@ -758,17 +758,23 @@ else
 
 				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}/web/'#' ${PATH_CRONS}/mem.sh
 
-				NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
-				LISTNUMONFILE=$(echo ${NUMBERSLINES})
-				COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
-				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
+				FileCronMem=${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php
 
-				INSERTNEWLINES='\tpublic function actionRunMem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendMemCheck();\n\t\t}\n\t}'
-				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php
-				
-				INSERTREQUIRE="\nrequire_once('mem.php');"
+				if ! grep -q actionRunMem "$FileCronMem"; then
+					NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
+					LISTNUMONFILE=$(echo ${NUMBERSLINES})
+					COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
+					GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
 
-				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/backend.php
+					INSERTNEWLINES='\tpublic function actionRunMem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendMemCheck();\n\t\t}\n\t}'
+					sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php
+				fi
+
+				FileRequireMem=${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/backend.php
+				if ! grep -q mem.php "$FileRequireMem"; then
+					INSERTREQUIRE="\nrequire_once('mem.php');"
+					sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/backend.php
+				fi
 
 				hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
          		hide_output sudo chgrp ${whoami} ${PATH_CRONS}/mem.sh
@@ -818,16 +824,23 @@ else
 
 				sudo sed -i 's#WEBDIR#'${PATH_STRATUM_CHANGE}/web/'#' ${PATH_CRONS}/stratdaem.sh
 
-				NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
-				LISTNUMONFILE=$(echo ${NUMBERSLINES})
-				COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
-				GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
+				FileCronStrat=${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php
 
-				INSERTNEWLINES='\tpublic function actionRunStratdaem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendStratdaemStatus();\n\t\t}\n\t}'
-				sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php
+				if ! grep -q actionRunStratdaem "$FileCronStrat"; then
+					NUMBERSLINES=$(grep -wn '}' ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php| cut -d ':' -f 1)
+					LISTNUMONFILE=$(echo ${NUMBERSLINES})
+					COUNTLISTLINES=$(echo "$NUMBERSLINES" | wc -l)
+					GETNUMBERCHANGE=$(echo "${LISTNUMONFILE}" | cut -d ' ' -f $COUNTLISTLINES)
+
+					INSERTNEWLINES='\tpublic function actionRunStratdaem()\n\t\t{\n\t\t\tset_time_limit(0);\n\n\t\t\t''$this''->monitorApache();\n\n\t\t\tBackendStratdaemStatus();\n\t\t}\n\t}'
+					sudo sed -i "${GETNUMBERCHANGE}s#}#${INSERTNEWLINES}#" ${PATH_STRATUM_CHANGE}/web/yaamp/modules/thread/CronjobController.php
+				fi
 				
-				INSERTREQUIRE="\nrequire_once('stratdaem.php');"
-				sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/backend.php
+				FileRequireStrat=${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/backend.php
+				if ! grep -q stratdaem.php "$FileRequireStrat"; then
+					INSERTREQUIRE="\nrequire_once('stratdaem.php');"
+					sudo sed -i '$s#$#'${INSERTREQUIRE}'#' ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/backend.php
+				fi
 
 				hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
 				hide_output sudo chgrp ${whoami} ${PATH_CRONS}/stratdaem.sh
