@@ -564,8 +564,8 @@ else
 
 			cd ${installdirname}
 			sudo mkdir -p ${absolutepath}/${installtoserver}/daemon_builder/
-                        hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/daemon_builder/
-     			hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/daemon_builder/
+                        hide_output sudo chgrp ${whoami} ${absolutepath}/${installtoserver}/daemon_builder
+     			hide_output sudo chown ${whoami} ${absolutepath}/${installtoserver}/daemon_builder
 
 			hide_output sudo cp -r ${installdirname}/utils/start.sh ${absolutepath}/${installtoserver}/daemon_builder/
 			hide_output sudo cp -r ${installdirname}/utils/menu.sh ${absolutepath}/${installtoserver}/daemon_builder/
@@ -708,13 +708,13 @@ else
 				sleep 1
 				sudo sed -i 's#DIRCRONS#'${PATH_CRONS}'#' /usr/bin/screens
 				sleep 1
-				sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}/log/'#' /usr/bin/screens
+				sudo sed -i 's#DIRLOG#'${PATH_STRATUM_CHANGE}/log/yiimp/'#' /usr/bin/screens
 				sleep 1
 				sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
 				sleep 1
 				hide_output sudo chmod +x /usr/bin/screens
-             	hide_output sudo chgrp ${whoami} /usr/bin/screens
-     			hide_output sudo chown ${whoami} /usr/bin/screens
+		             	hide_output sudo chgrp ${whoami} /usr/bin/screens
+	     			hide_output sudo chown ${whoami} /usr/bin/screens
 
 				echo -e "$GREEN Done.$COL_RESET"
 				echo
@@ -735,8 +735,8 @@ else
 				sudo sed -i 's#FILEFUNCCOLOR#'/etc/${FUNCTION_FILE}'#' /usr/bin/screens
 				sleep 1
 				hide_output sudo chmod +x /usr/bin/screens
-             	hide_output sudo chgrp ${whoami} /usr/bin/screens
-     			hide_output sudo chown ${whoami} /usr/bin/screens
+		             	hide_output sudo chgrp ${whoami} /usr/bin/screens
+	     			hide_output sudo chown ${whoami} /usr/bin/screens
 								
 				echo -e "$GREEN Done.$COL_RESET"
 				echo
@@ -777,10 +777,10 @@ else
 				fi
 
 				hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
-         		hide_output sudo chgrp ${whoami} ${PATH_CRONS}/mem.sh
-     			hide_output sudo chown ${whoami} ${PATH_CRONS}/mem.sh
+	         		hide_output sudo chgrp ${whoami} ${PATH_CRONS}/mem.sh
+	     			hide_output sudo chown ${whoami} ${PATH_CRONS}/mem.sh
 				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
-    			hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
+	    			hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 				sleep 5
 			else
@@ -790,8 +790,8 @@ else
 					sleep 2
 					hide_output sudo cp -r ${installdirname}/utils/mem.sh ${PATH_CRONS}/
 					hide_output sudo chmod +x ${PATH_CRONS}/mem.sh
-     				hide_output sudo chgrp ${whoami} ${PATH_CRONS}/mem.sh
-     				hide_output sudo chown ${whoami} ${PATH_CRONS}/mem.sh
+	     				hide_output sudo chgrp ${whoami} ${PATH_CRONS}/mem.sh
+	     				hide_output sudo chown ${whoami} ${PATH_CRONS}/mem.sh
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
 				else
@@ -805,7 +805,7 @@ else
 					sleep 2
 					hide_output sudo cp -r ${installdirname}/utils/mem.php ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/
 					hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
-     				hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
+	     				hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 					hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/mem.php
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
@@ -844,9 +844,9 @@ else
 
 				hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
 				hide_output sudo chgrp ${whoami} ${PATH_CRONS}/stratdaem.sh
-     			hide_output sudo chown ${whoami} ${PATH_CRONS}/stratdaem.sh
+	     			hide_output sudo chown ${whoami} ${PATH_CRONS}/stratdaem.sh
 				hide_output sudo chgrp www-data ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
-    			hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
+	    			hide_output sudo chown ${whoami} ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 				hide_output sudo chmod 664 ${PATH_STRATUM_CHANGE}/web/yaamp/core/backend/stratdaem.php
 				sleep 5
 			else
@@ -855,9 +855,9 @@ else
 
 					sleep 2
 					hide_output sudo cp -r ${installdirname}/utils/stratdaem.sh ${PATH_CRONS}/
-     				hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
-                 	hide_output sudo chgrp ${whoami} ${PATH_CRONS}/stratdaem.sh
-     				hide_output sudo chown ${whoami} ${PATH_CRONS}/stratdaem.sh
+	     				hide_output sudo chmod +x ${PATH_CRONS}/stratdaem.sh
+		                 	hide_output sudo chgrp ${whoami} ${PATH_CRONS}/stratdaem.sh
+	     				hide_output sudo chown ${whoami} ${PATH_CRONS}/stratdaem.sh
 					echo -e "$GREEN Done...$COL_RESET"
 					sleep 3
 				else
