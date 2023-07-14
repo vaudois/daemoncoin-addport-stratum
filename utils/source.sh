@@ -567,12 +567,12 @@ else
 			echo -e "$GREEN Done...$COL_RESET"
 
 			# Configure with your platform....
+   			read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 			if [ -d "$DEPENDS/i686-pc-linux-gnu" ]; then
 				echo
 				echo -e "$YELLOW => Configure with i686-pc-linux-gnu... $COL_RESET"
 				echo
 				sleep 3
-				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
 					if [[ ("$gccbdb" == "1") ]]; then
 						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/i686-pc-linux-gnu
@@ -593,7 +593,6 @@ else
 				echo -e "$YELLOW => Configure with x86_64-pc-linux-gnu... $COL_RESET"
 				echo
 				sleep 3
-				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
 					if [[ ("$gccbdb" == "1") ]]; then
 						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/x86_64-pc-linux-gnu
@@ -614,7 +613,6 @@ else
 				echo -e "$YELLOW => Configure with i686-w64-mingw32... $COL_RESET"
 				echo
 				sleep 3
-				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
 					if [[ ("$gccbdb" == "1") ]]; then
 						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/i686-w64-mingw32
@@ -635,7 +633,6 @@ else
 				echo -e "$YELLOW => Configure with x86_64-w64-mingw32... $COL_RESET"
 				echo
 				sleep 3
-				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
 					if [[ ("$gccbdb" == "1") ]]; then
 						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/x86_64-w64-mingw32
@@ -656,7 +653,6 @@ else
 				echo -e "$YELLOW => Configure with x86_64-apple-darwin14... $COL_RESET"
 				echo
 				sleep 3
-				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
 					if [[ ("$gccbdb" == "1") ]]; then
 						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/x86_64-apple-darwin14
@@ -677,7 +673,6 @@ else
 				echo -e "$YELLOW => Configure with arm-linux-gnueabihf... $COL_RESET"
 				echo
 				sleep 3
-				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
 					if [[ ("$gccbdb" == "1") ]]; then
 						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/arm-linux-gnueabihf
@@ -698,7 +693,6 @@ else
 				echo -e "$YELLOW => Configure with aarch64-linux-gnu... $COL_RESET"
 				echo
 				sleep 3
-				read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 				if [[ ("$ifhidework" == "y" || "$ifhidework" == "Y") ]]; then
 					if [[ ("$gccbdb" == "1") ]]; then
 						hide_output ./configure CC=gcc-8 CXX="g++-8" LDFLAGS="-lstdc++fs" --prefix=`pwd`/depends/aarch64-linux-gnu
