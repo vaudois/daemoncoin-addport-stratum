@@ -503,9 +503,11 @@ else
 			sleep 3
 
 			echo
-			echo
+			echo -e "$MAGENTA"
 			read -r -e -p "Hide LOG from to Work Coin ? [y/N] :" ifhidework
 			echo
+			read -r -e -p "(1) >-> Configure With gcc-8 g++-8 OR (2) >-> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
+			echo -e "$COL_RESET"
 
 			# Executing make on depends directory
 			echo
@@ -567,7 +569,6 @@ else
 			echo -e "$GREEN Done...$COL_RESET"
 
 			# Configure with your platform....
-   			read -r -e -p "1 -> Configure With gcc-8 g++-8, 2 -> Configure with with-incompatible-bdb [1 or 2] :" gccbdb
 			if [ -d "$DEPENDS/i686-pc-linux-gnu" ]; then
 				echo
 				echo -e "$YELLOW => Configure with i686-pc-linux-gnu... $COL_RESET"
