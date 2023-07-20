@@ -15,7 +15,10 @@ fi
 
 clear
 
+source conf/colors.sh
+sleep 1
 source conf/prerequisite.sh
+sleep 2
 
 if [[ ("$DISTRO" == "20") ]]; then
 	if [ -z "$1" ]; then
