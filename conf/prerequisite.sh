@@ -10,10 +10,7 @@ if [ "`lsb_release -d | sed 's/.*:\s*//' | sed 's/18\.04\.[0-9]/18.04/' `" == "U
 	DISTRO=18
  	echo -E "$YELLOW WARRING$RED php7.3 not supported on Ubuntu 18.*"
   	sleep 7
-	#sudo chmod g-w /etc /etc/default /usr
-     	echo -e "$RED Stop installation now! $COL_RESET"
-	sudo rm -rf 
- 	exit
+	sudo chmod g-w /etc /etc/default /usr
 elif [ "`lsb_release -d | sed 's/.*:\s*//' | sed 's/16\.04\.[0-9]/16.04/' `" == "Ubuntu 16.04 LTS" ]; then
   	DISTRO=16
     	echo -e "$RED This Script not supports on distro ${DISTRO} This run on Ubuntu 18.04 LTS and Ubuntu 20.04 LTS $COL_RESET"
