@@ -15,6 +15,8 @@ fi
 
 clear
 
+source conf/prerequisite.sh
+
 if [ -z "$1" ]; then
 	sudo chmod -R 755 $HOME/daemoncoin-addport-stratum
 	sudo find $HOME/daemoncoin-addport-stratum/ -type d -exec chmod 755 {} \;
