@@ -15,23 +15,14 @@ fi
 
 clear
 
-#source conf/colors.sh
-#sleep 1
-#source conf/prerequisite.sh
-#sleep 2
-
-#if [[ ("$DISTRO" == "20") ]]; then
-	if [ -z "$1" ]; then
-		sudo chmod -R 755 $HOME/daemoncoin-addport-stratum
-		sudo find $HOME/daemoncoin-addport-stratum/ -type d -exec chmod 755 {} \;
-		sudo find $HOME/daemoncoin-addport-stratum/ -type d -exec chmod 755 {} \;
-		./start $TAG
-	else
-		sudo chmod -R 777 $1
-		sudo find $1/ -type d -exec chmod 755 {} \;
-		sudo find $1/ -type d -exec chmod 755 {} \;
-		./start $TAG $1 $2 $3
-	fi
-#else
-#	sudo rm -rf $HOME/daemoncoin-addport-stratum
-#fi
+if [ -z "$1" ]; then
+	sudo chmod -R 755 $HOME/daemoncoin-addport-stratum
+	sudo find $HOME/daemoncoin-addport-stratum/ -type d -exec chmod 755 {} \;
+	sudo find $HOME/daemoncoin-addport-stratum/ -type d -exec chmod 755 {} \;
+	./start $TAG
+else
+	sudo chmod -R 777 $1
+	sudo find $1/ -type d -exec chmod 755 {} \;
+	sudo find $1/ -type d -exec chmod 755 {} \;
+	./start $TAG $1 $2 $3
+fi
