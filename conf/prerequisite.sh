@@ -3,6 +3,9 @@
 # Current Modified by Vaudois for Daemon coin & addport & stratum
 ##################################################################
 
+source conf/colors.sh
+sleep 2
+
 echo
 echo -e "$CYAN => Check prerequisite : $COL_RESET"
 
