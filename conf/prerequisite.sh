@@ -21,7 +21,7 @@ elif [ "`lsb_release -d | sed 's/.*:\s*//' | sed 's/16\.04\.[0-9]/16.04/' `" == 
 	exit
 elif [ "`lsb_release -d | sed 's/.*:\s*//' | sed 's/20\.04\.[0-9]/20.04/' `" == "Ubuntu 20.04 LTS" ]; then
 	DISTRO=20
-	#sudo chmod g-w /etc /etc/default /usr
+	sudo chmod g-w /etc /etc/default /usr
 elif [ "`lsb_release -d | sed 's/.*:\s*//' | sed 's/22\.04\.[0-9]/22.04/' `" == "Ubuntu 22.04 LTS" ]; then
 	DISTRO=22
     	echo -e "$RED This Script not supports on distro ${DISTRO} This run on Ubuntu 18.04 LTS and Ubuntu 20.04 LTS $COL_RESET"
