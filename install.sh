@@ -4,7 +4,7 @@
 # Current Created by : Vaudois
 # web: https://coinXpool.com
 # Program:
-#   Install Daemon Coin on Ubuntu 18.04 / 20.04
+#   Install Daemon Coin on Ubuntu 20.04
 #   v0.8.4 rev.3 (2023-07-20)
 #
 ################################################################################
