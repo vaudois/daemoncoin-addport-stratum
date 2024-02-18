@@ -4,13 +4,13 @@
 # Current Created by : Vaudois
 # web: https://coinXpool.com
 # Program:
-#   Install Daemon Coin on Ubuntu 20.04
-#   v0.8.6 rev.3 (2023-08-13)
+#   Install Daemon Coin on Ubuntu 18.04 / 20.04
+#   v0.8.7 (2024-02-18)
 #
 ################################################################################
 
 if [ -z "${TAG}" ]; then
-	TAG=v0.8.6
+	TAG=v0.8.7
 fi
 
 clear
